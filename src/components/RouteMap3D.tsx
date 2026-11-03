@@ -251,16 +251,16 @@ function DestinationPin({ position }: { position: [number, number, number] }) {
         <sphereGeometry args={[2.2, 16, 12]} />
         <meshBasicMaterial color={C.plaster} />
       </mesh>
-      <mesh position={[0, 7.5, 0]} rotation={[Math.PI, 0, 0]}>
-        <coneGeometry args={[4.4, 11, 20]} />
+      <mesh position={[0, 9, 0]} rotation={[Math.PI, 0, 0]}>
+        <coneGeometry args={[5.6, 14, 20]} />
         <meshBasicMaterial color={C.dest} />
       </mesh>
-      <mesh position={[0, 14, 0]}>
-        <sphereGeometry args={[5.2, 20, 16]} />
+      <mesh position={[0, 18, 0]}>
+        <sphereGeometry args={[6.6, 20, 16]} />
         <meshBasicMaterial color={C.dest} />
       </mesh>
-      <mesh position={[0, 14, 0]}>
-        <sphereGeometry args={[2, 16, 12]} />
+      <mesh position={[0, 18, 0]}>
+        <sphereGeometry args={[2.6, 16, 12]} />
         <meshBasicMaterial color={C.plaster} />
       </mesh>
     </group>
