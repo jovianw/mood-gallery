@@ -195,15 +195,18 @@ def main() -> None:
     # Pick the catalog works that make it into the app: per room, highlights and paintings first,
     # then the rest, up to --per-room. Curated records keep their hand-written vectors and copy.
     by_id = {r["objectID"]: r for r in recs}
-    curated = json.loads((ROOT / "src" / "data" / "paintings.json").read_text(encoding="utf-8"))
-    curated_ids = {p["objectID"] for p in curated if p.get("why")}
+    loaded = json.loads((ROOT / "src" / "data" / "paintings.json").read_text(encoding="utf-8"))
+    curated = [p for p in loaded if p.get("source") != "clip"]
+    curated_ids = {p["objectID"] for p in curated}
     rows = []
     for k, oid in enumerate(ids):
         r = by_id[int(oid)]
         if int(oid) in curated_ids:
             continue
-        is_painting = "Painting" in (r.get("classification") or "") or "painting" in (r.get("objectName") or "").lower()
-        rank = (0 if r.get("highlight") else 1, 0 if is_painting else 1)
+        cls = (r.get("classification") or "") + " " + (r.get("objectName") or "")
+        is_painting = any(w in cls.lower() for w in ("painting", "drawing", "print", "watercolor", "pastel", "miniature", "fresco", "panel"))
+        # Pictures first (this is a painting walk), then Met highlights, then everything else.
+        rank = (0 if is_painting else 1, 0 if r.get("highlight") else 1)
         rows.append((r["room"], rank, k, r))
     rows.sort(key=lambda t: (t[0], t[1]))
     picked: dict[str, list] = {}

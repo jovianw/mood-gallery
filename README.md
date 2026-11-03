@@ -35,9 +35,10 @@ numbers; the short version:
 - Doors are ranked by P(room) plus expected information gain: a one-step lookahead that imagines
   a plausible visitor answering the room's statements and measures how much the best-match
   distribution sharpens.
-- The walk ends after at least three rooms when P(this room) >= 0.5 and the top work in the room
-  has P >= 0.4. Thresholds were tuned with `scripts/simulate.mts` (synthetic visitors with
-  personas, correlated axes, noise and an agree bias); results are in `src/data/stats.json`.
+- The walk ends after at least three rooms when the expected regret of the work it would pick
+  in this room (E[s_max - s_i] over the posterior samples, in cosine) is at most 0.08. The
+  threshold was tuned with `scripts/simulate.mts` (synthetic visitors with personas, correlated
+  axes, noise and an agree bias); results are in `src/data/stats.json`.
 - In the final room the pick is a penalized argmax: similarity to the posterior mean minus a
   decaying penalty for works this visitor was shown recently (`pickWithHistory`).
 - Painting vectors: 109 curated by hand, the rest projected from CLIP image embeddings onto the

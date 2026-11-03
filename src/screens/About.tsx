@@ -11,11 +11,11 @@ import {
   doorValues,
   EIG_WEIGHT,
   MIN_ROOMS,
+  NEAR_EPS,
   NOISE_VAR,
-  PAINTING_SURE,
   posteriorFromAnswers,
   PRIOR_VAR,
-  ROOM_SURE,
+  REGRET_OK,
   toCandidate,
   type Posterior,
 } from '../lib/bayes'
@@ -225,7 +225,7 @@ export function About() {
   const b = useMemo(() => belief(post, liveCands, 256, 3), [post, liveCands])
   const top = useMemo(
     () =>
-      Array.from(b.pBest)
+      Array.from(b.pNear)
         .map((p, i) => ({ name: TITLE.get(liveCands[i].id) ?? '', value: p }))
         .sort((x, y) => y.value - x.value)
         .slice(0, 6),
@@ -237,7 +237,7 @@ export function About() {
   )
   const g1 = gridStats(1)
   const g2 = gridStats(2)
-  const es = embeddingStats as {
+  const es = embeddingStats as unknown as {
     model: string
     catalogImages: number
     appPaintings: number
@@ -312,21 +312,30 @@ export function About() {
         display
         tex={String.raw`P(i\text{ is the match}) \approx \frac{1}{M}\sum_{m=1}^{M} \mathbf{1}\!\left[i = \arg\max_j s_j(\theta^{(m)})\right].`}
       />
-      <Bars rows={top} label="Probability that each work is the best match" />
-      <p className="t-caption">Top six of {liveCands.length} works still in play. The bar is the probability, not the score.</p>
+      <Bars rows={top} label="Probability that each work is as good as the best match" />
+      <p className="t-caption">Top six of {liveCands.length} works still in play: the probability each is within {NEAR_EPS} of the best (section 4), not its score.</p>
 
       <h2 className="about__h">4. When the walk stops</h2>
       <p className="about__p">
-        Summing those probabilities by room gives <Eq tex="P(\text{room})" />, the chance the match
-        hangs where you are standing. The walk ends when
+        With a thousand works, many sit within a hair of each other and the single best is never
+        certain. So the walk asks a kinder question: is a work <em>as good as</em> the best? A work
+        counts as near-best in a sample when its score is within <Eq tex={String.raw`\varepsilon = ${NEAR_EPS}`} /> of
+        the top score. The quantity that decides the walk is the <em>expected regret</em> of the
+        work it would pick in this room, averaged over the same samples:
       </p>
       <Eq
         display
-        tex={String.raw`\text{rooms} \ge ${MIN_ROOMS},\quad P(\text{this room}) \ge ${ROOM_SURE},\quad \max_{i \in \text{room}} P(i) \ge ${PAINTING_SURE}.`}
+        tex={String.raw`R_i = \mathbb{E}_{\theta}\big[\, s_{\max}(\theta) - s_i(\theta) \,\big],\qquad
+        \text{stop when } \text{rooms} \ge ${MIN_ROOMS} \text{ and } \min_{i \in \text{room}} R_i \le ${REGRET_OK}.`}
       />
       <p className="about__p">
+        Regret is also what the simulation in section 7 measures, so the rule and the yardstick are
+        the same thing. <Eq tex="P(\text{room})" />, the chance this room holds a near-best work, is
+        shown alongside as the plainer number.
+      </p>
+      <p className="about__p">
         {inWalk && walk.doorId
-          ? `Right now: P(this room) = ${Math.round(100 * walk.assessment.pRoom)}%, best work in it ${Math.round(100 * walk.assessment.pPaint)}%, overall ${Math.round(100 * walk.assessment.confidence)}% sure.`
+          ? `Right now: expected regret ${walk.assessment.regret.toFixed(3)}, P(this room) = ${Math.round(100 * walk.assessment.pRoom)}%, the pick is as good as the best with ${Math.round(100 * walk.assessment.pPaint)}% probability.`
           : 'The thresholds were chosen by simulation (section 7) so a typical walk takes four to five rooms and a clear mood can end in three.'}
       </p>
 

@@ -6,8 +6,8 @@ import {
   belief,
   doorValues,
   MIN_ROOMS,
-  PAINTING_SURE,
   posteriorFromAnswers,
+  REGRET_OK,
   ROOM_SURE,
   toCandidate,
   type Belief,
@@ -35,12 +35,14 @@ export interface WalkAssessment {
   sure: boolean
   /** First failing check, when not sure. */
   why: Unsure | null
-  /** P(the best match hangs in the room you are in), over rooms not yet left behind. */
+  /** P(this room holds a work as good as the best anywhere ahead). */
   pRoom: number
-  /** P(the top work in this room is the best match in this room). */
+  /** P(the work we would pick here is as good as the best anywhere ahead). */
   pPaint: number
-  /** P(the work we would pick right now is the best match anywhere ahead). The "sure" meter. */
+  /** The "sure" meter: pPaint when in a room, else the best pNear anywhere. */
   confidence: number
+  /** Expected regret (cosine) of the work the walk would pick here. */
+  regret: number
   /** Axes nobody has asked about yet. */
   missingAxes: Axis[]
   /** No unvisited rooms are left, so the walk must end here. */
@@ -246,17 +248,27 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     const cov = axisCoverage(pathRooms, answers)
     const missingAxes = AXES.filter((a) => cov[a] === 0)
     const noneLeft = unvisited.length === 0
-    const pool = doorId ? (CANDIDATES_BY_ROOM.get(doorId) ?? []) : []
-    const inRoom = pool.length ? belief(posterior, pool, 256, path.length + 100) : null
-    const pRoom = doorId && beliefNow ? (beliefNow.pRoom[doorId] ?? 0) : 0
-    const pPaint = inRoom ? inRoom.pBest[inRoom.top] : 0
-    const confidence = beliefNow ? beliefNow.pBest[beliefNow.top] : 0
+    const pRoom = doorId && beliefNow ? (beliefNow.pRoomNear[doorId] ?? 0) : 0
+    // The work we would pick here: the one in this room with the least expected regret.
+    let pick = -1
+    let regret = Infinity
+    if (doorId && beliefNow) {
+      for (let i = 0; i < live.length; i++) {
+        if (live[i].room === doorId && beliefNow.regret[i] < regret) {
+          regret = beliefNow.regret[i]
+          pick = i
+        }
+      }
+    }
+    const pPaint = pick >= 0 && beliefNow ? beliefNow.pNear[pick] : 0
+    let bestAnywhere = 0
+    if (beliefNow) for (const q of beliefNow.pNear) if (q > bestAnywhere) bestAnywhere = q
+    const confidence = doorId ? pPaint : bestAnywhere
     let why: Unsure | null = null
     if (path.length < MIN_ROOMS) why = 'rooms'
-    else if (pRoom < ROOM_SURE) why = 'room'
-    else if (pPaint < PAINTING_SURE) why = 'painting'
-    return { sure: why === null && !!doorId, why, pRoom, pPaint, confidence, missingAxes, noneLeft }
-  }, [pathRooms, answers, unvisited, doorId, posterior, beliefNow, path.length])
+    else if (!(regret <= REGRET_OK)) why = pRoom < ROOM_SURE ? 'room' : 'painting'
+    return { sure: why === null && !!doorId, why, pRoom, pPaint, confidence, regret, missingAxes, noneLeft }
+  }, [pathRooms, answers, unvisited, doorId, beliefNow, path.length, live])
 
   // Demo walks skip the confidence check so any screen can be opened for a screenshot.
   const canFinish = !!doorId && (assessment.sure || assessment.noneLeft || !!demo)

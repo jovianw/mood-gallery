@@ -173,7 +173,17 @@ export function whyThisOne(mood: MoodVector, painting: Painting): string {
   const second = WHY_LEAD[b][pole(mood[b])]
   const joiner = valence(a, mood[a]) < 0 && valence(b, mood[b]) > 0 ? ', but ' : ', and '
   const lead = first.charAt(0).toUpperCase() + first.slice(1)
-  return `${lead}${joiner}${second}. ${painting.why}`
+  const why = painting.why || defaultWhy(painting)
+  return `${lead}${joiner}${second}. ${why}`.trim()
+}
+
+/** Second sentence for works without a hand-written one (the CLIP-placed part of the catalog). */
+function defaultWhy(p: Painting): string {
+  const what = p.medium ? p.medium.split(/[,;(]/)[0].trim().toLowerCase() : ''
+  const kind = what && what.length < 40 ? what.charAt(0).toUpperCase() + what.slice(1) : 'A work'
+  const when = p.date ? `, ${p.date}` : ''
+  const where = p.gallery ? `, hanging in Gallery ${p.gallery}` : ''
+  return `${kind}${when}${where}. Placed on the map of moods by a vision model, not by hand.`
 }
 
 /* ---------- Multi-room walks ---------- */

@@ -107,43 +107,84 @@ function cosine(theta: number[], unit: number[]): number {
   return nn === 0 ? 0 : dot / Math.sqrt(nn)
 }
 
-function argmax(theta: number[], candidates: Candidate[]): number {
-  let best = -1
-  let bestS = -Infinity
-  for (let i = 0; i < candidates.length; i++) {
-    const s = cosine(theta, candidates[i].unit)
-    if (s > bestS) {
-      bestS = s
-      best = i
-    }
-  }
-  return best
-}
-
 export interface Belief {
-  /** P(candidate i is the best match), indexed like `candidates`. */
+  /** P(candidate i is the single best match), indexed like `candidates`. Sums to 1. */
   pBest: Float64Array
-  /** P(the best match hangs in room r). */
+  /** P(candidate i is within NEAR_EPS of the best match): "as good as the best". */
+  pNear: Float64Array
+  /** P(the single best match hangs in room r). */
   pRoom: Record<string, number>
-  /** Index of the most probable best match. */
+  /** P(room r holds a work within NEAR_EPS of the best match). */
+  pRoomNear: Record<string, number>
+  /** Expected similarity of each work under the posterior, E[s_i]. */
+  meanSim: Float64Array
+  /** Expected regret of picking each work: E[s_max - s_i], with s_max over all candidates. */
+  regret: Float64Array
+  /** Index of the most probable single best match. */
   top: number
-  /** Entropy (nats) of the best-match distribution. */
+  /** Entropy (nats) of the single-best distribution. */
   entropy: number
 }
 
+/**
+ * The walk may end when the expected regret of the work it would pick, in cosine similarity,
+ * is at most this. Regret is what the simulation measures, so the stopping rule and the metric
+ * agree with each other.
+ */
+export const REGRET_OK = 0.08
+
+/**
+ * How close to the best a work has to be, in cosine similarity, to count as "as good as the
+ * best". With a thousand works many sit within a hair of each other; insisting on the exact
+ * argmax would never be sure. Two works 0.03 apart in cosine are indistinguishable to a visitor.
+ */
+export const NEAR_EPS = 0.03
+
 /** Monte Carlo over the posterior: how likely is each work, and each room, to be the match. */
-export function belief(p: Posterior, candidates: Candidate[], samples = 256, seed = 1): Belief {
+export function belief(p: Posterior, candidates: Candidate[], samples = 256, seed = 1, eps = NEAR_EPS): Belief {
   const next = rng(seed)
-  const counts = new Float64Array(candidates.length)
+  const n = candidates.length
+  const counts = new Float64Array(n)
+  const near = new Float64Array(n)
+  const sumSim = new Float64Array(n)
+  const sumRegret = new Float64Array(n)
+  const roomNearCounts: Record<string, number> = {}
+  const sims = new Float64Array(n)
   for (let s = 0; s < samples; s++) {
-    const i = argmax(sampleTheta(p, next), candidates)
-    if (i >= 0) counts[i] += 1
+    const theta = sampleTheta(p, next)
+    let best = -1
+    let bestS = -Infinity
+    for (let i = 0; i < n; i++) {
+      const v = cosine(theta, candidates[i].unit)
+      sims[i] = v
+      if (v > bestS) {
+        bestS = v
+        best = i
+      }
+    }
+    if (best < 0) continue
+    counts[best] += 1
+    const seenRoom = new Set<string>()
+    for (let i = 0; i < n; i++) {
+      sumSim[i] += sims[i]
+      sumRegret[i] += bestS - sims[i]
+      if (sims[i] >= bestS - eps) {
+        near[i] += 1
+        seenRoom.add(candidates[i].room)
+      }
+    }
+    for (const r of seenRoom) roomNearCounts[r] = (roomNearCounts[r] ?? 0) + 1
   }
   const pBest = counts.map((c) => c / samples)
+  const pNear = near.map((c) => c / samples)
+  const meanSim = sumSim.map((c) => c / samples)
+  const regret = sumRegret.map((c) => c / samples)
   const pRoom: Record<string, number> = {}
+  const pRoomNear: Record<string, number> = {}
+  for (const [r, c] of Object.entries(roomNearCounts)) pRoomNear[r] = c / samples
   let top = 0
   let entropy = 0
-  for (let i = 0; i < candidates.length; i++) {
+  for (let i = 0; i < n; i++) {
     const q = pBest[i]
     if (q > pBest[top]) top = i
     if (q > 0) {
@@ -151,7 +192,7 @@ export function belief(p: Posterior, candidates: Candidate[], samples = 256, see
       pRoom[candidates[i].room] = (pRoom[candidates[i].room] ?? 0) + q
     }
   }
-  return { pBest, pRoom, top, entropy }
+  return { pBest, pNear, pRoom, pRoomNear, meanSim, regret, top, entropy }
 }
 
 /* ---------- Doors: value of a room ---------- */
@@ -170,6 +211,20 @@ export interface DoorValue {
 export const EIG_WEIGHT = 0.6
 
 /**
+ * Works worth carrying into the lookahead: everything that won at least one posterior sample now,
+ * plus the best few hundred by similarity to the posterior mean. With a catalog of a thousand works
+ * this keeps each door evaluation to a few million operations; works outside the set had no
+ * measurable chance of being the match anyway.
+ */
+function lookaheadSubset(p: Posterior, candidates: Candidate[], now: Belief, max: number): Candidate[] {
+  if (candidates.length <= max) return candidates
+  const mean = AXES.map((k) => p.mean[k])
+  const scored = candidates.map((c, i) => ({ c, i, s: now.pBest[i] > 0 ? 2 + now.pBest[i] : cosine(mean, c.unit) }))
+  scored.sort((a, b) => b.s - a.s)
+  return scored.slice(0, max).map((x) => x.c)
+}
+
+/**
  * One-step lookahead. For each room: sample a plausible visitor, let them answer the room's
  * statements, update the posterior, measure how peaked the best-match distribution becomes.
  * Averaged, that is the expected entropy after the visit; subtracting it from the current entropy
@@ -180,11 +235,12 @@ export function doorValues(
   rooms: { id: string; statements: Statement[] }[],
   candidates: Candidate[],
   now: Belief,
-  opts: { outer?: number; inner?: number; seed?: number } = {},
+  opts: { outer?: number; inner?: number; seed?: number; maxCandidates?: number } = {},
 ): DoorValue[] {
   const outer = opts.outer ?? 24
   const inner = opts.inner ?? 64
   const next = rng(opts.seed ?? 7)
+  const subset = lookaheadSubset(p, candidates, now, opts.maxCandidates ?? 200)
   return rooms
     .map((room) => {
       let expectedEntropy = 0
@@ -196,7 +252,7 @@ export function doorValues(
           const y = theta[AXES.indexOf(st.axis)] + Math.sqrt(NOISE_VAR) * gaussian(next)
           q = updatePosterior(q, st.axis, Math.max(-1, Math.min(1, y)))
         }
-        expectedEntropy += belief(q, candidates, inner, (s + 1) * 7919).entropy
+        expectedEntropy += belief(q, subset, inner, (s + 1) * 7919).entropy
       }
       expectedEntropy /= outer
       const eig = Math.max(0, now.entropy - expectedEntropy)
@@ -210,7 +266,7 @@ export function doorValues(
 
 /** Hall plus at least two more rooms before the walk may end. */
 export const MIN_ROOMS = 3
-/** The walk may end when the match is this likely to hang in the room you are in ... */
-export const ROOM_SURE = 0.5
-/** ... and one work in that room is this likely to be the match. */
-export const PAINTING_SURE = 0.4
+/** The walk may end when this room is this likely to hold a work as good as the best anywhere ahead ... */
+export const ROOM_SURE = 0.6
+/** ... and the work we would pick here is this likely to be as good as the best. */
+export const PAINTING_SURE = 0.5

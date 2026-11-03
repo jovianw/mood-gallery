@@ -45,7 +45,7 @@ Type: display 38, headline 30, title 26, room 20, statement 17, body 16, small 1
 
 Transitions: forward = slide left 300ms, back = slide right, sheets slide up over a 55% dim scrim and close on scrim tap or drag down.
 
-### Walk length (added 2026-11-03)
+### Walk length (added 2026-11-03; superseded by the Bayesian rule the same day, see below)
 
 The walk is not a fixed two rooms. After every room the app decides whether it is sure enough to end there (`assessWalk` in `src/lib/matching.ts`). It keeps offering doors while any of these hold:
 
@@ -154,6 +154,8 @@ Mood axes: keep the four in `src/data/types.ts` (energy restless↔calm, warmth 
 Room mood phrases (used in the Final Stretch list and the share route log): the top two words from that room's own answers, e.g. "Restless, mind racing" for the hall. Add a small phrase table per axis sign so the lines read like a person wrote them ("Heavy, but warm", "Calm, looking back", "Found it: looking ahead" for the destination).
 
 ## Matching
+
+> Update 2026-11-03: the shipped walk uses the Bayesian model in `src/lib/bayes.ts` (posterior per axis, Monte Carlo best-match belief, expected-information-gain doors, stop after three rooms when the expected regret of the pick is at most 0.08). The cosine similarity below is still the match score inside that model, and the in-app `/about` page documents it with the live numbers. Painting vectors beyond the 109 curated ones come from CLIP (`scripts/embed.py`). Routes come from A* on a walkable grid (`src/lib/routing.ts`).
 
 Unchanged idea, better pool:
 - Mood vector = average of answered statements per axis (existing `moodFromAnswers`).

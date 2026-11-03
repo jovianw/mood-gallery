@@ -30,6 +30,9 @@ const arg = (name: string, def: number) => {
 const WALKS = arg('--walks', 1500)
 const GRID = process.argv.includes('--grid')
 const WRITE = process.argv.includes('--write')
+const EPS = arg('--eps', 0.03)
+let DELTA_OVERRIDE: number | null = null
+const DELTA_ARG = arg('--delta', 0.06)
 
 /* ---------- Visitors ---------- */
 
@@ -139,11 +142,13 @@ function finishWith(v: Visitor, path: RoomId[], chosen: number): Outcome {
   const best = trueBest(v.theta)
   const pc = paintings.find((p) => p.objectID === chosen)!
   const pb = paintings.find((p) => p.objectID === best)!
+  const regret = similarity(v.theta, pb.mood) - similarity(v.theta, pc.mood)
   return {
     rooms: path.length,
     chosen,
-    regret: similarity(v.theta, pb.mood) - similarity(v.theta, pc.mood),
-    hit: chosen === best,
+    regret,
+    // "Hit" = as good as the best for this visitor, within EPS in cosine.
+    hit: regret <= EPS,
   }
 }
 
@@ -183,14 +188,21 @@ function walkBayes(v: Visitor, tr: number, tp: number): Outcome {
     const unvisited = DOOR_LIST.filter((r) => !path.includes(r.id))
     const live = [cur, ...unvisited.map((r) => r.id)].filter((id) => id !== START_ROOM)
     const cands = live.flatMap((id) => byRoom.get(id) ?? [])
-    const b = belief(post, cands, 256, path.length)
+    const b = belief(post, cands, 256, path.length, EPS)
     const pool = byRoom.get(cur) ?? []
-    const inRoom = pool.length ? belief(post, pool, 256, path.length + 100) : null
-    const pRoom = b.pRoom[cur] ?? 0
-    const pPaint = inRoom ? inRoom.pBest[inRoom.top] : 0
+    let regret = Infinity
+    let pickId = pool[0]?.id ?? -1
+    for (let i = 0; i < cands.length; i++) {
+      if (cands[i].room === cur && b.regret[i] < regret) {
+        regret = b.regret[i]
+        pickId = cands[i].id
+      }
+    }
+    void tr
+    void tp
     const enough = path.length >= MIN_ROOMS
-    if ((enough && cur !== START_ROOM && pRoom >= tr && pPaint >= tp) || unvisited.length === 0) {
-      return finishWith(v, path, pool[inRoom!.top].id)
+    if ((enough && cur !== START_ROOM && regret <= (DELTA_OVERRIDE ?? DELTA_ARG)) || unvisited.length === 0) {
+      return finishWith(v, path, pickId)
     }
     const values = doorValues(post, unvisited, cands, b, { seed: path.length })
     const doors = values.slice(0, 3).map((d) => d.room as RoomId)
@@ -240,13 +252,12 @@ const fmt = (s: Summary) =>
     .join(' ')
 
 if (GRID) {
-  for (const tr of [0.5, 0.6, 0.7]) {
-    for (const tp of [0.4, 0.5, 0.6]) {
-      const r = run(WALKS, tr, tp)
-      console.log(`tr ${tr} tp ${tp} | bayes ${fmt(r.bayes)} | ${r.msBayes} ms`)
-    }
+  for (const d of [0.04, 0.06, 0.08, 0.1]) {
+    DELTA_OVERRIDE = d
+    const r = run(WALKS, 0, 0)
+    console.log(`delta ${d} | bayes ${fmt(r.bayes)} | ${r.msBayes} ms`)
   }
-  const r = run(WALKS, 0.6, 0.5)
+  const r = run(WALKS, 0, 0)
   console.log(`heuristic         | ${fmt(r.heur)}`)
 } else {
   const tr = arg('--tr', 0.6)
@@ -258,7 +269,7 @@ if (GRID) {
     const out = {
       generatedAt: new Date().toISOString().slice(0, 10),
       walks: WALKS,
-      thresholds: { room: tr, painting: tp, minRooms: MIN_ROOMS },
+      thresholds: { regret: DELTA_ARG, minRooms: MIN_ROOMS, eps: EPS },
       visitors: {
         personas: PERSONAS.length,
         noise: 'sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree',
