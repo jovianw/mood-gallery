@@ -27,6 +27,7 @@ export function SharePath() {
   const cardRef = useRef<HTMLDivElement>(null)
   const [busy, setBusy] = useState<string | null>(null)
   const [shareId, setShareId] = useState<string | null>(null)
+  const [shownLink, setShownLink] = useState<string | null>(null)
 
   const { objectID: savedId } = useParams()
   const saves = useSaves()
@@ -125,7 +126,21 @@ export function SharePath() {
       await navigator.clipboard.writeText(url)
       return true
     } catch {
-      return false
+      // Older browsers and embedded webviews: fall back to a hidden textarea + execCommand.
+      try {
+        const ta = document.createElement('textarea')
+        ta.value = url
+        ta.setAttribute('readonly', '')
+        ta.style.position = 'fixed'
+        ta.style.opacity = '0'
+        document.body.appendChild(ta)
+        ta.select()
+        const ok = document.execCommand('copy')
+        document.body.removeChild(ta)
+        return ok
+      } catch {
+        return false
+      }
     }
   }
 
@@ -175,7 +190,13 @@ export function SharePath() {
 
   const copyLink = run('copy', async () => {
     const url = await getLink()
-    showToast((await copy(url)) ? 'Link copied' : 'Could not copy on this browser')
+    if (await copy(url)) {
+      showToast('Link copied')
+    } else {
+      // Nothing we can do silently: show the link so it can be copied by hand.
+      setShownLink(url)
+      showToast('Copy the link below')
+    }
   })
 
   return (
@@ -216,6 +237,21 @@ export function SharePath() {
         <p className="t-caption" style={{ textAlign: 'center', marginTop: 14 }} aria-live="polite">
           Making your card…
         </p>
+      )}
+      {shownLink && (
+        <div style={{ width: '100%', marginTop: 16 }}>
+          <label className="t-caption" htmlFor="share-link" style={{ display: 'block', marginBottom: 6 }}>
+            Your link. Tap it to select, then copy.
+          </label>
+          <input
+            id="share-link"
+            className="field"
+            readOnly
+            value={shownLink}
+            onFocus={(e) => e.currentTarget.select()}
+            onClick={(e) => e.currentTarget.select()}
+          />
+        </div>
       )}
       {exportPreview && (
         <div style={{ marginTop: 16, textAlign: 'center' }}>

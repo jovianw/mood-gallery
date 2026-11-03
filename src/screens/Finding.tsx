@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Button, Screen } from '../components/ui'
 import { MUSEUM } from '../data/rooms'
@@ -31,8 +31,19 @@ export function Finding() {
   const { candidates, doorId, resolve } = walk
   const ready = !!doorId && candidates.length > 0
 
-  const finish = useCallback(
-    (p: Painting) => {
+  // Kept in a ref so the lookup effect below never restarts because a callback identity changed.
+  const finishRef = useRef((p: Painting) => {
+    resolve(p)
+    void saves.recordWalk({
+      route: walk.stops,
+      moodVector: walk.mood,
+      paintingId: p.objectID,
+      finishedAt: new Date().toISOString(),
+    })
+    nav.forward('/painting', true)
+  })
+  useEffect(() => {
+    finishRef.current = (p: Painting) => {
       resolve(p)
       void saves.recordWalk({
         route: walk.stops,
@@ -41,10 +52,8 @@ export function Finding() {
         finishedAt: new Date().toISOString(),
       })
       nav.forward('/painting', true)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [resolve, nav, walk.stops, walk.mood],
-  )
+    }
+  })
 
   useEffect(() => {
     if (!ready || started.current) return
@@ -78,7 +87,7 @@ export function Finding() {
       await new Promise((r) => setTimeout(r, wait))
       setStep(3)
       await new Promise((r) => setTimeout(r, 180))
-      if (!controller.signal.aborted) finish(chosen)
+      if (!controller.signal.aborted) finishRef.current(chosen)
     }
 
     run().catch((err) => {
@@ -91,7 +100,7 @@ export function Finding() {
       controller.abort()
       started.current = false
     }
-  }, [ready, attempt, candidates, finish])
+  }, [ready, attempt, candidates])
 
   if (!ready) return <Navigate to="/" replace />
 

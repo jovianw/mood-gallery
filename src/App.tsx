@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { MergeSheet } from './components/MergeSheet'
 import { ChooseDoor } from './screens/ChooseDoor'
 import { Entrance } from './screens/Entrance'
@@ -38,6 +39,7 @@ function MergePrompt() {
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <ErrorBoundary>
       <AuthProvider>
         <SavesProvider>
           <WalkWithUser>
@@ -61,6 +63,7 @@ export default function App() {
           </WalkWithUser>
         </SavesProvider>
       </AuthProvider>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

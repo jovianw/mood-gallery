@@ -58,7 +58,7 @@
   "250945": {
     "room": "greek-and-roman",
     "galleryKey": "greek",
-    "mood": { "energy": 0.3, "warmth": 0.3, "outlook": 0.4, "focus": -0.7, "social": 0.2 },
+    "mood": {"energy": 0.4, "warmth": 0.5, "outlook": 0.3, "focus": -0.4, "social": -0.3},
     "tags": ["Hopeful", "Outward", "Warm"],
     "why": "Perseus swooping in to rescue Andromeda, painted on a Roman wall in a landscape full of air and distance."
   },

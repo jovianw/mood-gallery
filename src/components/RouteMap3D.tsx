@@ -369,18 +369,34 @@ function LabelTracker({ anchors }: { anchors: LabelAnchor[] }) {
     anchors.forEach((a, i) => {
       const el = a.el.current
       if (!el) return
-      const [x, y] = pts[i]
+      let [x, y] = pts[i]
+      // The gallery label is centered under its pin, so keep its center far enough from the
+      // card edges that the text stays inside the card.
+      if (i === 1) x = Math.min(Math.max(x, 56), size.width - 56)
       el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`
       el.style.opacity = '1'
     })
-    // Keep the two labels out of each other's way: "You are here" flips to the side away from
-    // the pin, and the gallery label moves above the pin head when the two anchors are close.
+    // Keep the two labels out of each other's way and inside the card: "You are here" flips
+    // to the left when the pin is to its right or when it would run off the right edge, and the
+    // gallery label moves above the pin head when the two anchors are close.
     if (here && dest) {
       const dx = dest[0] - here[0]
       const dy = dest[1] - here[1]
-      anchors[0].el.current?.classList.toggle('is-left', dx > 0 && Math.abs(dy) < 40)
+      const nearRightEdge = here[0] > size.width - 96
+      anchors[0].el.current?.classList.toggle('is-left', nearRightEdge || (dx > 0 && Math.abs(dy) < 40))
       anchors[1].el.current?.classList.toggle('is-above', Math.hypot(dx, dy) < 90)
     }
+  })
+  return null
+}
+
+/** Tells the shell when the first frame has been drawn, so the loading caption can go away. */
+function FirstFrame({ onReady }: { onReady: () => void }) {
+  const done = useRef(false)
+  useFrame(() => {
+    if (done.current) return
+    done.current = true
+    onReady()
   })
   return null
 }
@@ -467,6 +483,7 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
   )
   const [resetSignal, setResetSignal] = useState(0)
   const [visible, setVisible] = useState(true)
+  const [ready, setReady] = useState(false)
   const wrap = useRef<HTMLDivElement>(null)
   const needle = useRef<HTMLElement>(null)
   const hereLabel = useRef<HTMLDivElement>(null)
@@ -502,7 +519,13 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
       >
         <Scene route={route} labels={{ here: hereLabel, dest: destLabel }} />
         <Rig autoRotate={autoRotate} resetSignal={resetSignal} onAzimuth={onAzimuth} />
+        <FirstFrame onReady={() => setReady(true)} />
       </Canvas>
+      {!ready && (
+        <span className="mapcard__loading" role="status">
+          Drawing your route…
+        </span>
+      )}
       <div className="map-labels" aria-hidden="true">
         <div ref={hereLabel} className="map-label-anchor">
           <span className="map-label">You are here</span>

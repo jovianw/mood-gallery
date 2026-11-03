@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { DOOR_ROOMS, rooms, START_ROOM } from '../data/rooms'
 import { paintings } from '../data/paintings'
 import type { Answer, MoodVector, Painting, RoomId, RouteStop } from '../data/types'
@@ -63,18 +63,63 @@ function demoState(): { answers: Record<string, Answer>; doorId: RoomId | null }
   return { answers, doorId: demo as RoomId }
 }
 
+/** The walk in progress survives a reload (tab discarded on a phone, a stale chunk) via sessionStorage. */
+interface StoredWalk {
+  answers: Record<string, Answer | undefined>
+  doorId: RoomId | null
+  painting?: Painting
+  finishedAt?: string
+}
+
+const WALK_KEY = 'mg.walk'
+
+function readStoredWalk(): StoredWalk | null {
+  try {
+    const raw = sessionStorage.getItem(WALK_KEY)
+    if (!raw) return null
+    const w = JSON.parse(raw) as StoredWalk
+    if (!w || typeof w !== 'object' || !w.answers) return null
+    if (w.doorId && !(w.doorId in rooms)) return null
+    return w
+  } catch {
+    return null
+  }
+}
+
+function writeStoredWalk(w: StoredWalk | null) {
+  try {
+    if (w) sessionStorage.setItem(WALK_KEY, JSON.stringify(w))
+    else sessionStorage.removeItem(WALK_KEY)
+  } catch {
+    // storage blocked; the walk just will not survive a reload
+  }
+}
+
 export function WalkProvider({ children, userId: userIdProp }: { children: ReactNode; userId?: string }) {
   const [demo] = useState(demoState)
-  const [answers, setAnswers] = useState<Record<string, Answer | undefined>>(demo.answers)
-  const [doorId, setDoorId] = useState<RoomId | null>(demo.doorId)
+  const [stored] = useState(() => (demo.doorId ? null : readStoredWalk()))
+  const [answers, setAnswers] = useState<Record<string, Answer | undefined>>(stored?.answers ?? demo.answers)
+  const [doorId, setDoorId] = useState<RoomId | null>(stored?.doorId ?? demo.doorId)
   const userId = userIdProp ?? getGuestId()
   const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => {
+    if (stored) return stored.painting
     if (!demo.doorId) return undefined
     const all = [...rooms[START_ROOM].statements, ...rooms[demo.doorId].statements]
     const m = moodFromAnswers(all, demo.answers)
     return matchPaintings(m, paintings.filter((p) => p.room === demo.doorId), dailySeed(userId))[0]
   })
-  const [finishedAt, setFinishedAt] = useState<Date | undefined>(() => (demo.doorId ? new Date() : undefined))
+  const [finishedAt, setFinishedAt] = useState<Date | undefined>(() => {
+    if (stored) return stored.finishedAt ? new Date(stored.finishedAt) : undefined
+    return demo.doorId ? new Date() : undefined
+  })
+
+  useEffect(() => {
+    if (demo.doorId) return
+    const empty = !doorId && Object.keys(answers).length === 0
+    writeStoredWalk(
+      empty ? null : { answers, doorId, painting: resolvedPainting, finishedAt: finishedAt?.toISOString() },
+    )
+  }, [demo.doorId, answers, doorId, resolvedPainting, finishedAt])
 
   const path = useMemo<RoomId[]>(() => (doorId ? [START_ROOM, doorId] : [START_ROOM]), [doorId])
 
@@ -120,42 +165,77 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
 
   const destination = useMemo(() => destinationPhrase(mood), [mood])
 
-  const value: WalkState = {
-    answers,
-    doorId,
-    path,
-    mood,
-    hallMood,
-    doorIds,
-    candidates,
-    painting,
-    resolved: resolvedPainting !== undefined,
-    route,
-    stops,
-    destination,
-    finishedAt,
-    userId,
-    setAnswer: (id, a) => {
-      setResolvedPainting(undefined)
-      setAnswers((prev) => ({ ...prev, [id]: a }))
-    },
-    chooseDoor: (id) => {
-      if (id !== doorId) setResolvedPainting(undefined)
-      setDoorId(id)
-    },
-    resolve: (p) => {
-      setResolvedPainting(p)
-      setFinishedAt(new Date())
-    },
-    reset: () => {
-      setAnswers({})
-      setDoorId(null)
-      setResolvedPainting(undefined)
-      setFinishedAt(undefined)
-    },
-    roomMood,
-    isRoomComplete,
-  }
+  const setAnswer = useCallback((id: string, a: Answer) => {
+    setResolvedPainting(undefined)
+    setAnswers((prev) => ({ ...prev, [id]: a }))
+  }, [])
+
+  const chooseDoor = useCallback((id: RoomId) => {
+    setDoorId((prev) => {
+      if (id !== prev) setResolvedPainting(undefined)
+      return id
+    })
+  }, [])
+
+  const resolve = useCallback((p: Painting) => {
+    setResolvedPainting(p)
+    setFinishedAt(new Date())
+  }, [])
+
+  const reset = useCallback(() => {
+    setAnswers({})
+    setDoorId(null)
+    setResolvedPainting(undefined)
+    setFinishedAt(undefined)
+  }, [])
+
+  // Memoized so consumers' effects can depend on the walk without re-running every render.
+  const value = useMemo<WalkState>(
+    () => ({
+      answers,
+      doorId,
+      path,
+      mood,
+      hallMood,
+      doorIds,
+      candidates,
+      painting,
+      resolved: resolvedPainting !== undefined,
+      route,
+      stops,
+      destination,
+      finishedAt,
+      userId,
+      setAnswer,
+      chooseDoor,
+      resolve,
+      reset,
+      roomMood,
+      isRoomComplete,
+    }),
+    [
+      answers,
+      doorId,
+      path,
+      mood,
+      hallMood,
+      doorIds,
+      candidates,
+      painting,
+      resolvedPainting,
+      route,
+      stops,
+      destination,
+      finishedAt,
+      userId,
+      setAnswer,
+      chooseDoor,
+      resolve,
+      reset,
+      roomMood,
+      isRoomComplete,
+    ],
+  )
 
   return <WalkContext.Provider value={value}>{children}</WalkContext.Provider>
 }

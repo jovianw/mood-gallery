@@ -191,7 +191,12 @@ export function DoorCard({
   onClick: () => void
 }) {
   return (
-    <button type="button" className={`door ${recommended ? 'door--recommended' : ''}`} onClick={onClick}>
+    <button
+      type="button"
+      className={`door ${recommended ? 'door--recommended' : ''}`}
+      onClick={onClick}
+      aria-label={`${recommended ? 'Your door: ' : ''}${name}. ${reason}`}
+    >
       <span className="door__arch" aria-hidden="true" />
       <span className="door__text">
         {recommended && <span className="t-label t-label--accent">Your door</span>}

@@ -65,11 +65,32 @@ export function Gallery() {
 
   const eyebrow = auth.user ? `Signed in as ${firstName(auth.user.displayName, auth.user.email)}` : 'Guest'
   const empty = !saves.loading && saves.saves.length === 0
+  // Guests get a visible nudge; signed-in users get the account menu.
+  const showGuestCard = !auth.user && auth.configured
 
   const startWalk = () => {
     walk.reset()
     nav.forward(`/room/${START_ROOM}`)
   }
+
+  const onAccount = () => {
+    if (auth.user) setMenuOpen((v) => !v)
+    else setSignInOpen(true)
+  }
+
+  const guestCard = showGuestCard && (
+    <div className="guest-card">
+      <div className="guest-card__text">
+        <span className="guest-card__title">You are browsing as a guest</span>
+        <span className="guest-card__copy">
+          Saves stay in this browser. Sign in to keep your gallery on every device.
+        </span>
+      </div>
+      <button type="button" className="btn btn--outline btn--compact" onClick={() => setSignInOpen(true)}>
+        Sign in
+      </button>
+    </div>
+  )
 
   return (
     <Screen
@@ -85,36 +106,23 @@ export function Gallery() {
         title="My Gallery"
         onLeft={() => nav.back('/')}
         right={
-          <IconButton label="Account menu" onClick={() => setMenuOpen((v) => !v)}>
+          <IconButton label={auth.user ? 'Account menu' : 'Sign in'} onClick={onAccount}>
             <User />
           </IconButton>
         }
       />
-      {menuOpen && (
+      {menuOpen && auth.user && (
         <div className="menu" ref={menuRef} role="menu">
-          {auth.user ? (
-            <button
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setMenuOpen(false)
-                void auth.signOut?.()
-              }}
-            >
-              Sign out
-            </button>
-          ) : (
-            <button
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setMenuOpen(false)
-                setSignInOpen(true)
-              }}
-            >
-              Sign in
-            </button>
-          )}
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              setMenuOpen(false)
+              void auth.signOut?.()
+            }}
+          >
+            Sign out
+          </button>
         </div>
       )}
       <div className="gap-16" />
@@ -131,10 +139,22 @@ export function Gallery() {
             Take a walk and save the painting you get. Your gallery keeps every one, with the mood
             you had that day.
           </p>
+          {guestCard && (
+            <>
+              <div className="gap-20" />
+              {guestCard}
+            </>
+          )}
           <div className="spacer" />
         </>
       ) : (
         <>
+          {guestCard && (
+            <>
+              {guestCard}
+              <div className="gap-12" />
+            </>
+          )}
           <div className="stats">
             <div className="stat">
               <span className="stat__n">{saves.walks.length}</span>
@@ -161,7 +181,14 @@ export function Gallery() {
           <div className="gap-10" />
         </>
       )}
-      {signInOpen && <SignInSheet onClose={() => setSignInOpen(false)} />}
+      {signInOpen && (
+        <SignInSheet
+          onClose={() => setSignInOpen(false)}
+          title="Sign in"
+          copy="Keep your gallery on every device and share walks with a short link. Free, and we never post anything for you."
+          notNowLabel="Not now, stay a guest"
+        />
+      )}
     </Screen>
   )
 }

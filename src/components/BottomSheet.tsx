@@ -60,11 +60,21 @@ export function BottomSheet({
     if (dy > 80) close()
   }
 
+  // A tap closes the sheet only when it both starts and ends on the scrim. Dragging a text
+  // selection out of an input and releasing over the scrim fires a click on the scrim too,
+  // and that must not close the sheet.
+  const scrimDown = useRef(false)
+
   return createPortal(
     <div
       className={`sheet-scrim ${closing ? 'sheet-scrim--closing' : ''}`}
+      onPointerDown={(e) => {
+        scrimDown.current = e.target === e.currentTarget
+      }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) close()
+        const down = scrimDown.current
+        scrimDown.current = false
+        if (down && e.target === e.currentTarget) close()
       }}
     >
       <div

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Check, PinSolid } from '../components/Icons'
 import { Button, Screen, TopAppBar } from '../components/ui'
@@ -6,8 +6,9 @@ import { rooms, START_ROOM } from '../data/rooms'
 import { blocks, galleryLabel } from '../lib/floorplan'
 import { useNav } from '../lib/nav'
 import { useWalk } from '../state/WalkContext'
+import { lazyWithRetry } from '../lib/lazy'
 
-const RouteMap3D = lazy(() => import('../components/RouteMap3D').then((m) => ({ default: m.RouteMap3D })))
+const RouteMap3D = lazyWithRetry(() => import('../components/RouteMap3D').then((m) => ({ default: m.RouteMap3D })))
 
 export function FinalStretch() {
   const nav = useNav()

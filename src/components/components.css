@@ -363,6 +363,16 @@
   touch-action: none;
 }
 .mapcard canvas { display: block; outline: none; }
+.mapcard__loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--stone);
+  pointer-events: none;
+}
 .mapcard__hint {
   position: absolute;
   left: 12px;
@@ -690,3 +700,25 @@
 .step i { width: 8px; height: 8px; border-radius: 50%; background: var(--mute-gray); transition: background-color 200ms ease; flex: none; }
 .step--done { color: #fff; }
 .step--done i { background: var(--accent); }
+
+/* Guest nudge on My Gallery */
+.guest-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 14px 14px 16px;
+  text-align: left;
+}
+.guest-card__text { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.guest-card__title { font-family: var(--font-serif); font-size: 16px; line-height: 1.2; }
+.guest-card__copy { font-size: 12px; line-height: 1.4; color: var(--mute-gray); }
+.btn--compact {
+  width: auto;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 13px;
+  flex: none;
+}

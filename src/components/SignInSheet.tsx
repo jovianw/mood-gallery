@@ -13,10 +13,16 @@ export function SignInSheet({
   onClose,
   onSignedIn,
   onNotNow,
+  title = 'Keep this one',
+  copy = 'Sign in to save paintings to your gallery and see them from any device. Free, and we never post anything for you.',
+  notNowLabel = 'Not now, keep it on this device only',
 }: {
   onClose: () => void
   onSignedIn?: () => void
   onNotNow?: () => void
+  title?: string
+  copy?: string
+  notNowLabel?: string
 }) {
   const auth = useAuth()
   const [step, setStep] = useState<Step>('choose')
@@ -25,15 +31,12 @@ export function SignInSheet({
   const [error, setError] = useState<string | null>(null)
 
   return (
-    <BottomSheet onClose={onClose} label="Keep this one">
+    <BottomSheet onClose={onClose} label={title}>
       {(close) => (
         <>
-          <h2 className="sheet__title">Keep this one</h2>
+          <h2 className="sheet__title">{title}</h2>
           <div className="gap-4" />
-          <p className="sheet__copy">
-            Sign in to save paintings to your gallery and see them from any device. Free, and we
-            never post anything for you.
-          </p>
+          <p className="sheet__copy">{copy}</p>
           <div className="gap-20" />
           {!auth.configured ? (
             <p className="t-small" style={{ textAlign: 'center' }}>
@@ -126,7 +129,7 @@ export function SignInSheet({
               close()
             }}
           >
-            Not now, keep it on this device only
+            {notNowLabel}
           </button>
           <div className="gap-8" />
           <p className="t-caption" style={{ textAlign: 'center' }}>
