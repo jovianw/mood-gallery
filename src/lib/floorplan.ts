@@ -1,6 +1,7 @@
 import plan from '../data/met_floorplan.json'
 import { rooms, START_ROOM } from '../data/rooms'
 import type { Painting, RoomId } from '../data/types'
+import { legBetween, stairsPoint } from './routing'
 
 /** One block on a floor of the traced Met plan. Units are meters, x toward Fifth Avenue, y north. */
 export interface PlanBlock {
@@ -105,10 +106,6 @@ export interface WalkRoute {
   minutes: number
 }
 
-function dist(a: [number, number], b: [number, number]): number {
-  return Math.hypot(a[0] - b[0], a[1] - b[1])
-}
-
 /** Deterministic point inside a block, offset from the center so a pin never sits on the "here" dot. */
 function spotInBlock(block: PlanBlock, salt: string): [number, number] {
   const xs = block.poly.map((p) => p[0])
@@ -124,10 +121,11 @@ function spotInBlock(block: PlanBlock, salt: string): [number, number] {
 
 /**
  * Route from the room the walk began in (the Great Hall by default) through every room walked
- * to the painting's gallery. The maps are drawn one floor at a time (the floor of the last room),
- * so the waypoints only carry the rooms on that floor; rooms on the other floor are still listed
- * in `visited` and lit on the plan, and the stairs are lit when the walk changed floors. Minutes
- * cover the whole walk.
+ * to the painting's gallery, along walkable galleries (see routing.ts). The maps draw one floor
+ * at a time (the floor of the last room), so the waypoints only carry that floor: the line enters
+ * at the hall or at the top of the stairs, visits the rooms walked on that floor in order, and
+ * ends at the painting. Rooms on the other floor are still listed in `visited` and lit on the
+ * plan. Minutes cover the whole walk, every floor, with a staircase for each change.
  */
 export function routeFor(path: RoomId[], painting: Pick<Painting, 'galleryKey' | 'objectID'>): WalkRoute {
   const walked = path.length ? path : [START_ROOM]
@@ -138,60 +136,61 @@ export function routeFor(path: RoomId[], painting: Pick<Painting, 'galleryKey' |
   const destBlock = blocks[painting.galleryKey] ?? roomBlock
   const parent = parentOf(destBlock)
   const fromHall = start.id === START_ROOM
+  const destPoint: [number, number] =
+    destBlock.key === roomBlock.key ? spotInBlock(destBlock, String(painting.objectID)) : destBlock.center
 
+  // Blocks to light up.
   const visited: string[] = []
   const changedFloors = walked.some((id) => rooms[id].floor !== start.floor)
-  if (fromHall) {
-    if (floor === 2) visited.push('hall2', 'stairs')
-    else visited.push('hall')
-    if (changedFloors && floor === 1) visited.push('stairs')
-  } else if (changedFloors) {
-    visited.push('stairs')
-  }
+  if (fromHall) visited.push(floor === 2 ? 'hall2' : 'hall')
+  if ((fromHall && floor === 2) || changedFloors) visited.push('stairs')
   for (const id of walked) if (id !== START_ROOM) visited.push(rooms[id].planKey)
 
-  // Waypoints on the current floor only, in walk order.
-  const waypoints: [number, number][] = []
-  if (fromHall) {
-    if (floor === 2) waypoints.push([-34, 8.5], [-40.5, -31])
-    else waypoints.push(blocks.hall.center)
-  }
-  for (const id of walked) {
-    if (id === START_ROOM) continue
-    const r = rooms[id]
-    if (r.floor !== floor) continue
-    const c = blocks[r.planKey].center
-    const prev = waypoints[waypoints.length - 1]
-    if (!prev || prev[0] !== c[0] || prev[1] !== c[1]) waypoints.push(c)
-  }
-  if (!waypoints.length) waypoints.push(roomBlock.center)
-  const hereIndex = waypoints.length - 1
-
-  let next: string | null = null
-  if (parent && parent.key !== roomBlock.key) {
-    next = parent.key
-    waypoints.push([
-      (roomBlock.center[0] + parent.center[0]) / 2,
-      (roomBlock.center[1] + parent.center[1]) / 2,
-    ])
-  }
-
-  if (destBlock.key === roomBlock.key) waypoints.push(spotInBlock(destBlock, String(painting.objectID)))
-  else waypoints.push(destBlock.center)
-
-  // Whole-walk length: every room center in order regardless of floor, plus a staircase per change.
+  // Whole-walk length, floor by floor, with the staircase for each change.
   let lengthMeters = 0
-  let prevCenter: [number, number] = blocks[start.planKey]?.center ?? blocks.hall.center
+  let prevPoint: [number, number] = fromHall ? blocks.hall.center : blocks[start.planKey].center
   let prevFloor: 1 | 2 = start.floor
   for (const id of walked.slice(1)) {
     const r = rooms[id]
     const c = blocks[r.planKey].center
-    lengthMeters += dist(prevCenter, c)
-    if (r.floor !== prevFloor) lengthMeters += 60
-    prevCenter = c
-    prevFloor = r.floor
+    if (r.floor !== prevFloor) {
+      lengthMeters += legBetween(prevFloor, prevPoint, stairsPoint(prevFloor)).meters + 60
+      prevPoint = stairsPoint(r.floor)
+      prevFloor = r.floor
+    }
+    lengthMeters += legBetween(prevFloor, prevPoint, c).meters
+    prevPoint = c
   }
-  for (let i = hereIndex + 1; i < waypoints.length; i++) lengthMeters += dist(waypoints[i - 1], waypoints[i])
+  if (floor !== prevFloor) {
+    lengthMeters += legBetween(prevFloor, prevPoint, stairsPoint(prevFloor)).meters + 60
+    prevPoint = stairsPoint(floor)
+  }
+  const finalLeg = legBetween(floor, prevPoint, destPoint)
+  lengthMeters += finalLeg.meters
+
+  // Waypoints on the current floor only.
+  const stops: [number, number][] = []
+  const arrivedByStairs = (fromHall && floor === 2) || (changedFloors && start.floor !== floor)
+  if (fromHall && floor === 1) stops.push(blocks.hall.center)
+  else if (arrivedByStairs) stops.push(stairsPoint(floor))
+  for (const id of walked) {
+    if (id === START_ROOM) continue
+    const r = rooms[id]
+    if (r.floor !== floor) continue
+    stops.push(blocks[r.planKey].center)
+  }
+  if (!stops.length) stops.push(roomBlock.center)
+
+  const waypoints: [number, number][] = [stops[0]]
+  for (let i = 1; i < stops.length; i++) {
+    const leg = legBetween(floor, stops[i - 1], stops[i])
+    waypoints.push(...leg.points.slice(1))
+  }
+  const hereIndex = waypoints.length - 1
+  const ahead = legBetween(floor, stops[stops.length - 1], destPoint)
+  waypoints.push(...ahead.points.slice(1))
+
+  const next = parent && parent.key !== roomBlock.key ? parent.key : null
   const minutes = Math.max(1, Math.round(lengthMeters / 80))
 
   return { floor, visited, next, dest: destBlock.key, waypoints, hereIndex, lengthMeters, minutes }

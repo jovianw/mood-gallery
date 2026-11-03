@@ -738,3 +738,22 @@
 .trail::-webkit-scrollbar { display: none; }
 .story__log li.is-more span { color: var(--stone); font-style: italic; }
 .sheet__scroll { width: 100%; max-height: 52vh; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 4px; }
+
+/* ---------- About page ---------- */
+.about__h {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 400;
+  margin: 28px 0 8px;
+  width: 100%;
+}
+.about__p { font-size: 15px; line-height: 1.5; margin: 0 0 10px; width: 100%; }
+.eq { width: 100%; overflow-x: auto; padding: 6px 0 10px; font-size: 14px; }
+.eq .katex-display { margin: 0.4em 0; }
+.eq-inline { white-space: nowrap; }
+.chart { display: block; width: 100%; margin: 8px 0; }
+.about__table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 12px; }
+.about__table th, .about__table td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--stone); }
+.about__table th:not(:first-child), .about__table td:not(:first-child) { text-align: right; }
+.about .t-caption { width: 100%; margin: 0 0 6px; }

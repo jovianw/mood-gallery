@@ -27,25 +27,28 @@ export function ChooseDoor() {
 
   let headline = `${COUNT[walk.doorIds.length] ?? 'Doors open'} from here.`
   let copy = 'We picked one based on how you answered. Feel free to take a different one.'
+  const best = walk.doors[0]
+  const pBest = best ? Math.round(100 * best.pRoom) : 0
   if (!first) {
     switch (a.why) {
-      case 'rooms':
-        headline = 'Keep going, this is a good start.'
-        copy = 'A couple more rooms and the picture gets clear. We picked the door that fits you best so far.'
-        break
-      case 'axes': {
+      case 'rooms': {
         const topics = a.missingAxes.slice(0, 2).map((ax) => AXIS_TOPIC[ax])
-        headline = 'Not sure yet.'
-        copy = `We still want to hear about ${topics.join(' and ')}. The first door asks about that.`
+        headline = 'Keep going, this is a good start.'
+        copy = topics.length
+          ? `We still want to hear about ${topics.join(' and ')}. The first door asks about that.`
+          : 'A couple more rooms and the picture gets clear. We picked the door that fits you best so far.'
         break
       }
       case 'room':
         headline = 'Getting warmer.'
-        copy = 'Another room fits how you feel a little better than the one you just left. We put it first.'
+        copy =
+          pBest >= 40
+            ? `There is a ${pBest}% chance your painting is behind the first door. The others would teach us the most if it is not.`
+            : 'Your painting is probably not in the room you just left. The first door is the most likely place, and the best question to ask next.'
         break
-      case 'margin':
+      case 'painting':
         headline = 'Almost there.'
-        copy = 'Two paintings are neck and neck. One more room should settle it.'
+        copy = 'Two works are neck and neck. The first door asks the question most likely to split them.'
         break
       default:
         break
@@ -58,7 +61,7 @@ export function ChooseDoor() {
   }
 
   const leaving = from === START_ROOM ? 'the Great Hall' : rooms[from].name
-  const warmth = Math.round(a.score * 100)
+  const warmth = Math.round(a.confidence * 100)
 
   return (
     <Screen footer={<p className="t-caption" style={{ fontWeight: 500, textAlign: 'center' }}>Your doors change every walk.</p>}>

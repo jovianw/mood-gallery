@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-11-03",
+  "walks": 1500,
+  "thresholds": {
+    "room": 0.5,
+    "painting": 0.4,
+    "minRooms": 3
+  },
+  "visitors": {
+    "personas": 6,
+    "noise": "sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree",
+    "follow": 0.75
+  },
+  "heuristic": {
+    "walks": 1500,
+    "mean": 4.435333333333333,
+    "hist": {
+      "3": 320,
+      "4": 587,
+      "5": 339,
+      "6": 158,
+      "7": 66,
+      "8": 30
+    },
+    "hit": 0.078,
+    "regret": 0.3201486364002353
+  },
+  "bayes": {
+    "walks": 1500,
+    "mean": 4.9,
+    "hist": {
+      "3": 296,
+      "4": 387,
+      "5": 324,
+      "6": 253,
+      "7": 144,
+      "8": 96
+    },
+    "hit": 0.214,
+    "regret": 0.2134423515122797
+  },
+  "paintings": 109
+}

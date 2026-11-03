@@ -51,7 +51,10 @@ export function Entrance() {
       <div className="gap-10" />
       <p className="t-body t-body--15 t-body--muted">
         Answer a few questions and we&rsquo;ll open the right doors for you. Every walk takes a
-        different route to a painting picked for your mood.
+        different route to a painting picked for your mood.{' '}
+        <Link to="/about" className="t-link t-link--accent" onClick={() => nav.markForward()}>
+          How it works
+        </Link>
       </p>
       <div className="gap-20" />
       <div className="selector">

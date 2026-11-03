@@ -286,3 +286,39 @@ export const AXIS_TOPIC: Record<Axis, string> = {
   focus: 'where your attention is',
   social: 'company or quiet',
 }
+
+/* ---------- Variety as a constraint ---------- */
+
+/** How much a recently shown work is pushed down, in similarity units, on the day it was shown. */
+export const RECENT_PENALTY = 0.08
+/** Days for that push to fall to 1/e. */
+export const RECENT_HALF_LIFE_DAYS = 7
+
+export interface RecentPick {
+  objectID: number
+  /** Days since it was shown (0 = today). */
+  daysAgo: number
+}
+
+/**
+ * Choose the painting as a penalized argmax: the best match for the mood, minus a penalty that
+ * decays with time since the same work was last shown to this visitor. Compared with the old
+ * hash-of-the-date rotation this keeps quality first (a clear winner still wins) while making a
+ * repeat visitor see something new when the top few are close. Returns the full order, pick
+ * first, so the Finding screen can fall back to the next one if the pick is off view.
+ */
+export function pickWithHistory(mood: MoodVector, candidates: Painting[], recent: RecentPick[]): Painting[] {
+  const last = new Map<number, number>()
+  for (const r of recent) {
+    const prev = last.get(r.objectID)
+    if (prev === undefined || r.daysAgo < prev) last.set(r.objectID, r.daysAgo)
+  }
+  return [...candidates]
+    .map((p, i) => {
+      const d = last.get(p.objectID)
+      const penalty = d === undefined ? 0 : RECENT_PENALTY * Math.exp(-d / RECENT_HALF_LIFE_DAYS)
+      return { p, i, s: similarity(mood, p.mood) - penalty }
+    })
+    .sort((a, b) => b.s - a.s || a.i - b.i)
+    .map((x) => x.p)
+}

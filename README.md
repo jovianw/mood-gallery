@@ -23,15 +23,26 @@ program via the public [Collection API](https://metmuseum.github.io/).
 
 ## How matching works
 
-- Statements map to five mood axes: energy, warmth, outlook, focus, social. Answers on the
-  7-point scale become a vector in that space (`src/lib/matching.ts`).
-- Every answered room so far picks the next doors: cosine similarity against each unvisited
-  room's `affinity`, with a push toward rooms that ask about the axes the walk knows least.
-- The walk ends when it is sure: three rooms at least, every axis heard from, no unvisited room
-  that fits clearly better, and one painting in the room clearly ahead (`assessWalk`).
-- In the final room, the painting is picked by cosine similarity against that room's
-  curated paintings. The top three are rotated with a daily seed (date + user id), so the same
-  mood on another day lands on a different painting.
+The walk is a Bayesian adaptive test. The in-app page at `/about` shows the equations with live
+numbers; the short version:
+
+- Statements map to five mood axes: energy, warmth, outlook, focus, social. Each answer on the
+  7-point scale is a noisy reading of one axis. A Gaussian prior per axis is updated in closed
+  form after every answer (`src/lib/bayes.ts`).
+- Every work has a five-dimensional vector. The match score is cosine similarity, but because the
+  mood is uncertain the winner is too: 256 posterior samples give P(work i is the match) and,
+  summed by room, P(the match hangs in room r).
+- Doors are ranked by P(room) plus expected information gain: a one-step lookahead that imagines
+  a plausible visitor answering the room's statements and measures how much the best-match
+  distribution sharpens.
+- The walk ends after at least three rooms when P(this room) >= 0.5 and the top work in the room
+  has P >= 0.4. Thresholds were tuned with `scripts/simulate.mts` (synthetic visitors with
+  personas, correlated axes, noise and an agree bias); results are in `src/data/stats.json`.
+- In the final room the pick is a penalized argmax: similarity to the posterior mean minus a
+  decaying penalty for works this visitor was shown recently (`pickWithHistory`).
+- Painting vectors: 109 curated by hand, the rest projected from CLIP image embeddings onto the
+  five axes (`scripts/embed.py`, numbers in `src/data/embedding-stats.json`).
+- Routes are A* on a 2 m walkable grid of the traced floor plan (`src/lib/routing.ts`).
 - The Finding screen refreshes the chosen object from the Met API (cached 7 days) and falls back
   to the next candidate if it is no longer on view. Offline, the bundled data is used as is.
 
@@ -50,7 +61,11 @@ Other scripts:
 | --- | --- |
 | `npm run build` | type-check, build, and copy `index.html` to `404.html` for GitHub Pages |
 | `npm run lint` | oxlint |
-| `npm run fetch:met` | rebuild `src/data/paintings.json` from the curated files and the Met API |
+| `npm run fetch:met` | rebuild the curated records from the curated files and the Met API |
+| `node scripts/fetch-catalog.mjs` | pull on-view public-domain records for the walk departments into `data/catalog/` |
+| `node scripts/fetch-images.mjs` | download their small images for embedding |
+| `.venv/Scripts/python scripts/embed.py` | CLIP embeddings, axis projection, and the expanded `paintings.json` |
+| `npx tsx scripts/simulate.mts --write` | simulate visitors, tune the stopping rule, write `stats.json` |
 
 Dev-only shortcuts: `?demo=<roomId>` on any route prefills a finished walk through that room
 (for example `/final?demo=european-paintings`), and `?export=1` on the share screen renders the

@@ -1,0 +1,274 @@
+// Simulates walks with synthetic visitors to tune and validate the stopping rule.
+// Usage: node scripts/simulate.mts [--walks N] [--tr 0.6] [--tp 0.5] [--grid] [--write]
+//   --grid   sweep thresholds and print a table
+//   --write  write src/data/stats.json for the About page (uses --tr/--tp)
+// Visitors are not a uniform cloud: six personas with correlated axes, a mix of consistent and
+// sloppy answerers, some who answer at random, and a share with an "agree" bias.
+import { readFileSync, writeFileSync } from 'node:fs'
+import { rooms, DOOR_ROOMS, START_ROOM } from '../src/data/rooms.ts'
+import {
+  AXES,
+  assessWalk,
+  moodFromAnswers,
+  nextDoors,
+  similarity,
+  MIN_ROOMS,
+} from '../src/lib/matching.ts'
+import { belief, doorValues, posteriorFromAnswers, toCandidate, type Candidate } from '../src/lib/bayes.ts'
+import type { Answer, MoodVector, RoomId } from '../src/data/types.ts'
+
+const paintings = JSON.parse(readFileSync(new URL('../src/data/paintings.json', import.meta.url), 'utf8')) as {
+  objectID: number
+  room: RoomId
+  mood: MoodVector
+}[]
+
+const arg = (name: string, def: number) => {
+  const i = process.argv.indexOf(name)
+  return i > -1 ? Number(process.argv[i + 1]) : def
+}
+const WALKS = arg('--walks', 1500)
+const GRID = process.argv.includes('--grid')
+const WRITE = process.argv.includes('--write')
+
+/* ---------- Visitors ---------- */
+
+let seed = 12345
+const rnd = () => {
+  seed = (seed * 1664525 + 1013904223) >>> 0
+  return seed / 2 ** 32
+}
+const gauss = () => {
+  const u = Math.max(rnd(), 1e-12)
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rnd())
+}
+const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x))
+
+// Persona centers in AXES order: energy, warmth, outlook, focus, social.
+const PERSONAS: number[][] = [
+  [0.6, 0.4, 0.5, -0.4, 0.6], // up and out
+  [-0.6, 0.3, 0.2, 0.5, -0.5], // quiet and warm
+  [0.5, -0.4, -0.4, -0.3, -0.2], // wired and cool
+  [-0.5, -0.3, -0.5, 0.4, -0.6], // low and alone
+  [0.1, 0.5, 0.6, -0.2, 0.3], // sunny
+  [-0.3, -0.5, 0.3, 0.6, 0.1], // clear-headed
+]
+// Correlated spread around a persona (Cholesky of a 5x5 covariance with a few real correlations).
+const CORR: number[][] = [
+  [1, 0, 0, -0.3, 0.4],
+  [0, 1, 0.5, 0, 0.2],
+  [0, 0.5, 1, 0, 0.1],
+  [-0.3, 0, 0, 1, -0.2],
+  [0.4, 0.2, 0.1, -0.2, 1],
+]
+function cholesky(m: number[][]): number[][] {
+  const n = m.length
+  const L = Array.from({ length: n }, () => Array(n).fill(0))
+  for (let i = 0; i < n; i++)
+    for (let j = 0; j <= i; j++) {
+      let s = m[i][j]
+      for (let k = 0; k < j; k++) s -= L[i][k] * L[j][k]
+      L[i][j] = i === j ? Math.sqrt(Math.max(s, 1e-9)) : s / L[j][j]
+    }
+  return L
+}
+const L = cholesky(CORR)
+
+interface Visitor {
+  theta: MoodVector
+  noise: number
+  random: boolean
+  acquiesce: number
+}
+
+function makeVisitor(): Visitor {
+  const c = PERSONAS[Math.floor(rnd() * PERSONAS.length)]
+  const z = AXES.map(() => gauss())
+  const theta = { ...{ energy: 0, warmth: 0, outlook: 0, focus: 0, social: 0 } } as MoodVector
+  AXES.forEach((k, i) => {
+    let v = 0
+    for (let j = 0; j <= i; j++) v += L[i][j] * z[j]
+    theta[k] = clamp(c[i] + 0.35 * v)
+  })
+  const u = rnd()
+  return {
+    theta,
+    noise: u < 0.6 ? 0.3 : 0.6,
+    random: rnd() < 0.1,
+    acquiesce: rnd() < 0.3 ? 0.6 : 0,
+  }
+}
+
+function answerRoom(v: Visitor, id: RoomId, answers: Record<string, Answer>) {
+  for (const s of rooms[id].statements) {
+    let raw: number
+    if (v.random) raw = 1 + rnd() * 6
+    else raw = 4 - 3 * s.direction * v.theta[s.axis] + gauss() * v.noise * 3 - v.acquiesce
+    answers[s.id] = Math.round(clamp(raw, 1, 7)) as Answer
+  }
+}
+
+/* ---------- Policies ---------- */
+
+const DOOR_LIST = DOOR_ROOMS.map((id) => rooms[id])
+const allCandidates: Candidate[] = paintings.map((p) => toCandidate(p.objectID, p.room, p.mood))
+const byRoom = new Map<string, Candidate[]>()
+for (const c of allCandidates) byRoom.set(c.room, [...(byRoom.get(c.room) ?? []), c])
+
+function trueBest(theta: MoodVector): number {
+  let best = -1
+  let bs = -Infinity
+  for (const p of paintings) {
+    const s = similarity(theta, p.mood)
+    if (s > bs) {
+      bs = s
+      best = p.objectID
+    }
+  }
+  return best
+}
+
+interface Outcome {
+  rooms: number
+  chosen: number
+  regret: number
+  hit: boolean
+}
+
+function finishWith(v: Visitor, path: RoomId[], chosen: number): Outcome {
+  const best = trueBest(v.theta)
+  const pc = paintings.find((p) => p.objectID === chosen)!
+  const pb = paintings.find((p) => p.objectID === best)!
+  return {
+    rooms: path.length,
+    chosen,
+    regret: similarity(v.theta, pb.mood) - similarity(v.theta, pc.mood),
+    hit: chosen === best,
+  }
+}
+
+const follow = () => rnd() < 0.75
+
+/** The shipped heuristic. */
+function walkHeuristic(v: Visitor): Outcome {
+  const answers: Record<string, Answer> = {}
+  const path: RoomId[] = [START_ROOM]
+  answerRoom(v, START_ROOM, answers)
+  for (;;) {
+    const pathRooms = path.map((id) => rooms[id])
+    const mood = moodFromAnswers(pathRooms.flatMap((r) => r.statements), answers)
+    const cur = path[path.length - 1]
+    const pool = paintings.filter((p) => p.room === cur)
+    const a = assessWalk(mood, pathRooms, answers, DOOR_LIST, pool)
+    if ((a.sure && path.length >= MIN_ROOMS) || a.noneLeft) {
+      const ranked = [...pool].sort((x, y) => similarity(mood, y.mood) - similarity(mood, x.mood))
+      return finishWith(v, path, ranked[0].objectID)
+    }
+    const doors = nextDoors(mood, pathRooms, answers, DOOR_LIST).map((r) => r.id)
+    const pick = follow() ? doors[0] : doors[Math.floor(rnd() * doors.length)]
+    path.push(pick)
+    answerRoom(v, pick, answers)
+  }
+}
+
+/** The Bayesian policy. */
+function walkBayes(v: Visitor, tr: number, tp: number): Outcome {
+  const answers: Record<string, Answer> = {}
+  const path: RoomId[] = [START_ROOM]
+  answerRoom(v, START_ROOM, answers)
+  for (;;) {
+    const pathRooms = path.map((id) => rooms[id])
+    const post = posteriorFromAnswers(pathRooms.flatMap((r) => r.statements), answers)
+    const cur = path[path.length - 1]
+    const unvisited = DOOR_LIST.filter((r) => !path.includes(r.id))
+    const live = [cur, ...unvisited.map((r) => r.id)].filter((id) => id !== START_ROOM)
+    const cands = live.flatMap((id) => byRoom.get(id) ?? [])
+    const b = belief(post, cands, 256, path.length)
+    const pool = byRoom.get(cur) ?? []
+    const inRoom = pool.length ? belief(post, pool, 256, path.length + 100) : null
+    const pRoom = b.pRoom[cur] ?? 0
+    const pPaint = inRoom ? inRoom.pBest[inRoom.top] : 0
+    const enough = path.length >= MIN_ROOMS
+    if ((enough && cur !== START_ROOM && pRoom >= tr && pPaint >= tp) || unvisited.length === 0) {
+      return finishWith(v, path, pool[inRoom!.top].id)
+    }
+    const values = doorValues(post, unvisited, cands, b, { seed: path.length })
+    const doors = values.slice(0, 3).map((d) => d.room as RoomId)
+    const pick = follow() ? doors[0] : doors[Math.floor(rnd() * doors.length)]
+    path.push(pick)
+    answerRoom(v, pick, answers)
+  }
+}
+
+/* ---------- Runs ---------- */
+
+interface Summary {
+  walks: number
+  mean: number
+  hist: Record<number, number>
+  hit: number
+  regret: number
+}
+
+function summarize(outs: Outcome[]): Summary {
+  const hist: Record<number, number> = {}
+  for (const o of outs) hist[o.rooms] = (hist[o.rooms] ?? 0) + 1
+  return {
+    walks: outs.length,
+    mean: outs.reduce((s, o) => s + o.rooms, 0) / outs.length,
+    hist,
+    hit: outs.filter((o) => o.hit).length / outs.length,
+    regret: outs.reduce((s, o) => s + o.regret, 0) / outs.length,
+  }
+}
+
+function run(n: number, tr: number, tp: number) {
+  seed = 12345
+  const visitors = Array.from({ length: n }, makeVisitor)
+  const t0 = Date.now()
+  const heur = summarize(visitors.map(walkHeuristic))
+  const t1 = Date.now()
+  const bayes = summarize(visitors.map((v) => walkBayes(v, tr, tp)))
+  const t2 = Date.now()
+  return { heur, bayes, msHeur: t1 - t0, msBayes: t2 - t1 }
+}
+
+const fmt = (s: Summary) =>
+  `mean ${s.mean.toFixed(2)}  hit ${(100 * s.hit).toFixed(1)}%  regret ${s.regret.toFixed(3)}  ` +
+  Object.entries(s.hist)
+    .map(([k, v]) => `${k}:${((100 * v) / s.walks).toFixed(0)}%`)
+    .join(' ')
+
+if (GRID) {
+  for (const tr of [0.5, 0.6, 0.7]) {
+    for (const tp of [0.4, 0.5, 0.6]) {
+      const r = run(WALKS, tr, tp)
+      console.log(`tr ${tr} tp ${tp} | bayes ${fmt(r.bayes)} | ${r.msBayes} ms`)
+    }
+  }
+  const r = run(WALKS, 0.6, 0.5)
+  console.log(`heuristic         | ${fmt(r.heur)}`)
+} else {
+  const tr = arg('--tr', 0.6)
+  const tp = arg('--tp', 0.5)
+  const r = run(WALKS, tr, tp)
+  console.log(`heuristic | ${fmt(r.heur)} | ${r.msHeur} ms`)
+  console.log(`bayes     | ${fmt(r.bayes)} | ${r.msBayes} ms`)
+  if (WRITE) {
+    const out = {
+      generatedAt: new Date().toISOString().slice(0, 10),
+      walks: WALKS,
+      thresholds: { room: tr, painting: tp, minRooms: MIN_ROOMS },
+      visitors: {
+        personas: PERSONAS.length,
+        noise: 'sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree',
+        follow: 0.75,
+      },
+      heuristic: r.heur,
+      bayes: r.bayes,
+      paintings: paintings.length,
+    }
+    writeFileSync(new URL('../src/data/stats.json', import.meta.url), JSON.stringify(out, null, 2) + '\n')
+    console.log('wrote src/data/stats.json')
+  }
+}

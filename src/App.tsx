@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { MergeSheet } from './components/MergeSheet'
@@ -16,6 +16,9 @@ import { AuthProvider } from './state/AuthProvider'
 import { useSaves } from './state/SavesContext'
 import { SavesProvider } from './state/SavesProvider'
 import { WalkProvider } from './state/WalkContext'
+import { lazyWithRetry } from './lib/lazy'
+
+const About = lazyWithRetry(() => import('./screens/About').then((m) => ({ default: m.About })))
 
 /** The daily painting seed follows the account when there is one. */
 function WalkWithUser({ children }: { children: ReactNode }) {
@@ -56,6 +59,14 @@ export default function App() {
                 <Route path="/gallery/:objectID" element={<SavedPaintingScreen />} />
                 <Route path="/gallery/:objectID/share" element={<SharePath />} />
                 <Route path="/w/:shareId" element={<SharedWalk />} />
+                <Route
+                  path="/about"
+                  element={
+                    <Suspense fallback={<main className="screen" />}>
+                      <About />
+                    </Suspense>
+                  }
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </div>

@@ -1,19 +1,51 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { DOOR_ROOMS, rooms, START_ROOM } from '../data/rooms'
 import { paintings } from '../data/paintings'
-import type { Answer, MoodVector, Painting, RoomId, RouteStop } from '../data/types'
+import type { Answer, Axis, MoodVector, Painting, RoomId, RouteStop } from '../data/types'
+import {
+  belief,
+  doorValues,
+  MIN_ROOMS,
+  PAINTING_SURE,
+  posteriorFromAnswers,
+  ROOM_SURE,
+  toCandidate,
+  type Belief,
+  type Candidate,
+  type DoorValue,
+  type Posterior,
+} from '../lib/bayes'
 import { routeFor, type WalkRoute } from '../lib/floorplan'
 import {
-  assessWalk,
-  dailySeed,
+  AXES,
+  axisCoverage,
   destinationPhrase,
-  matchPaintings,
   moodFromAnswers,
-  nextDoors,
+  pickWithHistory,
   roomPhrase,
-  type WalkAssessment,
+  type RecentPick,
 } from '../lib/matching'
 import { getGuestId } from '../lib/storage'
+import { useSaves } from './SavesContext'
+
+export type Unsure = 'rooms' | 'room' | 'painting'
+
+export interface WalkAssessment {
+  /** True when the walk can end here. */
+  sure: boolean
+  /** First failing check, when not sure. */
+  why: Unsure | null
+  /** P(the best match hangs in the room you are in), over rooms not yet left behind. */
+  pRoom: number
+  /** P(the top work in this room is the best match in this room). */
+  pPaint: number
+  /** P(the work we would pick right now is the best match anywhere ahead). The "sure" meter. */
+  confidence: number
+  /** Axes nobody has asked about yet. */
+  missingAxes: Axis[]
+  /** No unvisited rooms are left, so the walk must end here. */
+  noneLeft: boolean
+}
 
 export interface WalkState {
   answers: Record<string, Answer | undefined>
@@ -23,18 +55,21 @@ export interface WalkState {
   startId: RoomId
   /** The room you are in once a door has been taken (last of the path), or null in the first room. */
   doorId: RoomId | null
-  /** Mood over every answered statement in the walk. */
+  /** Posterior mean of the mood: the walk's best estimate over every answer so far. */
   mood: MoodVector
+  /** Mood from the first room's answers alone. */
   hallMood: MoodVector
-  /** The doors offered from the current room, recommended first (fewer than 3 near the end). */
+  posterior: Posterior
+  /** Door candidates with their value, best first (fewer than 3 near the end). */
+  doors: DoorValue[]
+  /** Door room ids, best first. */
   doorIds: RoomId[]
-  /** Whether the walk is sure enough to end in the current room, and why not if it is not. */
   assessment: WalkAssessment
   /** The walk may end here: sure, or no rooms left. */
   canFinish: boolean
   /** No rooms are left to walk to. */
   mustFinish: boolean
-  /** Candidate paintings for the current room, best first (after the daily pick). */
+  /** Candidate paintings for the current room, pick first. */
   candidates: Painting[]
   /** The painting on the wall at the end of this walk. */
   painting: Painting | undefined
@@ -132,7 +167,17 @@ function writeStoredWalk(w: StoredWalk | null) {
 
 const DOOR_ROOM_LIST = DOOR_ROOMS.map((id) => rooms[id])
 
+/** Every work as a unit vector, grouped by room, built once. */
+const CANDIDATES: Candidate[] = paintings.map((p) => toCandidate(p.objectID, p.room, p.mood))
+const CANDIDATES_BY_ROOM = new Map<string, Candidate[]>()
+for (const c of CANDIDATES) CANDIDATES_BY_ROOM.set(c.room, [...(CANDIDATES_BY_ROOM.get(c.room) ?? []), c])
+const PAINTINGS_BY_ROOM = new Map<string, Painting[]>()
+for (const p of paintings) PAINTINGS_BY_ROOM.set(p.room, [...(PAINTINGS_BY_ROOM.get(p.room) ?? []), p])
+
+const DAY_MS = 86_400_000
+
 export function WalkProvider({ children, userId: userIdProp }: { children: ReactNode; userId?: string }) {
+  const saves = useSaves()
   const [demo] = useState(demoState)
   const [stored] = useState(() => (demo ? null : readStoredWalk()))
   const [answers, setAnswers] = useState<Record<string, Answer | undefined>>(
@@ -140,13 +185,7 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
   )
   const [path, setPath] = useState<RoomId[]>(stored?.path ?? demo?.path ?? [START_ROOM])
   const userId = userIdProp ?? getGuestId()
-  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => {
-    if (stored) return stored.painting
-    if (!demo) return undefined
-    const m = moodFromAnswers(demo.path.flatMap((id) => rooms[id].statements), demo.answers)
-    const last = demo.path[demo.path.length - 1]
-    return matchPaintings(m, paintings.filter((p) => p.room === last), dailySeed(userId))[0]
-  })
+  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => stored?.painting)
   const [finishedAt, setFinishedAt] = useState<Date | undefined>(() => {
     if (stored) return stored.finishedAt ? new Date(stored.finishedAt) : undefined
     return demo ? new Date() : undefined
@@ -176,34 +215,66 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
 
   const hallMood = useMemo(() => roomMood(startId), [roomMood, startId])
 
-  const mood = useMemo(
-    () => moodFromAnswers(pathRooms.flatMap((r) => r.statements), answers),
+  // The Bayesian core: posterior over the mood, belief over which work is the match.
+  const posterior = useMemo(
+    () => posteriorFromAnswers(pathRooms.flatMap((r) => r.statements), answers),
     [pathRooms, answers],
   )
+  const mood = posterior.mean
 
-  const doorIds = useMemo(
-    () => nextDoors(mood, pathRooms, answers, DOOR_ROOM_LIST).map((r) => r.id),
-    [mood, pathRooms, answers],
+  const unvisited = useMemo(() => DOOR_ROOM_LIST.filter((r) => !path.includes(r.id)), [path])
+
+  /** Works still in play: the room you are in plus every room not yet visited. */
+  const live = useMemo<Candidate[]>(() => {
+    const ids = [...(doorId ? [doorId] : []), ...unvisited.map((r) => r.id)]
+    return ids.flatMap((id) => CANDIDATES_BY_ROOM.get(id) ?? [])
+  }, [doorId, unvisited])
+
+  const beliefNow = useMemo<Belief | null>(
+    () => (live.length ? belief(posterior, live, 256, path.length) : null),
+    [posterior, live, path.length],
   )
 
-  const pool = useMemo(() => {
-    if (!doorId) return []
-    const inRoom = paintings.filter((p) => p.room === doorId)
-    return inRoom.length ? inRoom : paintings
-  }, [doorId])
+  const doors = useMemo<DoorValue[]>(() => {
+    if (!beliefNow || !unvisited.length) return []
+    return doorValues(posterior, unvisited, live, beliefNow, { seed: path.length * 31 + 7 })
+  }, [posterior, unvisited, live, beliefNow, path.length])
 
-  const assessment = useMemo(
-    () => assessWalk(mood, pathRooms, answers, DOOR_ROOM_LIST, pool),
-    [mood, pathRooms, answers, pool],
-  )
+  const doorIds = useMemo(() => doors.slice(0, 3).map((d) => d.room as RoomId), [doors])
+
+  const assessment = useMemo<WalkAssessment>(() => {
+    const cov = axisCoverage(pathRooms, answers)
+    const missingAxes = AXES.filter((a) => cov[a] === 0)
+    const noneLeft = unvisited.length === 0
+    const pool = doorId ? (CANDIDATES_BY_ROOM.get(doorId) ?? []) : []
+    const inRoom = pool.length ? belief(posterior, pool, 256, path.length + 100) : null
+    const pRoom = doorId && beliefNow ? (beliefNow.pRoom[doorId] ?? 0) : 0
+    const pPaint = inRoom ? inRoom.pBest[inRoom.top] : 0
+    const confidence = beliefNow ? beliefNow.pBest[beliefNow.top] : 0
+    let why: Unsure | null = null
+    if (path.length < MIN_ROOMS) why = 'rooms'
+    else if (pRoom < ROOM_SURE) why = 'room'
+    else if (pPaint < PAINTING_SURE) why = 'painting'
+    return { sure: why === null && !!doorId, why, pRoom, pPaint, confidence, missingAxes, noneLeft }
+  }, [pathRooms, answers, unvisited, doorId, posterior, beliefNow, path.length])
+
   // Demo walks skip the confidence check so any screen can be opened for a screenshot.
   const canFinish = !!doorId && (assessment.sure || assessment.noneLeft || !!demo)
   const mustFinish = !!doorId && assessment.noneLeft
 
-  const candidates = useMemo(
-    () => (doorId ? matchPaintings(mood, pool, dailySeed(userId)) : []),
-    [doorId, mood, pool, userId],
-  )
+  /** Works this visitor has already been given, for the variety penalty. */
+  const recent = useMemo<RecentPick[]>(() => {
+    const now = Date.now()
+    return saves.walks
+      .filter((w) => w.paintingId && w.finishedAt)
+      .map((w) => ({ objectID: w.paintingId, daysAgo: Math.max(0, (now - Date.parse(w.finishedAt)) / DAY_MS) }))
+  }, [saves.walks])
+
+  const candidates = useMemo(() => {
+    if (!doorId) return []
+    const pool = PAINTINGS_BY_ROOM.get(doorId) ?? paintings
+    return pickWithHistory(mood, pool, recent)
+  }, [doorId, mood, recent])
 
   const painting = resolvedPainting ?? candidates[0]
 
@@ -266,6 +337,8 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
       doorId,
       mood,
       hallMood,
+      posterior,
+      doors,
       doorIds,
       assessment,
       canFinish,
@@ -292,6 +365,8 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
       doorId,
       mood,
       hallMood,
+      posterior,
+      doors,
       doorIds,
       assessment,
       canFinish,

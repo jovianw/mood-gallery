@@ -1,7 +1,8 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { Button, InfoCard, PathTrail, Screen, Statement, TopAppBar } from '../components/ui'
 import { isRoomId, rooms, START_ROOM } from '../data/rooms'
-import { AXIS_TOPIC, MIN_ROOMS } from '../lib/matching'
+import { MIN_ROOMS } from '../lib/bayes'
+import { AXIS_TOPIC } from '../lib/matching'
 import { useNav } from '../lib/nav'
 import { useWalk } from '../state/WalkContext'
 
@@ -12,17 +13,22 @@ function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string 
   if (walk.canFinish) return 'We are sure now. Your painting is close.'
   const a = walk.assessment
   const left = Math.max(0, MIN_ROOMS - walk.path.length)
+  const pct = Math.round(100 * a.confidence)
   switch (a.why) {
-    case 'rooms':
-      return left === 1 ? 'One more room at least, then we will know.' : `${left} more rooms at least, then we will know.`
-    case 'axes': {
+    case 'rooms': {
       const topics = a.missingAxes.slice(0, 2).map((ax) => AXIS_TOPIC[ax])
-      return `Not sure yet. We still want to hear about ${topics.join(' and ')}.`
+      const more = left === 1 ? 'One more room at least' : `${left} more rooms at least`
+      return topics.length ? `${more}. We still want to hear about ${topics.join(' and ')}.` : `${more}, then we will know.`
     }
-    case 'room':
-      return 'Getting warmer. Another room fits you a little better.'
-    case 'margin':
-      return 'Almost. Two paintings are neck and neck, one more room will settle it.'
+    case 'room': {
+      const best = walk.doors[0]
+      const p = best ? Math.round(100 * best.pRoom) : 0
+      return p >= 50
+        ? `Getting warmer. There is a ${p}% chance your painting is behind the next door.`
+        : `${pct}% sure so far. Another room fits you a little better than this one.`
+    }
+    case 'painting':
+      return `Almost. Two works here are neck and neck (${pct}% sure). One more room will settle it.`
     default:
       return null
   }
