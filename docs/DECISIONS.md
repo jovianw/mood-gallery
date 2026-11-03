@@ -42,3 +42,9 @@ Short notes on places where the handoff, the Figma and reality disagreed, and wh
 - **One floor per map.** Walks now cross floors. Both maps still draw one floor (the floor of the last room): rooms on that floor are joined by the route line in walk order, rooms on the other floor are listed in `visited` and the stairs are lit when the walk changed floors. Minutes cover the whole walk, with 60 m per floor change.
 - **Story card log.** The card has room for four stops. Longer walks show the hall, the first room, "N more rooms" and the last room.
 - **Share payload.** Unchanged (`v: 1`); `stops` already carried the whole path, and `roomId` stays the last room. Old guest links still render.
+
+## Starting room instead of Keep walking (2026-11-03)
+
+- **Why.** Once the walk is sure, letting people wander on muddied what "found" means. The "Keep walking instead" link is gone; the doors screen sends a sure walk straight to the Final Stretch. The exploration moves to the start: the Entrance has a "Start in" selector (eight rooms in a sheet) that defaults to the Great Hall, or to the room the last finished walk ended in (`mg.lastRoom` in localStorage, written when the painting resolves). "Start a new walk" returns to the Entrance so that choice is always offered.
+- **Routes from other rooms.** `routeFor` starts the route at the first room on the path; the hall waypoints and the hall block are only used when the walk began there. The Great Hall is never offered as a door, so a walk that starts elsewhere has at most seven rooms.
+- **Entrance deviates from the Figma.** The screenshot shows one selector (museum). The second selector reuses the same component below it; the nearby-museums chips move down 60px.

@@ -123,38 +123,48 @@ function spotInBlock(block: PlanBlock, salt: string): [number, number] {
 }
 
 /**
- * Route from the Great Hall through every room walked to the painting's gallery. The maps are
- * drawn one floor at a time (the floor of the last room), so the waypoints only carry the rooms
- * on that floor; rooms on the other floor are still listed in `visited` and lit on the plan, and
- * the stairs are lit when the walk changed floors. Minutes cover the whole walk.
+ * Route from the room the walk began in (the Great Hall by default) through every room walked
+ * to the painting's gallery. The maps are drawn one floor at a time (the floor of the last room),
+ * so the waypoints only carry the rooms on that floor; rooms on the other floor are still listed
+ * in `visited` and lit on the plan, and the stairs are lit when the walk changed floors. Minutes
+ * cover the whole walk.
  */
 export function routeFor(path: RoomId[], painting: Pick<Painting, 'galleryKey' | 'objectID'>): WalkRoute {
   const walked = path.length ? path : [START_ROOM]
+  const start = rooms[walked[0]]
   const last = rooms[walked[walked.length - 1]]
   const floor = last.floor
   const roomBlock = blocks[last.planKey]
   const destBlock = blocks[painting.galleryKey] ?? roomBlock
   const parent = parentOf(destBlock)
+  const fromHall = start.id === START_ROOM
 
   const visited: string[] = []
-  const changedFloors = walked.some((id) => rooms[id].floor !== rooms[walked[0]].floor) || floor === 2
-  if (floor === 2) visited.push('hall2', 'stairs')
-  else visited.push('hall')
-  if (changedFloors && floor === 1) visited.push('stairs')
+  const changedFloors = walked.some((id) => rooms[id].floor !== start.floor)
+  if (fromHall) {
+    if (floor === 2) visited.push('hall2', 'stairs')
+    else visited.push('hall')
+    if (changedFloors && floor === 1) visited.push('stairs')
+  } else if (changedFloors) {
+    visited.push('stairs')
+  }
   for (const id of walked) if (id !== START_ROOM) visited.push(rooms[id].planKey)
 
   // Waypoints on the current floor only, in walk order.
   const waypoints: [number, number][] = []
-  if (floor === 2) waypoints.push([-34, 8.5], [-40.5, -31])
-  else waypoints.push(blocks.hall.center)
+  if (fromHall) {
+    if (floor === 2) waypoints.push([-34, 8.5], [-40.5, -31])
+    else waypoints.push(blocks.hall.center)
+  }
   for (const id of walked) {
     if (id === START_ROOM) continue
     const r = rooms[id]
     if (r.floor !== floor) continue
     const c = blocks[r.planKey].center
     const prev = waypoints[waypoints.length - 1]
-    if (prev[0] !== c[0] || prev[1] !== c[1]) waypoints.push(c)
+    if (!prev || prev[0] !== c[0] || prev[1] !== c[1]) waypoints.push(c)
   }
+  if (!waypoints.length) waypoints.push(roomBlock.center)
   const hereIndex = waypoints.length - 1
 
   let next: string | null = null
@@ -171,10 +181,9 @@ export function routeFor(path: RoomId[], painting: Pick<Painting, 'galleryKey' |
 
   // Whole-walk length: every room center in order regardless of floor, plus a staircase per change.
   let lengthMeters = 0
-  let prevCenter: [number, number] = blocks.hall.center
-  let prevFloor: 1 | 2 = 1
-  for (const id of walked) {
-    if (id === START_ROOM) continue
+  let prevCenter: [number, number] = blocks[start.planKey]?.center ?? blocks.hall.center
+  let prevFloor: 1 | 2 = start.floor
+  for (const id of walked.slice(1)) {
     const r = rooms[id]
     const c = blocks[r.planKey].center
     lengthMeters += dist(prevCenter, c)

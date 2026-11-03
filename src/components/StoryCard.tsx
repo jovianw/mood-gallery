@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react'
-import { MUSEUM, rooms } from '../data/rooms'
+import { MUSEUM, rooms, START_ROOM } from '../data/rooms'
 import type { RouteStop } from '../data/types'
 import { FALLBACK_GRADIENT, sampleGradient, toCss, tone, type Rgb } from '../lib/colors'
 import { galleryLabel } from '../lib/floorplan'
@@ -126,7 +126,7 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(function Sto
           ) : (
             <li key={row.stop.roomId}>
               <i />
-              <b>{row.index === 0 ? 'Great Hall' : rooms[row.stop.roomId]?.name}</b>
+              <b>{row.stop.roomId === START_ROOM ? 'Great Hall' : rooms[row.stop.roomId]?.name}</b>
               <span>
                 &nbsp;·&nbsp; {row.index === 0 ? `Arrived ${row.stop.moodPhrase.toLowerCase()}` : row.stop.moodPhrase}
               </span>

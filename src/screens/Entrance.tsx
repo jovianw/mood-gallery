@@ -2,20 +2,28 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Arch, ChevronDown, PinSolid, User } from '../components/Icons'
 import { MuseumSheet } from '../components/MuseumSheet'
+import { StartRoomSheet } from '../components/StartRoomSheet'
 import { Button, Chip, Screen } from '../components/ui'
-import { MUSEUM, START_ROOM } from '../data/rooms'
+import { MUSEUM, rooms, START_ROOM } from '../data/rooms'
+import type { RoomId } from '../data/types'
 import { useNav } from '../lib/nav'
-import { useWalk } from '../state/WalkContext'
+import { readLastRoom, useWalk } from '../state/WalkContext'
 
 export function Entrance() {
   const nav = useNav()
   const walk = useWalk()
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [roomSheetOpen, setRoomSheetOpen] = useState(false)
+  // Default to where the last finished walk ended, so a new walk picks up from there.
+  const [lastRoom] = useState<RoomId | null>(readLastRoom)
+  const [startRoom, setStartRoom] = useState<RoomId>(lastRoom ?? START_ROOM)
 
   const enter = () => {
-    walk.reset()
-    nav.forward(`/room/${START_ROOM}`)
+    walk.reset(startRoom)
+    nav.forward(`/room/${startRoom}`)
   }
+
+  const start = rooms[startRoom]
 
   return (
     <Screen
@@ -57,6 +65,17 @@ export function Entrance() {
         </button>
       </div>
       <div className="gap-10" />
+      <div className="selector">
+        <Arch width={22} height={22} style={{ color: 'var(--accent)' }} aria-hidden="true" />
+        <div className="selector__text">
+          <span className="t-label">{startRoom === lastRoom ? 'Start where you left off' : 'Start in'}</span>
+          <span className="selector__name">{start.name}</span>
+        </div>
+        <button type="button" className="selector__change" onClick={() => setRoomSheetOpen(true)}>
+          Change <ChevronDown width={16} height={16} />
+        </button>
+      </div>
+      <div className="gap-10" />
       <p className="t-caption">Nearby, coming soon:</p>
       <div className="gap-8" />
       <div className="wrap" aria-label="Nearby museums, coming soon">
@@ -67,6 +86,14 @@ export function Entrance() {
         ))}
       </div>
       {sheetOpen && <MuseumSheet onClose={() => setSheetOpen(false)} />}
+      {roomSheetOpen && (
+        <StartRoomSheet
+          value={startRoom}
+          lastRoom={lastRoom}
+          onPick={setStartRoom}
+          onClose={() => setRoomSheetOpen(false)}
+        />
+      )}
     </Screen>
   )
 }

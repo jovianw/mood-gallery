@@ -75,7 +75,6 @@ function toRecord(v: ViewProps): SavedPainting {
 
 function PaintingView(v: ViewProps) {
   const nav = useNav()
-  const walk = useWalk()
   const auth = useAuth()
   const saves = useSaves()
   const [sheet, setSheet] = useState(false)
@@ -95,8 +94,7 @@ function PaintingView(v: ViewProps) {
   }
 
   const startNewWalk = () => {
-    walk.reset()
-    nav.forward(`/room/${START_ROOM}`)
+    nav.forward('/')
   }
 
   return (

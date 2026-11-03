@@ -31,10 +31,10 @@ Type: display 38, headline 30, title 26, room 20, statement 17, body 16, small 1
 
 ## The walk, end to end
 
-1. Entrance (`/`) -> "Enter The Met"
-2. The Great Hall (`/room/great-hall`): 3 statements -> "Find my door"
+1. Entrance (`/`) -> pick a starting room (the Great Hall by default, or the room the last walk ended in) -> "Enter The Met"
+2. The starting room (`/room/:roomId`, normally `/room/great-hall`): 3 statements -> "Find my door"
 3. Choose a Door (`/doors`): up to 3 door cards, the recommended one marked "YOUR DOOR"
-4. A room (`/room/:roomId`): about card + 3 statements -> "Find my next door", or "Show my final stretch" once the walk is sure (with a "Keep walking instead" link). Steps 3 and 4 repeat: at least two rooms after the hall, and as many as it takes (see "Walk length" below).
+4. A room (`/room/:roomId`): about card + 3 statements -> "Find my next door", or "Show my final stretch" once the walk is sure. Steps 3 and 4 repeat: at least two rooms after the starting room, and as many as it takes (see "Walk length" below).
 5. The Final Stretch (`/final`): 3D route map + route recap -> "Reveal my painting"
 6. Finding your painting (`/finding`): dark loading screen, advances when the painting is ready
 7. Your Painting (`/painting`): image, metadata, chips, "Why this one", Save, Share, Start a new walk
@@ -54,7 +54,7 @@ The walk is not a fixed two rooms. After every room the app decides whether it i
 - an unvisited room fits the mood clearly better than the room you are in (`ROOM_SLACK` 0.03 cosine);
 - the best painting in this room does not beat the runner-up by `PAINTING_MARGIN` (0.03 cosine).
 
-Doors are ranked by affinity plus a bonus for rooms whose statements ask about the least-covered axes, unvisited rooms only, so the recommended door is the one most likely to settle it. When no unvisited rooms remain the walk ends where it is. Once sure, the room button becomes "Show my final stretch" and a "Keep walking instead" link stays available. The Choose a Door headline and a "N rooms · M% sure" meter explain why the walk continues. Simulated over random answer patterns this gives about 22% three-room walks, 37% four, 24% five and a tail out to all eight rooms (mean 4.4).
+Doors are ranked by affinity plus a bonus for rooms whose statements ask about the least-covered axes, unvisited rooms only, so the recommended door is the one most likely to settle it. When no unvisited rooms remain the walk ends where it is. Once sure, the room button becomes "Show my final stretch" and the doors screen redirects to the Final Stretch; there is no way to keep walking past a sure match. Instead, every walk starts with a choice of starting room on the Entrance: the Great Hall by default, or the room the last finished walk ended in (`mg.lastRoom`), so "Start a new walk" from Your Painting or My Gallery returns to the Entrance with that room preselected. The Choose a Door headline and a "N rooms · M% sure" meter explain why the walk continues. Simulated over random answer patterns this gives about 22% three-room walks, 37% four, 24% five and a tail out to all eight rooms (mean 4.4).
 
 ## Screen by screen
 
@@ -66,7 +66,7 @@ Node ids refer to the Figma file. Each screen has a screenshot in `docs/figma/`.
 - Headline "Find the painting that feels like you today." + body copy exactly as in the screenshot.
 - "YOUR MUSEUM" card: pin icon, "The Met Fifth Avenue", "Change" with chevron -> opens the Choose museum sheet.
 - "Nearby, coming soon:" + three Stone chips (MoMA, Guggenheim, Brooklyn Museum). Chips are not tappable.
-- Primary button "Enter The Met ->" -> `/room/great-hall`. Starting a walk resets any previous answers.
+- Primary button "Enter The Met ->" -> `/room/<starting room>`. Starting a walk resets any previous answers. Below the museum selector sits a second selector, "Start in", with a Change button that opens a sheet listing the eight rooms (added 2026-11-03, not in the Figma). It defaults to the Great Hall, or to the room the last finished walk ended in, in which case the label reads "Start where you left off".
 
 ### 8 Choose museum sheet (35:191) `docs/figma/08-choose-museum-sheet.png`
 - Bottom sheet, drag handle, "Choose your museum" + copy. The Met card is selected (red border, red check), subtitle "New York · 490,000 works · Open Access". MoMA, Guggenheim, Brooklyn Museum are disabled rows with "Coming soon". "Request a museum" link opens `mailto:` with a prefilled subject. Only The Met is selectable; selecting it just closes the sheet.

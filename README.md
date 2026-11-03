@@ -12,11 +12,10 @@ program via the public [Collection API](https://metmuseum.github.io/).
 
 ## The walk
 
-1. Entrance -> the Great Hall (3 statements)
+1. Entrance -> pick where to start (the Great Hall, or where your last walk ended) -> 3 statements
 2. Choose a Door: the three unvisited rooms closest to your answers, best first
 3. A room (3 more statements), then back to the doors until the walk is sure: at least two rooms
-   after the hall, usually three or four, sometimes every room in the building. You can keep
-   walking after it is sure if you like.
+   after the starting room, usually three or four, sometimes every room in the building.
 4. The Final Stretch: a 3D map of your route through the real Met floor plan
 5. Finding your painting: a live check with the Met API, then Your Painting
 6. Share my path: a 9:16 story card, PNG export and share links

@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { EmptyFrame, User } from '../components/Icons'
 import { SignInSheet } from '../components/SignInSheet'
 import { Button, Chip, IconButton, Screen, TopAppBar } from '../components/ui'
-import { MUSEUM, START_ROOM } from '../data/rooms'
+import { MUSEUM } from '../data/rooms'
 import { useNav } from '../lib/nav'
 import { useAuth } from '../state/AuthContext'
 import { useSaves, type SavedPainting } from '../state/SavesContext'
-import { useWalk } from '../state/WalkContext'
 
 function savedDate(iso: string): string {
   const d = new Date(iso)
@@ -49,7 +48,6 @@ export function Gallery() {
   const nav = useNav()
   const auth = useAuth()
   const saves = useSaves()
-  const walk = useWalk()
   const [menuOpen, setMenuOpen] = useState(false)
   const [signInOpen, setSignInOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -69,8 +67,7 @@ export function Gallery() {
   const showGuestCard = !auth.user && auth.configured
 
   const startWalk = () => {
-    walk.reset()
-    nav.forward(`/room/${START_ROOM}`)
+    nav.forward('/')
   }
 
   const onAccount = () => {

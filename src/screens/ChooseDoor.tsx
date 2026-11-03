@@ -12,11 +12,12 @@ export function ChooseDoor() {
   const nav = useNav()
   const walk = useWalk()
 
-  if (!walk.isRoomComplete(START_ROOM)) return <Navigate to={`/room/${START_ROOM}`} replace />
+  if (!walk.isRoomComplete(walk.startId)) return <Navigate to={`/room/${walk.startId}`} replace />
 
   // Doors lead out of the last room on the path that has been answered.
-  const from = [...walk.path].reverse().find((id) => walk.isRoomComplete(id)) ?? START_ROOM
-  if (walk.doorIds.length === 0) return <Navigate to="/final" replace />
+  const from = [...walk.path].reverse().find((id) => walk.isRoomComplete(id)) ?? walk.startId
+  // Once the walk is sure there is nothing to choose: the painting is in the room you are in.
+  if (walk.doorIds.length === 0 || (walk.canFinish && from === walk.doorId)) return <Navigate to="/final" replace />
 
   const [recommendedId, ...otherIds] = walk.doorIds
   const recommended = rooms[recommendedId]
@@ -47,8 +48,7 @@ export function ChooseDoor() {
         copy = 'Two paintings are neck and neck. One more room should settle it.'
         break
       default:
-        headline = 'Keep walking, if you like.'
-        copy = 'We are sure already, but there is more to see. Any of these doors keeps the walk going.'
+        break
     }
   }
 

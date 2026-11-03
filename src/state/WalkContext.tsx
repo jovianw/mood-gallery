@@ -17,9 +17,11 @@ import { getGuestId } from '../lib/storage'
 
 export interface WalkState {
   answers: Record<string, Answer | undefined>
-  /** Rooms walked in order, always starting with the Great Hall. */
+  /** Rooms walked in order, starting with the room the walk began in (the Great Hall by default). */
   path: RoomId[]
-  /** The room you are in (last of the path), or null while still in the hall. */
+  /** The room the walk began in. */
+  startId: RoomId
+  /** The room you are in once a door has been taken (last of the path), or null in the first room. */
   doorId: RoomId | null
   /** Mood over every answered statement in the walk. */
   mood: MoodVector
@@ -50,7 +52,8 @@ export interface WalkState {
   chooseDoor: (roomId: RoomId, from?: RoomId) => void
   /** Called by the Finding screen once the live record is in. */
   resolve: (painting: Painting) => void
-  reset: () => void
+  /** Start over, optionally in a different room. */
+  reset: (start?: RoomId) => void
   roomMood: (roomId: RoomId) => MoodVector
   isRoomComplete: (roomId: RoomId) => boolean
 }
@@ -85,6 +88,25 @@ interface StoredWalk {
 }
 
 const WALK_KEY = 'mg.walk'
+const LAST_ROOM_KEY = 'mg.lastRoom'
+
+/** Where the last finished walk ended; the Entrance offers it as the next starting room. */
+export function readLastRoom(): RoomId | null {
+  try {
+    const id = localStorage.getItem(LAST_ROOM_KEY)
+    return id && id in rooms ? (id as RoomId) : null
+  } catch {
+    return null
+  }
+}
+
+function writeLastRoom(id: RoomId) {
+  try {
+    localStorage.setItem(LAST_ROOM_KEY, id)
+  } catch {
+    // storage blocked
+  }
+}
 
 function readStoredWalk(): StoredWalk | null {
   try {
@@ -92,7 +114,7 @@ function readStoredWalk(): StoredWalk | null {
     if (!raw) return null
     const w = JSON.parse(raw) as StoredWalk
     if (!w || typeof w !== 'object' || !w.answers || !Array.isArray(w.path)) return null
-    if (w.path[0] !== START_ROOM || w.path.some((id) => !(id in rooms))) return null
+    if (!w.path.length || w.path.some((id) => !(id in rooms))) return null
     return w
   } catch {
     return null
@@ -132,12 +154,13 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
 
   useEffect(() => {
     if (demo) return
-    const empty = path.length === 1 && Object.keys(answers).length === 0
+    const empty = path.length === 1 && path[0] === START_ROOM && Object.keys(answers).length === 0
     writeStoredWalk(
       empty ? null : { answers, path, painting: resolvedPainting, finishedAt: finishedAt?.toISOString() },
     )
   }, [demo, answers, path, resolvedPainting, finishedAt])
 
+  const startId = path[0] ?? START_ROOM
   const doorId = path.length > 1 ? path[path.length - 1] : null
   const pathRooms = useMemo(() => path.map((id) => rooms[id]), [path])
 
@@ -151,7 +174,7 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     [answers],
   )
 
-  const hallMood = useMemo(() => roomMood(START_ROOM), [roomMood])
+  const hallMood = useMemo(() => roomMood(startId), [roomMood, startId])
 
   const mood = useMemo(
     () => moodFromAnswers(pathRooms.flatMap((r) => r.statements), answers),
@@ -218,14 +241,18 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     })
   }, [])
 
-  const resolve = useCallback((p: Painting) => {
-    setResolvedPainting(p)
-    setFinishedAt(new Date())
-  }, [])
+  const resolve = useCallback(
+    (p: Painting) => {
+      setResolvedPainting(p)
+      setFinishedAt(new Date())
+      writeLastRoom(path[path.length - 1])
+    },
+    [path],
+  )
 
-  const reset = useCallback(() => {
+  const reset = useCallback((start: RoomId = START_ROOM) => {
     setAnswers({})
-    setPath([START_ROOM])
+    setPath([start in rooms ? start : START_ROOM])
     setResolvedPainting(undefined)
     setFinishedAt(undefined)
   }, [])
@@ -235,6 +262,7 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     () => ({
       answers,
       path,
+      startId,
       doorId,
       mood,
       hallMood,
@@ -260,6 +288,7 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     [
       answers,
       path,
+      startId,
       doorId,
       mood,
       hallMood,

@@ -6,8 +6,8 @@ import { useNav } from '../lib/nav'
 import { useWalk } from '../state/WalkContext'
 
 /** One line under the button that says why the walk is or is not ready to end here. */
-function statusLine(walk: ReturnType<typeof useWalk>, isHall: boolean): string | null {
-  if (isHall) return null
+function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string | null {
+  if (isStart) return null
   if (walk.mustFinish) return 'You have seen every room. Your painting is in this one.'
   if (walk.canFinish) return 'We are sure now. Your painting is close.'
   const a = walk.assessment
@@ -35,22 +35,22 @@ export function Room() {
 
   if (!isRoomId(roomId)) return <Navigate to="/" replace />
   const room = rooms[roomId]
-  const isHall = room.id === START_ROOM
+  const isStart = room.id === walk.startId
 
-  // Rooms behind a door need the Great Hall answered first, and must be on the path.
-  if (!isHall && !walk.isRoomComplete(START_ROOM)) {
-    return <Navigate to={`/room/${START_ROOM}`} replace />
+  // Rooms behind a door need the starting room answered first, and must be on the path.
+  if (!isStart && !walk.isRoomComplete(walk.startId)) {
+    return <Navigate to={`/room/${walk.startId}`} replace />
   }
-  if (!isHall && !walk.path.includes(room.id)) {
+  if (!isStart && !walk.path.includes(room.id)) {
     return <Navigate to="/doors" replace />
   }
 
   const complete = walk.isRoomComplete(room.id)
-  const isCurrent = isHall ? walk.path.length === 1 : walk.doorId === room.id
+  const isCurrent = walk.path[walk.path.length - 1] === room.id
   const trail = walk.path.map((id) => (id === START_ROOM ? 'Great Hall' : rooms[id].name))
-  const current = isHall ? 'Great Hall' : room.name
-  const finishHere = isCurrent && !isHall && walk.canFinish
-  const status = isCurrent && complete ? statusLine(walk, isHall) : null
+  const current = room.id === START_ROOM ? 'Great Hall' : room.name
+  const finishHere = isCurrent && !isStart && walk.canFinish
+  const status = isCurrent && complete ? statusLine(walk, isStart) : null
 
   const index = walk.path.indexOf(room.id)
   const prevRoom = index > 0 ? walk.path[index - 1] : null
@@ -60,7 +60,7 @@ export function Room() {
     else nav.forward('/doors')
   }
 
-  const label = isHall ? 'Find my door' : finishHere ? 'Show my final stretch' : 'Find my next door'
+  const label = isStart ? 'Find my door' : finishHere ? 'Show my final stretch' : 'Find my next door'
 
   return (
     <Screen
@@ -74,18 +74,13 @@ export function Room() {
           <Button onClick={onNext} disabled={!complete} arrow>
             {label}
           </Button>
-          {finishHere && !walk.mustFinish && (
-            <button type="button" className="t-link t-link--muted room-keep" onClick={() => nav.forward('/doors')}>
-              Keep walking instead
-            </button>
-          )}
         </>
       }
     >
       <TopAppBar
         eyebrow="You are in"
         title={room.name}
-        onLeft={() => nav.back(isHall ? '/' : prevRoom ? `/room/${prevRoom}` : '/doors')}
+        onLeft={() => nav.back(isStart ? '/' : prevRoom ? `/room/${prevRoom}` : '/doors')}
       />
       <div className="gap-12" />
       <PathTrail stops={trail} current={current} />
