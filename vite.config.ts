@@ -6,4 +6,9 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: '/mood-gallery/',
   plugins: [react()],
+  build: {
+    // three.js (the Final Stretch map) and Firebase are already split into lazy chunks;
+    // the largest of them is still ~1 MB minified, which is expected.
+    chunkSizeWarningLimit: 1100,
+  },
 })
