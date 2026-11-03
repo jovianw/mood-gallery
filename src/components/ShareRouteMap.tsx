@@ -128,6 +128,9 @@ export function ShareRouteMap({ route, destinationLabel }: { route: WalkRoute; d
       {ordered.map((b) => {
         const c = s(b.center, SLAB)
         const isDest = b.key === route.dest
+        // Long walks crowd the card: keep the destination and the first room, drop the rest.
+        const isStart = b.key === visited[0]?.key
+        if (visited.length > 3 && !isDest && !isStart) return null
         const label = isDest ? destinationLabel : (MAP_LABELS[b.key] ?? b.name)
         const [lx, ly] = isDest ? [end[0], end[1] + 13] : [c[0], c[1] + SLAB + 11]
         return (

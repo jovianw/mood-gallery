@@ -183,7 +183,7 @@ function defaultWhy(p: Painting): string {
   const kind = what && what.length < 40 ? what.charAt(0).toUpperCase() + what.slice(1) : 'A work'
   const when = p.date ? `, ${p.date}` : ''
   const where = p.gallery ? `, hanging in Gallery ${p.gallery}` : ''
-  return `${kind}${when}${where}. Placed on the map of moods by a vision model, not by hand.`
+  return `${kind}${when}${where}.`
 }
 
 /* ---------- Multi-room walks ---------- */

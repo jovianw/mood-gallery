@@ -453,13 +453,6 @@ export function About() {
       <RouteFigure />
       <p className="t-caption">Great Hall to The American Wing on floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m. Minutes on the map are the whole walk at 80 m per minute, plus a staircase per floor change.</p>
 
-      <h2 className="about__h">10. What this is not</h2>
-      <p className="about__p">
-        The five axes were chosen, not discovered, and the simulated visitors are a model of people,
-        not people. The next honest step is a few hundred real walks: factor analysis to test whether
-        five axes exist in the answers, and item response theory to see which statements earn their
-        place. Until then the claims on this page are about the algorithm, not about you.
-      </p>
       <div className="gap-16" />
     </Screen>
   )

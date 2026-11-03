@@ -187,7 +187,14 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
   )
   const [path, setPath] = useState<RoomId[]>(stored?.path ?? demo?.path ?? [START_ROOM])
   const userId = userIdProp ?? getGuestId()
-  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => stored?.painting)
+  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => {
+    if (stored) return stored.painting
+    if (!demo) return undefined
+    // Demo walks arrive resolved so the painting and share screens open directly.
+    const last = demo.path[demo.path.length - 1]
+    const m = posteriorFromAnswers(demo.path.flatMap((id) => rooms[id].statements), demo.answers).mean
+    return pickWithHistory(m, PAINTINGS_BY_ROOM.get(last) ?? paintings, [])[0]
+  })
   const [finishedAt, setFinishedAt] = useState<Date | undefined>(() => {
     if (stored) return stored.finishedAt ? new Date(stored.finishedAt) : undefined
     return demo ? new Date() : undefined
