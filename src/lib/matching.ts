@@ -1,8 +1,28 @@
+import axesData from '../data/axes.json'
 import type { Answer, Axis, MoodVector, Painting, Room, Statement } from '../data/types'
 
-export const AXES: Axis[] = ['energy', 'warmth', 'outlook', 'focus', 'social']
+export interface AxisPole {
+  word: string
+  tail: string
+  lead: string
+  valence?: number
+}
 
-export const ZERO: MoodVector = { energy: 0, warmth: 0, outlook: 0, focus: 0, social: 0 }
+export interface AxisDef {
+  id: Axis
+  name: string
+  topic: string
+  positive: AxisPole
+  negative: AxisPole
+  neutral: AxisPole
+}
+
+/** The axes, in order, as discovered by scripts/factor.py (see src/data/axes.json). */
+export const AXIS_DEFS: AxisDef[] = (axesData as { axes: AxisDef[] }).axes
+export const AXES: Axis[] = AXIS_DEFS.map((a) => a.id)
+export const AXIS_LABEL: Record<Axis, string> = Object.fromEntries(AXIS_DEFS.map((a) => [a.id, a.name]))
+
+export const ZERO: MoodVector = Object.fromEntries(AXES.map((a) => [a, 0]))
 
 /** Map a 1..7 answer (1 = Agree) to -1..1 along the statement's direction. */
 export function answerToScore(statement: Statement, answer: Answer): number {
@@ -84,31 +104,20 @@ export function matchPaintings(mood: MoodVector, candidates: Painting[], seed: n
   return [chosen, ...ranked.filter((p) => p !== chosen)]
 }
 
-const WORDS: Record<Axis, [positive: string, negative: string, neutral: string]> = {
-  energy: ['Restless', 'Calm', 'Steady'],
-  warmth: ['Warm', 'Cool', 'Even'],
-  outlook: ['Hopeful', 'Heavy', 'Watchful'],
-  focus: ['Inward', 'Outward', 'Present'],
-  social: ['Close', 'Alone', 'Easy'],
-}
+type Triple = [positive: string, negative: string, neutral: string]
+const triple = (pick: (p: AxisPole) => string): Record<Axis, Triple> =>
+  Object.fromEntries(AXIS_DEFS.map((a) => [a.id, [pick(a.positive), pick(a.negative), pick(a.neutral)]]))
+
+/** One-word labels per pole, e.g. ["Restless", "Calm", "Steady"]. */
+const WORDS = triple((p) => p.word)
 
 /** Second-position phrases so room lines read like a person wrote them. */
-const TAILS: Record<Axis, [positive: string, negative: string, neutral: string]> = {
-  energy: ['mind racing', 'slowing down', 'steady'],
-  warmth: ['warm', 'cool-headed', 'even'],
-  outlook: ['looking ahead', 'a little heavy', 'watching'],
-  focus: ['keeping to yourself', 'looking around', 'present'],
-  social: ['wanting company', 'wanting quiet', 'easy'],
-}
+const TAILS = triple((p) => p.tail)
 
 /** Rough valence of each pole, used to insert "but" between a low and a high. */
-const VALENCE: Record<Axis, [positive: number, negative: number]> = {
-  energy: [-1, 1],
-  warmth: [1, -1],
-  outlook: [1, -1],
-  focus: [0, 0],
-  social: [0, 0],
-}
+const VALENCE: Record<Axis, [positive: number, negative: number]> = Object.fromEntries(
+  AXIS_DEFS.map((a) => [a.id, [a.positive.valence ?? 0, a.negative.valence ?? 0]]),
+)
 
 const THRESHOLD = 0.25
 
@@ -158,13 +167,7 @@ export function destinationPhrase(mood: MoodVector): string {
   return `Found it: ${TAILS[a][pole(mood[a])]}`
 }
 
-const WHY_LEAD: Record<Axis, [positive: string, negative: string, neutral: string]> = {
-  energy: ['your mind has been racing', "you've wanted things to slow down", "you're feeling steady"],
-  warmth: ["you're drawn to warm light", "you're after something cool and clear", "you're feeling even"],
-  outlook: ["you're looking ahead", 'something has been weighing on you', "you're keeping watch"],
-  focus: ["you've been turned inward", "you've been looking outward", "you're right here"],
-  social: ["you've been feeling close to people", "you've wanted some time alone", "you're easy either way"],
-}
+const WHY_LEAD = triple((p) => p.lead)
 
 /** "Your mind has been racing, but you're drawn to warm light. {curated why}" */
 export function whyThisOne(mood: MoodVector, painting: Painting): string {
@@ -289,13 +292,7 @@ export function assessWalk(
 }
 
 /** Plain-words name for an axis, for "we still want to hear about ..." copy. */
-export const AXIS_TOPIC: Record<Axis, string> = {
-  energy: 'your energy',
-  warmth: 'warm or cool',
-  outlook: 'how the week has felt',
-  focus: 'where your attention is',
-  social: 'company or quiet',
-}
+export const AXIS_TOPIC: Record<Axis, string> = Object.fromEntries(AXIS_DEFS.map((a) => [a.id, a.topic]))
 
 /* ---------- Variety as a constraint ---------- */
 

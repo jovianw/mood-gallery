@@ -47,35 +47,26 @@ const gauss = () => {
 }
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x))
 
-// Persona centers in AXES order: energy, warmth, outlook, focus, social.
-const PERSONAS: number[][] = [
-  [0.6, 0.4, 0.5, -0.4, 0.6], // up and out
-  [-0.6, 0.3, 0.2, 0.5, -0.5], // quiet and warm
-  [0.5, -0.4, -0.4, -0.3, -0.2], // wired and cool
-  [-0.5, -0.3, -0.5, 0.4, -0.6], // low and alone
-  [0.1, 0.5, 0.6, -0.2, 0.3], // sunny
-  [-0.3, -0.5, 0.3, 0.6, 0.1], // clear-headed
-]
-// Correlated spread around a persona (Cholesky of a 5x5 covariance with a few real correlations).
-const CORR: number[][] = [
-  [1, 0, 0, -0.3, 0.4],
-  [0, 1, 0.5, 0, 0.2],
-  [0, 0.5, 1, 0, 0.1],
-  [-0.3, 0, 0, 1, -0.2],
-  [0.4, 0.2, 0.1, -0.2, 1],
-]
-function cholesky(m: number[][]): number[][] {
-  const n = m.length
-  const L = Array.from({ length: n }, () => Array(n).fill(0))
-  for (let i = 0; i < n; i++)
-    for (let j = 0; j <= i; j++) {
-      let s = m[i][j]
-      for (let k = 0; k < j; k++) s -= L[i][k] * L[j][k]
-      L[i][j] = i === j ? Math.sqrt(Math.max(s, 1e-9)) : s / L[j][j]
+// Persona centers: six real works spread across the collection (a far-point sweep), so the
+// visitors live where the art lives and the axis correlations come from the data.
+function farPoints(n: number): number[][] {
+  const vecs = paintings.map((p) => AXES.map((k) => p.mood[k] ?? 0))
+  const picked = [vecs[0]]
+  while (picked.length < n) {
+    let best = vecs[0]
+    let bestD = -1
+    for (const v of vecs) {
+      const d = Math.min(...picked.map((q) => Math.hypot(...v.map((x, i) => x - q[i]))))
+      if (d > bestD) {
+        bestD = d
+        best = v
+      }
     }
-  return L
+    picked.push(best)
+  }
+  return picked
 }
-const L = cholesky(CORR)
+const PERSONAS: number[][] = farPoints(6)
 
 interface Visitor {
   theta: MoodVector
@@ -86,12 +77,9 @@ interface Visitor {
 
 function makeVisitor(): Visitor {
   const c = PERSONAS[Math.floor(rnd() * PERSONAS.length)]
-  const z = AXES.map(() => gauss())
-  const theta = { ...{ energy: 0, warmth: 0, outlook: 0, focus: 0, social: 0 } } as MoodVector
+  const theta: MoodVector = {}
   AXES.forEach((k, i) => {
-    let v = 0
-    for (let j = 0; j <= i; j++) v += L[i][j] * z[j]
-    theta[k] = clamp(c[i] + 0.35 * v)
+    theta[k] = clamp(c[i] + 0.35 * gauss())
   })
   const u = rnd()
   return {
@@ -272,7 +260,7 @@ if (GRID) {
       thresholds: { regret: DELTA_ARG, minRooms: MIN_ROOMS, eps: EPS },
       visitors: {
         personas: PERSONAS.length,
-        noise: 'sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree',
+        noise: 'sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree; personas are six far-apart real works',
         follow: 0.75,
       },
       heuristic: r.heur,

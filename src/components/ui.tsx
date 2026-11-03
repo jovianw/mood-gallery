@@ -278,6 +278,10 @@ export function Screen({
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+  // Browser chrome (Android status bar, iOS tab bar) follows the screen color.
+  useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#1F1D1B' : '#F6F3EE')
+  }, [dark])
   return (
     <main className={['screen', dark && 'screen--dark', center && 'screen--center', className].filter(Boolean).join(' ')}>
       <div className="screen__body">{children}</div>

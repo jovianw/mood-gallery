@@ -1,0 +1,248 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "restless",
+    "calm",
+    "tense",
+    "serene",
+    "playful",
+    "solemn",
+    "warm",
+    "cold",
+    "luminous",
+    "shadowy",
+    "hopeful",
+    "mournful",
+    "tender",
+    "severe",
+    "grand",
+    "intimate",
+    "lonely",
+    "convivial",
+    "wild",
+    "orderly",
+    "dreamy",
+    "alert",
+    "heavy",
+    "light",
+    "fierce",
+    "gentle",
+    "mysterious",
+    "plain",
+    "proud",
+    "humble",
+    "festive",
+    "quiet",
+    "yearning",
+    "content",
+    "ancient",
+    "fresh",
+    "sacred",
+    "worldly",
+    "delicate",
+    "sturdy"
+  ],
+  "properties": {
+    "restless": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "calm": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "tense": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "serene": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "playful": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "solemn": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "warm": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "cold": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "luminous": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "shadowy": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "hopeful": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "mournful": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "tender": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "severe": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "grand": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "intimate": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "lonely": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "convivial": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "wild": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "orderly": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "dreamy": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "alert": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "heavy": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "light": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "fierce": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "gentle": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "mysterious": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "plain": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "proud": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "humble": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "festive": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "quiet": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "yearning": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "content": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "ancient": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "fresh": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "sacred": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "worldly": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "delicate": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "sturdy": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    }
+  }
+}

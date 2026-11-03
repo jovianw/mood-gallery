@@ -27,3 +27,4 @@ dist-ssr
 .claude/
 .venv/
 data/catalog/
+data/catalog/claude-work/

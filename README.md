@@ -26,9 +26,14 @@ program via the public [Collection API](https://metmuseum.github.io/).
 The walk is a Bayesian adaptive test. The in-app page at `/about` shows the equations with live
 numbers; the short version:
 
-- Statements map to five mood axes: energy, warmth, outlook, focus, social. Each answer on the
-  7-point scale is a noisy reading of one axis. A Gaussian prior per axis is updated in closed
-  form after every answer (`src/lib/bayes.ts`).
+- The axes were discovered, not chosen. Claude rated every work in the catalog on 40 mood
+  adjectives from its image (`scripts/rate.mjs`, through the `claude` CLI in print mode), and a
+  factor analysis of those ratings (`scripts/factor.py`: parallel analysis to pick k, varimax
+  rotation) found six: stillness, warmth, lightness, grandeur, dreaminess, mystery. Names, pole
+  words and phrases live in `src/data/axes.json`; the app reads them at load.
+- Statements map to those axes (61 of them, two per axis in the starting room and seven per
+  room after that). Each answer on the 7-point scale is a noisy reading of one axis. A Gaussian
+  prior per axis is updated in closed form after every answer (`src/lib/bayes.ts`).
 - Every work has a five-dimensional vector. The match score is cosine similarity, but because the
   mood is uncertain the winner is too: 256 posterior samples give P(work i is the match) and,
   summed by room, P(the match hangs in room r).
@@ -41,8 +46,9 @@ numbers; the short version:
   axes, noise and an agree bias); results are in `src/data/stats.json`.
 - In the final room the pick is a penalized argmax: similarity to the posterior mean minus a
   decaying penalty for works this visitor was shown recently (`pickWithHistory`).
-- Painting vectors: 109 curated by hand, the rest projected from CLIP image embeddings onto the
-  five axes (`scripts/embed.py`, numbers in `src/data/embedding-stats.json`).
+- Painting vectors are the factor scores of Claude's ratings, for all 1,451 works in the app.
+  Works without a rating would get scores from a ridge regression on their CLIP embedding
+  (`scripts/embed.py` still produces the embeddings and the About page scatter).
 - Routes are A* on a 2 m walkable grid of the traced floor plan (`src/lib/routing.ts`).
 - The Finding screen refreshes the chosen object from the Met API (cached 7 days) and falls back
   to the next candidate if it is no longer on view. Offline, the bundled data is used as is.
@@ -65,7 +71,9 @@ Other scripts:
 | `npm run fetch:met` | rebuild the curated records from the curated files and the Met API |
 | `node scripts/fetch-catalog.mjs` | pull on-view public-domain records for the walk departments into `data/catalog/` |
 | `node scripts/fetch-images.mjs` | download their small images for embedding |
-| `.venv/Scripts/python scripts/embed.py` | CLIP embeddings, axis projection, and the expanded `paintings.json` |
+| `.venv/Scripts/python scripts/embed.py` | CLIP embeddings and the expanded `paintings.json` (which works are in) |
+| `node scripts/rate.mjs --workers 6` | rate every work on 40 adjectives with Claude via the `claude` CLI (resumable) |
+| `.venv/Scripts/python scripts/factor.py` | discover the axes, score every work, write `axes.json`, affinities and stats |
 | `npx tsx scripts/simulate.mts --write` | simulate visitors, tune the stopping rule, write `stats.json` |
 
 Dev-only shortcuts: `?demo=<roomId>` on any route prefills a finished walk through that room

@@ -52,10 +52,12 @@ export function FinalStretch() {
         <span style={{ width: 8 }} />
         <PinSolid width={16} height={16} style={{ color: 'var(--accent)' }} aria-hidden="true" />
         {destination}
-        <span className="map-legend__sep" aria-hidden="true">
-          ·
+        <span className="map-legend__muted">
+          <span className="map-legend__sep" aria-hidden="true">
+            ·
+          </span>
+          about a {route.minutes} min walk
         </span>
-        <span className="map-legend__muted">about a {route.minutes} min walk</span>
       </p>
       <div className="gap-16" />
       <ol className="route">

@@ -25,7 +25,7 @@ export interface Posterior {
 
 export const PRIOR: Posterior = {
   mean: { ...ZERO },
-  variance: { energy: PRIOR_VAR, warmth: PRIOR_VAR, outlook: PRIOR_VAR, focus: PRIOR_VAR, social: PRIOR_VAR },
+  variance: Object.fromEntries(AXES.map((k) => [k, PRIOR_VAR])),
   n: { ...ZERO },
 }
 

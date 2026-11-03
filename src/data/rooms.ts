@@ -1,4 +1,5 @@
-import type { Room, RoomId } from './types'
+import affinityData from './rooms-affinity.json'
+import type { MoodVector, Room, RoomId } from './types'
 
 export const MUSEUM = {
   id: 'met',
@@ -15,13 +16,9 @@ export const MUSEUM = {
 
 export const START_ROOM: RoomId = 'great-hall'
 
-const v = (energy: number, warmth: number, outlook: number, focus: number, social: number) => ({
-  energy,
-  warmth,
-  outlook,
-  focus,
-  social,
-})
+/** Mean mood vector of each room's works, written by scripts/factor.py. */
+const AFFINITY = affinityData as Record<string, MoodVector>
+const affinityOf = (id: RoomId): MoodVector => AFFINITY[id] ?? {}
 
 export const rooms: Record<RoomId, Room> = {
   'great-hall': {
@@ -32,21 +29,20 @@ export const rooms: Record<RoomId, Room> = {
     about:
       "Every walk starts here, under the domes of The Met's front hall. Take a breath. Tell us how you're arriving today.",
     statements: [
-      { id: 'gh-1', text: 'My mind has been racing lately.', axis: 'energy', direction: 1 },
-      {
-        id: 'gh-2',
-        text: "Right now I'm drawn more to warm sunlight than cool rain.",
-        axis: 'warmth',
-        direction: 1,
-      },
-      {
-        id: 'gh-3',
-        text: "I'd rather be somewhere quiet than somewhere lively right now.",
-        axis: 'social',
-        direction: -1,
-      },
+      { id: 'gh-1', text: 'I\'d like everything to slow down for a while.', axis: 'still', direction: 1 },
+      { id: 'gh-2', text: 'My mind has been racing lately.', axis: 'still', direction: -1 },
+      { id: 'gh-3', text: 'I\'ve been feeling warm toward the people around me.', axis: 'warmth', direction: 1 },
+      { id: 'gh-4', text: 'Things have felt a little cold lately.', axis: 'warmth', direction: -1 },
+      { id: 'gh-5', text: 'I feel light on my feet today.', axis: 'light', direction: 1 },
+      { id: 'gh-6', text: 'Something has been weighing on me this week.', axis: 'light', direction: -1 },
+      { id: 'gh-7', text: 'I\'m in the mood for something big and bold.', axis: 'grand', direction: 1 },
+      { id: 'gh-8', text: 'I\'d rather keep things small and simple today.', axis: 'grand', direction: -1 },
+      { id: 'gh-9', text: 'I\'ve been drifting off into daydreams.', axis: 'dreamy', direction: 1 },
+      { id: 'gh-10', text: 'I\'m feeling practical and matter-of-fact.', axis: 'dreamy', direction: -1 },
+      { id: 'gh-11', text: 'I\'m drawn to old, sacred things right now.', axis: 'mystery', direction: 1 },
+      { id: 'gh-12', text: 'I want something fresh and of the moment.', axis: 'mystery', direction: -1 },
     ],
-    affinity: v(0, 0, 0, 0, 0),
+    affinity: affinityOf('great-hall'),
     reason: 'Where every walk begins.',
     shortReason: 'Where every walk begins.',
     department: 'Entrance',
@@ -61,11 +57,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'Portraits, saints and stormy seas from 1250 to 1800. These painters used light to show what people were feeling.',
     statements: [
-      { id: 'ep-1', text: 'Something has been weighing on me this week.', axis: 'outlook', direction: -1 },
-      { id: 'ep-2', text: "I'm excited about something coming up.", axis: 'outlook', direction: 1 },
-      { id: 'ep-3', text: "I've been feeling close to the people around me.", axis: 'social', direction: 1 },
+      { id: 'ep-1', text: 'I could sit quietly for an hour.', axis: 'still', direction: 1 },
+      { id: 'ep-2', text: 'I\'m craving good company.', axis: 'warmth', direction: 1 },
+      { id: 'ep-3', text: 'Today feels heavy.', axis: 'light', direction: -1 },
+      { id: 'ep-4', text: 'I want to be a little awed.', axis: 'grand', direction: 1 },
+      { id: 'ep-5', text: 'I\'ve been lost in thought.', axis: 'dreamy', direction: 1 },
+      { id: 'ep-6', text: 'I\'m thinking about things bigger than me.', axis: 'mystery', direction: 1 },
+      { id: 'ep-7', text: 'I\'d rather be in the present than the past.', axis: 'mystery', direction: -1 },
     ],
-    affinity: v(0.4, 0.6, 0, 0.4, 0.1),
+    affinity: affinityOf('european-paintings'),
     reason: 'For warm but restless days. Five centuries of faces, saints and golden light.',
     shortReason: 'For warm, searching days.',
     department: 'European Paintings',
@@ -80,11 +80,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'Light, weather and ordinary afternoons, painted fast and outdoors. The Impressionists cared more about how a moment felt than how it looked.',
     statements: [
-      { id: 'nc-1', text: 'I want the day to slow down.', axis: 'energy', direction: -1 },
-      { id: 'nc-2', text: "I've been feeling bright and open.", axis: 'outlook', direction: 1 },
-      { id: 'nc-3', text: 'I feel cool-headed rather than fired up.', axis: 'warmth', direction: -1 },
+      { id: 'nc-1', text: 'I want the day to slow down.', axis: 'still', direction: 1 },
+      { id: 'nc-2', text: 'I\'ve been feeling close to people.', axis: 'warmth', direction: 1 },
+      { id: 'nc-3', text: 'I\'ve been feeling bright and open.', axis: 'light', direction: 1 },
+      { id: 'nc-4', text: 'I don\'t need anything grand today.', axis: 'grand', direction: -1 },
+      { id: 'nc-5', text: 'I\'ve been daydreaming more than usual.', axis: 'dreamy', direction: 1 },
+      { id: 'nc-6', text: 'I want something fresh and modern.', axis: 'mystery', direction: -1 },
+      { id: 'nc-7', text: 'There\'s a weight I can\'t quite put down.', axis: 'light', direction: -1 },
     ],
-    affinity: v(-0.5, -0.1, 0.5, 0, 0.2),
+    affinity: affinityOf('nineteenth-century'),
     reason: 'For a day that should move a little slower. Light, weather and ordinary afternoons.',
     shortReason: 'For slower, brighter days.',
     department: 'European Paintings',
@@ -99,11 +103,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'Big skies, wide rivers and people in the middle of deciding something. These paintings are about distance and where you are heading.',
     statements: [
-      { id: 'aw-1', text: 'I feel pointed at something right now.', axis: 'focus', direction: -1 },
-      { id: 'aw-2', text: 'I need some room to breathe.', axis: 'outlook', direction: 1 },
-      { id: 'aw-3', text: "I've been keeping things to myself.", axis: 'focus', direction: 1 },
+      { id: 'aw-1', text: 'I feel calm and unhurried.', axis: 'still', direction: 1 },
+      { id: 'aw-2', text: 'I\'ve been feeling a little lonely.', axis: 'warmth', direction: -1 },
+      { id: 'aw-3', text: 'I need some room to breathe.', axis: 'light', direction: 1 },
+      { id: 'aw-4', text: 'I want wide skies and big views.', axis: 'grand', direction: 1 },
+      { id: 'aw-5', text: 'I\'m keeping my feet on the ground.', axis: 'dreamy', direction: -1 },
+      { id: 'aw-6', text: 'I\'d rather look forward than back.', axis: 'mystery', direction: -1 },
+      { id: 'aw-7', text: 'My mood is sunny today.', axis: 'light', direction: 1 },
     ],
-    affinity: v(0.3, 0, 0.5, -0.6, 0),
+    affinity: affinityOf('american-wing'),
     reason: 'For when you want space, or a direction. Big skies, wide rivers and long views.',
     shortReason: 'For when you need room to breathe.',
     department: 'The American Wing',
@@ -118,11 +126,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'A court of knights on horseback, parade armor and swords made to be looked at more than used. Loud, shiny and built for a crowd.',
     statements: [
-      { id: 'aa-1', text: "I've got energy to burn today.", axis: 'energy', direction: 1 },
-      { id: 'aa-2', text: "I'm in the mood for company and a bit of noise.", axis: 'social', direction: 1 },
-      { id: 'aa-3', text: 'I feel ready to take something on.', axis: 'outlook', direction: 1 },
+      { id: 'aa-1', text: 'I\'ve got energy to burn today.', axis: 'still', direction: -1 },
+      { id: 'aa-2', text: 'I\'m in the mood for company and a bit of noise.', axis: 'warmth', direction: 1 },
+      { id: 'aa-3', text: 'I feel sturdy and solid.', axis: 'light', direction: -1 },
+      { id: 'aa-4', text: 'I feel ready to take on something big.', axis: 'grand', direction: 1 },
+      { id: 'aa-5', text: 'I\'m feeling sharp and focused.', axis: 'dreamy', direction: -1 },
+      { id: 'aa-6', text: 'I\'m curious about how things used to be.', axis: 'mystery', direction: 1 },
+      { id: 'aa-7', text: 'I feel a bit steely today.', axis: 'warmth', direction: -1 },
     ],
-    affinity: v(0.8, 0.2, 0.2, -0.3, 0.6),
+    affinity: affinityOf('arms-and-armor'),
     reason: 'For loud, high-energy days. Steel, horses and armor made to turn heads.',
     shortReason: 'For loud, high-energy days.',
     department: 'Arms and Armor',
@@ -137,11 +149,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'Four thousand years of stone, sand and small carved faces, ending at a whole temple beside a pool of water. The quietest wing in the building.',
     statements: [
-      { id: 'eg-1', text: "I'd like everything to slow down for a while.", axis: 'energy', direction: -1 },
-      { id: 'eg-2', text: "I've been thinking about the past more than usual.", axis: 'focus', direction: 1 },
-      { id: 'eg-3', text: "I'd rather be on my own right now.", axis: 'social', direction: -1 },
+      { id: 'eg-1', text: 'I could use some stillness.', axis: 'still', direction: 1 },
+      { id: 'eg-2', text: 'I\'d rather be on my own right now.', axis: 'warmth', direction: -1 },
+      { id: 'eg-3', text: 'I\'m carrying something heavy.', axis: 'light', direction: -1 },
+      { id: 'eg-4', text: 'I\'m drawn to monuments and big gestures.', axis: 'grand', direction: 1 },
+      { id: 'eg-5', text: 'I\'ve been thinking about the past more than usual.', axis: 'dreamy', direction: 1 },
+      { id: 'eg-6', text: 'I\'m drawn to the sacred and the very old.', axis: 'mystery', direction: 1 },
+      { id: 'eg-7', text: 'I feel unburdened today.', axis: 'light', direction: 1 },
     ],
-    affinity: v(-0.7, -0.3, -0.3, 0.3, -0.6),
+    affinity: affinityOf('egyptian-art'),
     reason: 'For days when you need quiet. Stone, sand and a temple by the water.',
     shortReason: 'For days when you need quiet.',
     department: 'Egyptian Art',
@@ -156,11 +172,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'Scrolls, screens and a courtyard garden with its own weather. A lot of these works are mostly empty space on purpose.',
     statements: [
-      { id: 'as-1', text: 'I could use some stillness.', axis: 'energy', direction: -1 },
-      { id: 'as-2', text: "I've been noticing small things lately.", axis: 'focus', direction: 1 },
-      { id: 'as-3', text: 'I feel more cool and clear than fired up.', axis: 'warmth', direction: -1 },
+      { id: 'as-1', text: 'I want a quiet corner.', axis: 'still', direction: 1 },
+      { id: 'as-2', text: 'I\'d like some gentle company.', axis: 'warmth', direction: 1 },
+      { id: 'as-3', text: 'I feel delicate today, in a good way.', axis: 'light', direction: 1 },
+      { id: 'as-4', text: 'Small and careful things suit me today.', axis: 'grand', direction: -1 },
+      { id: 'as-5', text: 'I\'ve been noticing small things and drifting.', axis: 'dreamy', direction: 1 },
+      { id: 'as-6', text: 'I want something with a long history behind it.', axis: 'mystery', direction: 1 },
+      { id: 'as-7', text: 'I feel restless inside.', axis: 'still', direction: -1 },
     ],
-    affinity: v(-0.6, -0.2, 0.2, 0.6, -0.3),
+    affinity: affinityOf('asian-art'),
     reason: 'For turning inward. Scrolls, gardens and a lot of room to think.',
     shortReason: 'For turning inward.',
     department: 'Asian Art',
@@ -175,11 +195,15 @@ export const rooms: Record<RoomId, Room> = {
     about:
       'A sunlit court of marble bodies, painted vases and faces that look oddly like people you know. Two thousand years old and not shy about it.',
     statements: [
-      { id: 'gr-1', text: 'I want something clear and simple today.', axis: 'warmth', direction: -1 },
-      { id: 'gr-2', text: 'I feel steady on my feet right now.', axis: 'energy', direction: -1 },
-      { id: 'gr-3', text: "I'd like to be where other people are.", axis: 'social', direction: 1 },
+      { id: 'gr-1', text: 'I feel steady on my feet right now.', axis: 'still', direction: 1 },
+      { id: 'gr-2', text: 'I\'d like to be where other people are.', axis: 'warmth', direction: 1 },
+      { id: 'gr-3', text: 'I want something clear and simple today.', axis: 'light', direction: 1 },
+      { id: 'gr-4', text: 'I want marble and sunlight and big rooms.', axis: 'grand', direction: 1 },
+      { id: 'gr-5', text: 'I\'m feeling clear-headed, not dreamy.', axis: 'dreamy', direction: -1 },
+      { id: 'gr-6', text: 'I\'m curious about the ancient world.', axis: 'mystery', direction: 1 },
+      { id: 'gr-7', text: 'I feel cool and composed.', axis: 'warmth', direction: -1 },
     ],
-    affinity: v(-0.2, -0.5, 0.4, -0.4, 0.5),
+    affinity: affinityOf('greek-and-roman'),
     reason: 'For clear heads and long views. Marble, sunlight and a very big room.',
     shortReason: 'For clear, steady days.',
     department: 'Greek and Roman Art',

@@ -1,0 +1,58 @@
+{
+  "american-wing": {
+    "still": -0.057,
+    "warmth": 0.023,
+    "light": 0.02,
+    "grand": 0.155,
+    "dreamy": 0.443,
+    "mystery": -0.568
+  },
+  "arms-and-armor": {
+    "still": -0.356,
+    "warmth": -0.281,
+    "light": -0.008,
+    "grand": 0.46,
+    "dreamy": -0.362,
+    "mystery": -0.241
+  },
+  "asian-art": {
+    "still": -0.024,
+    "warmth": 0.21,
+    "light": 0.012,
+    "grand": 0.055,
+    "dreamy": 0.116,
+    "mystery": 0.379
+  },
+  "greek-and-roman": {
+    "still": -0.072,
+    "warmth": 0.304,
+    "light": -0.009,
+    "grand": -0.415,
+    "dreamy": -0.131,
+    "mystery": 0.143
+  },
+  "nineteenth-century": {
+    "still": -0.277,
+    "warmth": -0.045,
+    "light": 0.033,
+    "grand": -0.1,
+    "dreamy": 0.669,
+    "mystery": -0.666
+  },
+  "european-paintings": {
+    "still": -0.051,
+    "warmth": 0.174,
+    "light": 0.006,
+    "grand": 0.254,
+    "dreamy": 0.478,
+    "mystery": -0.269
+  },
+  "egyptian-art": {
+    "still": 0.1,
+    "warmth": -0.039,
+    "light": 0.043,
+    "grand": -0.114,
+    "dreamy": -0.042,
+    "mystery": 0.404
+  }
+}

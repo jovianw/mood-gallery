@@ -270,7 +270,7 @@
   height: 210px;
   width: 100%;
   background: var(--accent);
-  border-radius: 171px 171px 0 0;
+  border-radius: 999px 999px 0 0;
   position: relative;
   overflow: hidden;
   flex: none;
@@ -458,8 +458,8 @@
   flex-wrap: wrap;
 }
 .map-legend__dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; flex: none; }
-.map-legend__sep { color: var(--fg-faint, var(--fg-muted)); margin: 0 2px; }
-.map-legend__muted { color: var(--fg-faint, var(--fg-muted)); }
+.map-legend__sep { color: var(--fg-faint, var(--fg-muted)); margin: 0 8px 0 2px; }
+.map-legend__muted { color: var(--fg-faint, var(--fg-muted)); white-space: nowrap; }
 
 /* ---------- Share screen ---------- */
 .story-wrap { display: flex; justify-content: center; width: 100%; }
@@ -574,7 +574,6 @@
 }
 .sheet {
   width: 100%;
-  max-width: var(--phone-width);
   background: var(--plaster);
   color: var(--ink);
   border-radius: 24px 24px 0 0;
@@ -584,6 +583,9 @@
   animation: sheet-up 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
   touch-action: none;
   will-change: transform;
+}
+@media (min-width: 768px) {
+  .sheet { max-width: var(--phone-width); }
 }
 .sheet--closing { animation: sheet-down 220ms ease-in forwards; }
 .sheet-scrim--closing { animation: fade-out 220ms ease-in forwards; }

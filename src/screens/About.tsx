@@ -4,8 +4,9 @@ import { Button, Screen, TopAppBar } from '../components/ui'
 import { paintings } from '../data/paintings'
 import { rooms, START_ROOM } from '../data/rooms'
 import embeddingStats from '../data/embedding-stats.json'
+import factorStats from '../data/factor-stats.json'
 import stats from '../data/stats.json'
-import type { Axis, RoomId } from '../data/types'
+import type { RoomId } from '../data/types'
 import {
   belief,
   doorValues,
@@ -20,19 +21,12 @@ import {
   type Posterior,
 } from '../lib/bayes'
 import { blocks, blocksOnFloor, OUTLINE } from '../lib/floorplan'
-import { AXES, RECENT_HALF_LIFE_DAYS, RECENT_PENALTY } from '../lib/matching'
+import { AXES, AXIS_LABEL, RECENT_HALF_LIFE_DAYS, RECENT_PENALTY } from '../lib/matching'
 import { useNav } from '../lib/nav'
 import { CELL, gridStats, legBetween } from '../lib/routing'
 import { useWalk } from '../state/WalkContext'
 
 const W = 342
-const AXIS_LABEL: Record<Axis, string> = {
-  energy: 'Energy',
-  warmth: 'Warmth',
-  outlook: 'Outlook',
-  focus: 'Focus',
-  social: 'Company',
-}
 const CANDIDATES = paintings.map((p) => toCandidate(p.objectID, p.room, p.mood))
 const TITLE = new Map(paintings.map((p) => [p.objectID, p.title]))
 const CURATED_COUNT = paintings.filter((p) => p.why).length
@@ -204,6 +198,64 @@ function RouteFigure() {
   )
 }
 
+function Scree({ eig, noise }: { eig: number[]; noise: number[] }) {
+  const n = Math.min(12, eig.length)
+  if (!n) return null
+  const h = 120
+  const max = Math.max(...eig.slice(0, n), ...noise.slice(0, n)) * 1.1
+  const x = (i: number) => 24 + (i * (W - 34)) / (n - 1)
+  const y = (v: number) => h - 14 - (v / max) * (h - 24)
+  return (
+    <svg viewBox={`0 0 ${W} ${h}`} width="100%" className="chart" aria-label="Scree plot with the parallel analysis noise line">
+      <line x1={24} x2={W - 6} y1={h - 14} y2={h - 14} stroke="var(--stone)" />
+      <polyline points={noise.slice(0, n).map((v, i) => `${x(i)},${y(v)}`).join(' ')} fill="none" stroke="var(--mute-gray)" strokeDasharray="4 3" strokeWidth="1.5" />
+      <polyline points={eig.slice(0, n).map((v, i) => `${x(i)},${y(v)}`).join(' ')} fill="none" stroke="var(--accent)" strokeWidth="2" />
+      {eig.slice(0, n).map((v, i) => (
+        <circle key={i} cx={x(i)} cy={y(v)} r="3" fill={v > (noise[i] ?? 0) ? 'var(--accent)' : 'var(--stone)'} />
+      ))}
+      {eig.slice(0, n).map((_, i) => (
+        <text key={`l${i}`} x={x(i)} y={h - 2} fontSize="9" textAnchor="middle" fill="var(--mute-gray)">
+          {i + 1}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+function Loadings({ adjectives, loadings, names }: { adjectives: string[]; loadings: number[][]; names: string[] }) {
+  if (!loadings.length) return null
+  const k = names.length
+  const cell = Math.min(40, (W - 70) / k)
+  const rowH = 13
+  // Order adjectives by the factor they load on most, then by strength.
+  const order = adjectives
+    .map((a, i) => {
+      const abs = loadings[i].map(Math.abs)
+      const m = Math.max(...abs)
+      return { a, i, f: abs.indexOf(m), m }
+    })
+    .sort((p, q) => p.f - q.f || q.m - p.m)
+  return (
+    <svg viewBox={`0 0 ${W} ${order.length * rowH + 16}`} width="100%" className="chart" aria-label="Factor loadings of every adjective">
+      {names.map((nm, j) => (
+        <text key={nm} x={70 + j * cell + cell / 2} y={10} fontSize="9" textAnchor="middle" fill="var(--ink)" fontWeight="600">
+          {nm.length > 7 ? `${nm.slice(0, 6)}.` : nm}
+        </text>
+      ))}
+      {order.map((row, r) => (
+        <g key={row.a} transform={`translate(0 ${16 + r * rowH})`}>
+          <text x={66} y={10} fontSize="9" textAnchor="end" fill="var(--ink)">
+            {row.a}
+          </text>
+          {loadings[row.i].map((v, j) => (
+            <rect key={j} x={70 + j * cell + 1} y={1} width={cell - 2} height={rowH - 2} rx="2" fill={v >= 0 ? 'var(--accent)' : 'var(--slate-blue)'} opacity={Math.min(1, Math.abs(v)) * 0.95 + 0.04} />
+          ))}
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 /* ---------- The page ---------- */
 
 const DEMO_ANSWERS = { 'gh-1': 2, 'gh-2': 2, 'gh-3': 6 } as const
@@ -248,6 +300,17 @@ export function About() {
     scatter: [number, number, string][]
   }
   const hasSim = stats.walks > 0
+  const fs = factorStats as {
+    rated: number
+    adjectives: string[]
+    k: number
+    eigenvalues: number[]
+    noiseLine: number[]
+    explained: number[]
+    loadings: number[][]
+    clipRegressionR2: number[]
+    fallbackScored: number
+  }
 
   return (
     <Screen
@@ -265,9 +328,9 @@ export function About() {
         with the numbers it is producing {inWalk ? 'for your walk right now' : 'for a sample set of answers'}.
       </p>
 
-      <h2 className="about__h">1. Your mood is a point in five dimensions</h2>
+      <h2 className="about__h">1. Your mood is a point in {AXES.length} dimensions</h2>
       <p className="about__p">
-        Every statement measures one axis: energy, warmth, outlook, focus, company. An answer{' '}
+        Every statement measures one axis: {AXES.map((k) => AXIS_LABEL[k].toLowerCase()).join(', ')}. An answer{' '}
         <Eq tex="a \in \{1,\dots,7\}" /> on the Agree to Disagree scale becomes a reading
       </p>
       <Eq display tex={String.raw`y = d \cdot \frac{4 - a}{3} \in [-1, 1],`} />
@@ -276,6 +339,30 @@ export function About() {
         mood vector <Eq tex={String.raw`\theta \in \mathbb{R}^5`} />, and each reading is a noisy look at
         one coordinate of it.
       </p>
+
+      {fs.eigenvalues.length > 0 && (
+        <>
+          <h2 className="about__h">1b. The axes were found, not chosen</h2>
+          <p className="about__p">
+            Nobody picked these {fs.k} axes. Claude rated {fs.rated.toLocaleString()} works in the catalog on{' '}
+            {fs.adjectives.length} mood adjectives from their images (1 to 7 each). Standardize that matrix,
+            take the eigenvalues of its correlation matrix, and keep the factors that rise above what shuffled
+            data would produce (parallel analysis, the dashed line). {fs.k} do. A varimax rotation makes each
+            factor load on a small set of adjectives, and the strongest adjectives name the axis.
+          </p>
+          <Scree eig={fs.eigenvalues} noise={fs.noiseLine} />
+          <p className="t-caption">
+            Red: eigenvalues of the rating correlation matrix. Dashed: 95th percentile of 200 shuffled copies.
+            The {fs.k} kept factors explain {Math.round(100 * fs.explained.reduce((a, b) => a + b, 0))}% of the variance.
+          </p>
+          <Loadings adjectives={fs.adjectives} loadings={fs.loadings} names={AXES.map((k) => AXIS_LABEL[k])} />
+          <p className="t-caption">
+            Loading of each adjective on each axis (red positive, blue negative). Works that were not rated
+            ({fs.fallbackScored}) get scores from a ridge regression on their CLIP embedding, R² per axis{' '}
+            {fs.clipRegressionR2.map((r) => r.toFixed(2)).join(', ')}.
+          </p>
+        </>
+      )}
 
       <h2 className="about__h">2. Answers update a posterior, not an average</h2>
       <p className="about__p">
@@ -441,7 +528,7 @@ export function About() {
         </p>
       )}
       <Heatmap m={es.axisCorrelation} />
-      {es.axisCorrelation.length > 0 && <p className="t-caption">Correlation between the five axis scores across the catalog. The axes are meant to be mostly independent.</p>}
+      {es.axisCorrelation.length > 0 && <p className="t-caption">Correlation between the axis scores across the catalog (after rotation the factors are nearly orthogonal on the rated works; CLIP-scored works add a little).</p>}
 
       <h2 className="about__h">9. Routes follow the galleries</h2>
       <p className="about__p">

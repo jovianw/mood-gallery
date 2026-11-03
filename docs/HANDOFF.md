@@ -155,6 +155,8 @@ Room mood phrases (used in the Final Stretch list and the share route log): the 
 
 ## Matching
 
+> Update 2026-11-04: the five axes below were replaced by six discovered from Claude's adjective ratings of the catalog (`scripts/rate.mjs`, `scripts/factor.py`, `src/data/axes.json`); statements are now 12 in the starting room and 7 elsewhere, tagged with the new axis ids. See docs/DECISIONS.md "Discovered axes".
+>
 > Update 2026-11-03: the shipped walk uses the Bayesian model in `src/lib/bayes.ts` (posterior per axis, Monte Carlo best-match belief, expected-information-gain doors, stop after three rooms when the expected regret of the pick is at most 0.08). The cosine similarity below is still the match score inside that model, and the in-app `/about` page documents it with the live numbers. Painting vectors beyond the 109 curated ones come from CLIP (`scripts/embed.py`). Routes come from A* on a walkable grid (`src/lib/routing.ts`).
 
 Unchanged idea, better pool:

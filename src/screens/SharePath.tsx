@@ -203,6 +203,8 @@ export function SharePath() {
     <Screen dark>
       <TopAppBar eyebrow="Share your path" left="close" onLeft={() => nav.back(backTo)} />
       <div className="gap-16" />
+      {/* Card and actions sit centered in whatever height is left below the top bar. */}
+      <div className="spacer" />
       <div className="story-wrap">
         <StoryCard ref={cardRef} data={data} colors={colors} thumb={thumb} />
       </div>
@@ -261,6 +263,7 @@ export function SharePath() {
           <img src={exportPreview.url} alt="" style={{ width: 150, display: 'block', margin: '8px auto' }} />
         </div>
       )}
+      <div className="spacer" />
       {toast}
     </Screen>
   )

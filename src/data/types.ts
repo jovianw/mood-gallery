@@ -1,7 +1,7 @@
-export type Axis = 'energy' | 'warmth' | 'outlook' | 'focus' | 'social'
+/** An axis id from src/data/axes.json. The axes are discovered from the data, so this is open. */
+export type Axis = string
 
-/** Each axis runs -1..1. energy restless(+)/calm(-), warmth warm/cool, outlook hopeful/heavy,
- *  focus inward/outward, social together(+)/alone(-). */
+/** Each axis runs -1..1; the poles are named in axes.json. */
 export type MoodVector = Record<Axis, number>
 
 export type RoomId =
@@ -30,7 +30,7 @@ export interface Room {
   planKey: string
   /** Shown in the "About this room" card. */
   about: string
-  statements: [Statement, Statement, Statement]
+  statements: Statement[]
   /** Where this room sits in mood space; used to pick the three doors. */
   affinity: MoodVector
   /** Door card copy for the recommended door. */

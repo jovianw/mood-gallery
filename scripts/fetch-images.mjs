@@ -8,11 +8,17 @@ const IMG = new URL('img/', DIR)
 mkdirSync(IMG, { recursive: true })
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-const records = readFileSync(new URL('objects.jsonl', DIR), 'utf8')
+const catalog = readFileSync(new URL('objects.jsonl', DIR), 'utf8')
   .split('\n')
   .filter(Boolean)
   .map((l) => JSON.parse(l))
   .filter((r) => !r.skip && r.image)
+// The hand-curated works are rated too, so their images are needed as well.
+const curated = JSON.parse(readFileSync(new URL('../src/data/paintings.json', import.meta.url), 'utf8'))
+  .filter((p) => p.why && p.image)
+  .map((p) => ({ objectID: p.objectID, image: p.image }))
+const seen = new Set(catalog.map((r) => r.objectID))
+const records = [...catalog, ...curated.filter((c) => !seen.has(c.objectID))]
 
 let got = 0
 let skipped = 0

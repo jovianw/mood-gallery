@@ -1,0 +1,51 @@
+[
+  {
+    "id": "still",
+    "name": "Stillness",
+    "topic": "still or restless",
+    "positive": { "word": "Still", "tail": "slowing down", "lead": "you've wanted things to slow down", "valence": 1 },
+    "negative": { "word": "Restless", "tail": "mind racing", "lead": "your mind has been racing", "valence": -1 },
+    "neutral": { "word": "Steady", "tail": "steady", "lead": "you're feeling steady" }
+  },
+  {
+    "id": "warmth",
+    "name": "Warmth",
+    "flip": true,
+    "topic": "warm or cold",
+    "positive": { "word": "Warm", "tail": "warm", "lead": "you're drawn to warm company and warm light", "valence": 1 },
+    "negative": { "word": "Cold", "tail": "a bit cold", "lead": "things have felt a little cold lately", "valence": -1 },
+    "neutral": { "word": "Even", "tail": "even", "lead": "you're feeling even" }
+  },
+  {
+    "id": "light",
+    "name": "Lightness",
+    "topic": "light or heavy",
+    "positive": { "word": "Light", "tail": "light on your feet", "lead": "you're feeling light", "valence": 1 },
+    "negative": { "word": "Heavy", "tail": "a little heavy", "lead": "something has been weighing on you", "valence": -1 },
+    "neutral": { "word": "Settled", "tail": "settled", "lead": "you're feeling settled" }
+  },
+  {
+    "id": "grand",
+    "name": "Grandeur",
+    "topic": "grand or humble",
+    "positive": { "word": "Grand", "tail": "thinking big", "lead": "you're thinking big", "valence": 0 },
+    "negative": { "word": "Humble", "tail": "keeping it small", "lead": "you're keeping things small and close", "valence": 0 },
+    "neutral": { "word": "Plain", "tail": "plain", "lead": "you're keeping it plain" }
+  },
+  {
+    "id": "dreamy",
+    "name": "Dreaminess",
+    "topic": "dreamy or matter-of-fact",
+    "positive": { "word": "Dreamy", "tail": "drifting", "lead": "you've been drifting a little", "valence": 0 },
+    "negative": { "word": "Grounded", "tail": "matter-of-fact", "lead": "you've been matter-of-fact", "valence": 0 },
+    "neutral": { "word": "Present", "tail": "present", "lead": "you're right here" }
+  },
+  {
+    "id": "mystery",
+    "name": "Mystery",
+    "topic": "ancient or everyday",
+    "positive": { "word": "Searching", "tail": "drawn to old and sacred things", "lead": "you're drawn to old and sacred things", "valence": 0 },
+    "negative": { "word": "Worldly", "tail": "in the here and now", "lead": "you're in the here and now", "valence": 0 },
+    "neutral": { "word": "Curious", "tail": "curious", "lead": "you're curious" }
+  }
+]

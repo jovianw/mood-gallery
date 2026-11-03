@@ -27,8 +27,10 @@ button {
   font-family: inherit;
 }
 
-/* The product is designed phone-first at 390px. On larger viewports the app
-   sits as a single centred column on the Stone "wall" so nothing reflows. */
+/* The product is designed phone-first at 390px. On phones the screen fills the
+   viewport edge to edge, and the page background matches the screen so the
+   browser's status bar and toolbar blend in. From 768px up the app sits as a
+   single centred column on the Stone "wall" so nothing reflows. */
 .app-shell {
   min-height: 100dvh;
   display: flex;
@@ -36,13 +38,21 @@ button {
   position: relative;
 }
 
+@media (max-width: 767px) {
+  body {
+    background: var(--plaster);
+  }
+  body:has(.screen--dark) {
+    background: var(--ink);
+  }
+}
+
 .screen {
   width: 100%;
-  max-width: var(--phone-width);
   min-height: 100dvh;
   background: var(--bg);
   color: var(--fg);
-  padding: calc(env(safe-area-inset-top) + 56px) var(--gutter)
+  padding: calc(env(safe-area-inset-top) + 20px) var(--gutter)
     calc(env(safe-area-inset-bottom) + 34px);
   display: flex;
   flex-direction: column;
@@ -51,6 +61,8 @@ button {
 
 @media (min-width: 768px) {
   .screen {
+    max-width: var(--phone-width);
+    padding-top: calc(env(safe-area-inset-top) + 56px);
     box-shadow: 0 12px 48px rgba(31, 29, 27, 0.14), 0 0 0 1px rgba(31, 29, 27, 0.04);
   }
 }
@@ -95,6 +107,7 @@ button {
 .screen__footer {
   flex: 0 0 auto;
   width: 100%;
+  padding-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
