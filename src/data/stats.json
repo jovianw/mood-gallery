@@ -2,42 +2,42 @@
   "generatedAt": "2026-11-03",
   "walks": 600,
   "thresholds": {
-    "regret": 0.08,
+    "regret": 0.04,
     "minRooms": 3,
     "eps": 0.03
   },
   "visitors": {
     "personas": 6,
-    "noise": "sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree",
+    "noise": "sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree; personas are six far-apart real works",
     "follow": 0.75
   },
   "heuristic": {
     "walks": 600,
-    "mean": 5.743333333333333,
+    "mean": 4.59,
     "hist": {
-      "3": 56,
-      "4": 124,
-      "5": 113,
-      "6": 85,
-      "7": 69,
-      "8": 153
+      "3": 180,
+      "4": 149,
+      "5": 119,
+      "6": 72,
+      "7": 49,
+      "8": 31
     },
-    "hit": 0.16833333333333333,
-    "regret": 0.23129724229251403
+    "hit": 0.2833333333333333,
+    "regret": 0.1705755835403482
   },
   "bayes": {
     "walks": 600,
-    "mean": 5.193333333333333,
+    "mean": 4.05,
     "hist": {
-      "3": 152,
-      "4": 104,
-      "5": 108,
-      "6": 69,
-      "7": 46,
-      "8": 121
+      "3": 319,
+      "4": 144,
+      "5": 48,
+      "6": 24,
+      "7": 7,
+      "8": 58
     },
-    "hit": 0.24,
-    "regret": 0.20965860566860386
+    "hit": 0.42833333333333334,
+    "regret": 0.12826393874010555
   },
   "paintings": 1451
 }

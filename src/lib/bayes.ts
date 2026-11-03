@@ -131,7 +131,7 @@ export interface Belief {
  * is at most this. Regret is what the simulation measures, so the stopping rule and the metric
  * agree with each other.
  */
-export const REGRET_OK = 0.08
+export const REGRET_OK = 0.04
 
 /**
  * How close to the best a work has to be, in cosine similarity, to count as "as good as the
