@@ -29,7 +29,7 @@ export function Finding() {
   const started = useRef(false)
 
   const { candidates, doorId, resolve } = walk
-  const ready = !!doorId && candidates.length > 0
+  const ready = !!doorId && walk.canFinish && candidates.length > 0
 
   // Kept in a ref so the lookup effect below never restarts because a callback identity changed.
   const finishRef = useRef((p: Painting) => {

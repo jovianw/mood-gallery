@@ -35,3 +35,10 @@ Short notes on places where the handoff, the Figma and reality disagreed, and wh
 - **Copy link fallback.** Some embedded browsers reject `navigator.clipboard`. Copy link falls back to `execCommand('copy')` and, failing that, shows the link in a read-only field to copy by hand.
 - **Map labels at the card edge.** "You are here" flips to the left of its dot when it would run off the right edge, and the gallery label is clamped inside the card.
 - **Perseus and Andromeda.** The Greek and Roman room's statements cover energy, warmth and social, so outlook and focus are always zero on walks that end there; a painting whose weight sat in those axes could never reach the top three. Its mood vector now leans on the axes that room measures. A brute force over every answer combination confirms all 109 paintings are reachable.
+
+## Walk length (2026-11-03)
+
+- **Why.** A hall-plus-one-room walk felt like a quiz with a costume on. The walk now runs until the app is sure: at least three rooms, every mood axis asked about, no unvisited room that fits better, and one painting in the room clearly ahead of the runner-up. Thresholds (`MIN_ROOMS`, `ROOM_SLACK`, `PAINTING_MARGIN`) were tuned with a simulation over random answer patterns to a mean of 4.4 rooms with a tail to all eight.
+- **One floor per map.** Walks now cross floors. Both maps still draw one floor (the floor of the last room): rooms on that floor are joined by the route line in walk order, rooms on the other floor are listed in `visited` and the stairs are lit when the walk changed floors. Minutes cover the whole walk, with 60 m per floor change.
+- **Story card log.** The card has room for four stops. Longer walks show the hall, the first room, "N more rooms" and the last room.
+- **Share payload.** Unchanged (`v: 1`); `stops` already carried the whole path, and `roomId` stays the last room. Old guest links still render.

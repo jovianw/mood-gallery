@@ -85,7 +85,9 @@ export function hydrate(payload: SharePayload): ShareCardData {
         why: '',
       }
   const roomId = payload.roomId in rooms ? payload.roomId : START_ROOM
-  const route = routeFor(roomId, painting)
+  const walked = payload.stops.map((s) => s.roomId).filter((id) => id in rooms)
+  const path = walked.length > 1 && walked[0] === START_ROOM ? walked : [START_ROOM, roomId]
+  const route = routeFor(path, painting)
   const answers = payload.stops.reduce((n, s) => n + (rooms[s.roomId]?.statements.length ?? 0), 0)
   return {
     payload,
@@ -95,7 +97,7 @@ export function hydrate(payload: SharePayload): ShareCardData {
     words: moodWords(payload.mood),
     destinationPhrase: destinationPhrase(payload.mood),
     answers,
-    rooms: payload.stops.length + 1,
+    rooms: path.length + 1,
   }
 }
 

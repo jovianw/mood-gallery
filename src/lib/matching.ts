@@ -175,3 +175,114 @@ export function whyThisOne(mood: MoodVector, painting: Painting): string {
   const lead = first.charAt(0).toUpperCase() + first.slice(1)
   return `${lead}${joiner}${second}. ${painting.why}`
 }
+
+/* ---------- Multi-room walks ---------- */
+
+/** Hall plus at least two more rooms before the walk may end. */
+export const MIN_ROOMS = 3
+/** How clearly the best painting in the room must beat the runner-up (cosine similarity). */
+export const PAINTING_MARGIN = 0.03
+/** The room you are in counts as the best room if it is within this much of the best unvisited one. */
+export const ROOM_SLACK = 0.03
+/** Door ranking bonus per axis a room would ask about that the walk has asked about least so far. */
+const COVER_BONUS = 0.12
+
+/** How many answered statements each axis has across the rooms walked. */
+export function axisCoverage(path: Room[], answers: Record<string, Answer | undefined>): Record<Axis, number> {
+  const c = { ...ZERO }
+  for (const room of path) for (const s of room.statements) if (answers[s.id] !== undefined) c[s.axis] += 1
+  return c
+}
+
+/**
+ * The next doors, best first: unvisited rooms ranked by how well they fit the mood so far, with a
+ * push toward rooms whose statements ask about the axes the walk knows least about. Fewer than
+ * three come back near the end of a long walk.
+ */
+export function nextDoors(
+  mood: MoodVector,
+  path: Room[],
+  answers: Record<string, Answer | undefined>,
+  candidates: Room[],
+  n = 3,
+): Room[] {
+  const cov = axisCoverage(path, answers)
+  const least = Math.min(...AXES.map((a) => cov[a]))
+  const visited = new Set(path.map((r) => r.id))
+  return candidates
+    .filter((r) => !visited.has(r.id))
+    .map((room, i) => {
+      const asksLeast = new Set(room.statements.map((s) => s.axis).filter((a) => cov[a] === least)).size
+      return { room, i, s: similarity(mood, room.affinity) + COVER_BONUS * asksLeast }
+    })
+    .sort((a, b) => b.s - a.s || a.i - b.i)
+    .slice(0, n)
+    .map((x) => x.room)
+}
+
+export type Unsure = 'rooms' | 'axes' | 'room' | 'margin'
+
+export interface WalkAssessment {
+  /** True when the walk can end here: enough rooms, every axis heard from, best room, clear painting. */
+  sure: boolean
+  /** Why not, when not sure (first failing check). */
+  why: Unsure | null
+  /** Axes the walk has not asked about yet. */
+  missingAxes: Axis[]
+  /** Similarity gap between the best and second-best painting in this room. */
+  margin: number
+  /** No unvisited rooms are left, so the walk must end here. */
+  noneLeft: boolean
+  /** Rough 0..1 for a "getting warmer" meter. */
+  score: number
+}
+
+/**
+ * Decide whether the walk is sure enough to end in the room it is in. The walk keeps going while
+ * any of these fail: fewer than MIN_ROOMS rooms, an axis nobody has asked about, an unvisited room
+ * that fits the mood clearly better, or two paintings here still neck and neck.
+ */
+export function assessWalk(
+  mood: MoodVector,
+  path: Room[],
+  answers: Record<string, Answer | undefined>,
+  allRooms: Room[],
+  pool: Painting[],
+): WalkAssessment {
+  const current = path[path.length - 1]
+  const cov = axisCoverage(path, answers)
+  const missingAxes = AXES.filter((a) => cov[a] === 0)
+  const visited = new Set(path.map((r) => r.id))
+  const unvisited = allRooms.filter((r) => !visited.has(r.id) && r.id !== path[0].id)
+  const curSim = current ? similarity(mood, current.affinity) : -1
+  const bestOther = unvisited.reduce((m, r) => Math.max(m, similarity(mood, r.affinity)), -1)
+  const bestRoom = curSim >= bestOther - ROOM_SLACK
+  const sims = pool.map((p) => similarity(mood, p.mood)).sort((a, b) => b - a)
+  const margin = sims.length > 1 ? sims[0] - sims[1] : 1
+  const noneLeft = unvisited.length === 0
+
+  let why: Unsure | null = null
+  if (path.length < MIN_ROOMS) why = 'rooms'
+  else if (missingAxes.length) why = 'axes'
+  else if (!bestRoom) why = 'room'
+  else if (margin < PAINTING_MARGIN) why = 'margin'
+
+  // Rooms and axis coverage carry most of the weight so the meter climbs with every room.
+  const score = Math.min(
+    1,
+    0.3 * Math.min(1, (path.length - 1) / MIN_ROOMS) +
+      0.3 * ((AXES.length - missingAxes.length) / AXES.length) +
+      0.2 * (bestRoom ? 1 : Math.max(0, 1 - (bestOther - curSim) * 4)) +
+      0.2 * Math.min(1, margin / PAINTING_MARGIN),
+  )
+  return { sure: why === null, why, missingAxes, margin, noneLeft, score }
+}
+
+/** Plain-words name for an axis, for "we still want to hear about ..." copy. */
+export const AXIS_TOPIC: Record<Axis, string> = {
+  energy: 'your energy',
+  warmth: 'warm or cool',
+  outlook: 'how the week has felt',
+  focus: 'where your attention is',
+  social: 'company or quiet',
+}

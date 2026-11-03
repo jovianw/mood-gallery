@@ -1,10 +1,20 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { MUSEUM, rooms } from '../data/rooms'
+import type { RouteStop } from '../data/types'
 import { FALLBACK_GRADIENT, sampleGradient, toCss, tone, type Rgb } from '../lib/colors'
 import { galleryLabel } from '../lib/floorplan'
 import { fetchImageBlobUrl, formatWalkDate, type ShareCardData } from '../lib/share'
 import { Arch } from './Icons'
 import { ShareRouteMap } from './ShareRouteMap'
+
+type LogRow = { kind: 'stop'; stop: RouteStop; index: number } | { kind: 'more'; count: number }
+
+/** The card has room for four stops: the hall, the first room, a "N more rooms" line, the last room. */
+function logRows(stops: RouteStop[]): LogRow[] {
+  const rows: LogRow[] = stops.map((stop, index) => ({ kind: 'stop', stop, index }))
+  if (rows.length <= 4) return rows
+  return [rows[0], rows[1], { kind: 'more', count: rows.length - 3 }, rows[rows.length - 1]]
+}
 
 export function useGradient(image: string): Rgb[] {
   const [colors, setColors] = useState<Rgb[]>(FALLBACK_GRADIENT)
@@ -107,15 +117,22 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(function Sto
       </div>
       <div className="gap-8" />
       <ul className="story__log">
-        {payload.stops.map((stop, i) => (
-          <li key={stop.roomId}>
-            <i />
-            <b>{i === 0 ? 'Great Hall' : rooms[stop.roomId]?.name}</b>
-            <span>
-              &nbsp;·&nbsp; {i === 0 ? `Arrived ${stop.moodPhrase.toLowerCase()}` : stop.moodPhrase}
-            </span>
-          </li>
-        ))}
+        {logRows(payload.stops).map((row) =>
+          row.kind === 'more' ? (
+            <li key="more" className="is-more">
+              <i />
+              <span>{row.count === 1 ? '1 more room' : `${row.count} more rooms`}</span>
+            </li>
+          ) : (
+            <li key={row.stop.roomId}>
+              <i />
+              <b>{row.index === 0 ? 'Great Hall' : rooms[row.stop.roomId]?.name}</b>
+              <span>
+                &nbsp;·&nbsp; {row.index === 0 ? `Arrived ${row.stop.moodPhrase.toLowerCase()}` : row.stop.moodPhrase}
+              </span>
+            </li>
+          ),
+        )}
         <li>
           <i className="is-dest" />
           <b>{dest}</b>

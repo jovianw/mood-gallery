@@ -1,4 +1,4 @@
-import { useEffect, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Answer, Statement as StatementData } from '../data/types'
 import { useNav } from '../lib/nav'
@@ -235,8 +235,14 @@ export function SaveToggle({
 /* ---------- Breadcrumb trail ---------- */
 
 export function PathTrail({ stops, current }: { stops: string[]; current: string }) {
+  const ref = useRef<HTMLElement>(null)
+  // Long walks overflow the column: keep the current room in view.
+  useEffect(() => {
+    const el = ref.current
+    if (el) el.scrollLeft = el.scrollWidth
+  }, [stops.length, current])
   return (
-    <nav className="trail" aria-label="Your path so far">
+    <nav className="trail" aria-label="Your path so far" ref={ref}>
       {stops.map((s, i) => {
         const isCurrent = s === current
         return (

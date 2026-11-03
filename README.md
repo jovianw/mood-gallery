@@ -13,8 +13,10 @@ program via the public [Collection API](https://metmuseum.github.io/).
 ## The walk
 
 1. Entrance -> the Great Hall (3 statements)
-2. Choose a Door: the three rooms closest to your answers, best first
-3. The chosen room (3 more statements)
+2. Choose a Door: the three unvisited rooms closest to your answers, best first
+3. A room (3 more statements), then back to the doors until the walk is sure: at least two rooms
+   after the hall, usually three or four, sometimes every room in the building. You can keep
+   walking after it is sure if you like.
 4. The Final Stretch: a 3D map of your route through the real Met floor plan
 5. Finding your painting: a live check with the Met API, then Your Painting
 6. Share my path: a 9:16 story card, PNG export and share links
@@ -24,8 +26,11 @@ program via the public [Collection API](https://metmuseum.github.io/).
 
 - Statements map to five mood axes: energy, warmth, outlook, focus, social. Answers on the
   7-point scale become a vector in that space (`src/lib/matching.ts`).
-- The Great Hall answers pick the doors: cosine similarity against each room's `affinity`.
-- Inside the chosen room, the painting is picked by cosine similarity against that room's
+- Every answered room so far picks the next doors: cosine similarity against each unvisited
+  room's `affinity`, with a push toward rooms that ask about the axes the walk knows least.
+- The walk ends when it is sure: three rooms at least, every axis heard from, no unvisited room
+  that fits clearly better, and one painting in the room clearly ahead (`assessWalk`).
+- In the final room, the painting is picked by cosine similarity against that room's
   curated paintings. The top three are rotated with a daily seed (date + user id), so the same
   mood on another day lands on a different painting.
 - The Finding screen refreshes the chosen object from the Met API (cached 7 days) and falls back

@@ -33,8 +33,8 @@ Type: display 38, headline 30, title 26, room 20, statement 17, body 16, small 1
 
 1. Entrance (`/`) -> "Enter The Met"
 2. The Great Hall (`/room/great-hall`): 3 statements -> "Find my door"
-3. Choose a Door (`/doors`): 3 door cards, the recommended one marked "YOUR DOOR"
-4. The chosen room (`/room/:roomId`): about card + 3 statements -> "Show my final stretch"
+3. Choose a Door (`/doors`): up to 3 door cards, the recommended one marked "YOUR DOOR"
+4. A room (`/room/:roomId`): about card + 3 statements -> "Find my next door", or "Show my final stretch" once the walk is sure (with a "Keep walking instead" link). Steps 3 and 4 repeat: at least two rooms after the hall, and as many as it takes (see "Walk length" below).
 5. The Final Stretch (`/final`): 3D route map + route recap -> "Reveal my painting"
 6. Finding your painting (`/finding`): dark loading screen, advances when the painting is ready
 7. Your Painting (`/painting`): image, metadata, chips, "Why this one", Save, Share, Start a new walk
@@ -44,6 +44,17 @@ Type: display 38, headline 30, title 26, room 20, statement 17, body 16, small 1
 11. Choose museum sheet: appears over Entrance when tapping "Change"
 
 Transitions: forward = slide left 300ms, back = slide right, sheets slide up over a 55% dim scrim and close on scrim tap or drag down.
+
+### Walk length (added 2026-11-03)
+
+The walk is not a fixed two rooms. After every room the app decides whether it is sure enough to end there (`assessWalk` in `src/lib/matching.ts`). It keeps offering doors while any of these hold:
+
+- fewer than 3 rooms walked (hall + 2), `MIN_ROOMS`;
+- an axis nobody has asked about yet (the hall covers energy, warmth and social, so at least one later room has to ask about outlook and focus);
+- an unvisited room fits the mood clearly better than the room you are in (`ROOM_SLACK` 0.03 cosine);
+- the best painting in this room does not beat the runner-up by `PAINTING_MARGIN` (0.03 cosine).
+
+Doors are ranked by affinity plus a bonus for rooms whose statements ask about the least-covered axes, unvisited rooms only, so the recommended door is the one most likely to settle it. When no unvisited rooms remain the walk ends where it is. Once sure, the room button becomes "Show my final stretch" and a "Keep walking instead" link stays available. The Choose a Door headline and a "N rooms · M% sure" meter explain why the walk continues. Simulated over random answer patterns this gives about 22% three-room walks, 37% four, 24% five and a tail out to all eight rooms (mean 4.4).
 
 ## Screen by screen
 
@@ -72,7 +83,7 @@ Same component, `RoomScreen`, fed by a room definition.
 ### 3 Choose a Door (14:108) `docs/figma/03-choose-a-door.png`
 - "LEAVING THE GREAT HALL" label, headline "Three doors open from here.", copy "We picked one based on how you answered. Feel free to take a different one."
 - Door card component (13:206). The recommended door: white card with a 2px Met Red border, red arch illustration with a dark opening, "YOUR DOOR" label, room name in Playfair 26, reason sentence. "OTHER DOORS" label, then two cards with Stone arches, name in Playfair 20 and a shorter reason.
-- Which 3 doors: compute the mood vector from the Great Hall answers and show the 3 rooms with the highest similarity to their `affinity`, best first. So the set of doors changes with the answers (footer: "Your doors change every walk.").
+- Which doors: compute the mood vector from every room answered so far and show the 3 unvisited rooms with the highest similarity to their `affinity` (plus the coverage bonus described under "Walk length"), best first. Fewer than 3 near the end of a long walk. The set of doors changes with the answers (footer: "Your doors change every walk."). From the second visit on, the headline and copy say why the walk continues ("Not sure yet.", "Getting warmer.", "Almost there.") above a warmth meter.
 - Tapping a card -> `/room/:roomId`.
 
 ### 5 The Final Stretch (14:212) `docs/figma/05-final-stretch.png`

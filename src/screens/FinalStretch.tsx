@@ -4,9 +4,9 @@ import { Check, PinSolid } from '../components/Icons'
 import { Button, Screen, TopAppBar } from '../components/ui'
 import { rooms, START_ROOM } from '../data/rooms'
 import { blocks, galleryLabel } from '../lib/floorplan'
+import { lazyWithRetry } from '../lib/lazy'
 import { useNav } from '../lib/nav'
 import { useWalk } from '../state/WalkContext'
-import { lazyWithRetry } from '../lib/lazy'
 
 const RouteMap3D = lazyWithRetry(() => import('../components/RouteMap3D').then((m) => ({ default: m.RouteMap3D })))
 
@@ -16,17 +16,15 @@ export function FinalStretch() {
   const painting = walk.painting
   const route = walk.route
 
-  if (!walk.doorId || !painting || !route || !walk.isRoomComplete(walk.doorId)) {
+  if (!walk.doorId || !painting || !route || !walk.isRoomComplete(walk.doorId) || !walk.canFinish) {
     return <Navigate to={walk.doorId ? `/room/${walk.doorId}` : '/'} replace />
   }
 
-  const hall = rooms[START_ROOM]
-  const room = rooms[walk.doorId]
   const destination = galleryLabel(painting)
   const nextName = route.next ? blocks[route.next].name : null
-  const [hallStop, roomStop] = walk.stops
   const tail = walk.destination.replace('Found it: ', '')
   const aheadPhrase = tail.charAt(0).toUpperCase() + tail.slice(1)
+  const roomsWalked = walk.path.length
 
   return (
     <Screen
@@ -40,7 +38,8 @@ export function FinalStretch() {
       <h1 className="t-headline t-headline--italic">Your painting is just ahead.</h1>
       <div className="gap-8" />
       <p className="t-body t-body--15 t-body--muted">
-        Here&rsquo;s the rest of your route, and a look back at the path that got you here.
+        {roomsWalked} rooms in, we are sure. Here&rsquo;s the rest of your route, and a look back at
+        the path that got you here.
       </p>
       <div className="gap-16" />
       <Suspense fallback={<div className="mapcard" aria-hidden="true" />}>
@@ -60,30 +59,32 @@ export function FinalStretch() {
       </p>
       <div className="gap-16" />
       <ol className="route">
-        <li className="stop">
-          <span className="stop__rail">
-            <span className="stop__dot stop__dot--done">
-              <Check width={11} height={11} />
-            </span>
-            <span className="stop__line" />
-          </span>
-          <span>
-            <span className="stop__name">{hall.name}</span>
-            <p className="stop__sub">Where you started &nbsp;·&nbsp; {hallStop.moodPhrase}</p>
-          </span>
-        </li>
-        <li className="stop">
-          <span className="stop__rail">
-            <span className="stop__dot stop__dot--done">
-              <Check width={11} height={11} />
-            </span>
-            <span className="stop__line stop__line--dashed" />
-          </span>
-          <span>
-            <span className="stop__name">{room.name}</span>
-            <p className="stop__sub">{roomStop?.moodPhrase}</p>
-          </span>
-        </li>
+        {walk.stops.map((stop, i) => {
+          const last = i === walk.stops.length - 1
+          const name = stop.roomId === START_ROOM ? rooms[START_ROOM].name : rooms[stop.roomId].name
+          return (
+            <li className="stop" key={stop.roomId}>
+              <span className="stop__rail">
+                <span className="stop__dot stop__dot--done">
+                  <Check width={11} height={11} />
+                </span>
+                <span className={`stop__line ${last && !nextName ? 'stop__line--dashed' : ''}`} />
+              </span>
+              <span>
+                <span className="stop__name">{name}</span>
+                <p className="stop__sub">
+                  {i === 0 ? (
+                    <>
+                      Where you started &nbsp;·&nbsp; {stop.moodPhrase}
+                    </>
+                  ) : (
+                    stop.moodPhrase
+                  )}
+                </p>
+              </span>
+            </li>
+          )
+        })}
         {nextName && (
           <li className="stop">
             <span className="stop__rail">
