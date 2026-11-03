@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { Download, Link as LinkIcon, Message, PlusSquare } from '../components/Icons'
 import { StoryCard, useExportableImage, useGradient } from '../components/StoryCard'
 import { Screen, TopAppBar, useToast } from '../components/ui'
@@ -14,7 +14,10 @@ import {
   shareUrl,
 } from '../lib/share'
 import { useAuth } from '../state/AuthContext'
+import { useSaves } from '../state/SavesContext'
 import { useWalk } from '../state/WalkContext'
+import { paintings } from '../data/paintings'
+import { START_ROOM } from '../data/rooms'
 
 export function SharePath() {
   const nav = useNav()
@@ -25,30 +28,55 @@ export function SharePath() {
   const [busy, setBusy] = useState<string | null>(null)
   const [shareId, setShareId] = useState<string | null>(null)
 
-  const painting = walk.painting
-  const doorId = walk.doorId
+  const { objectID: savedId } = useParams()
+  const saves = useSaves()
+  const saved = savedId ? saves.saves.find((s) => String(s.objectID) === savedId) : undefined
+
+  // Sharing from the gallery rebuilds the walk from the saved record.
+  const savedPainting = useMemo(() => {
+    if (!saved) return undefined
+    const bundled = paintings.find((p) => p.objectID === saved.objectID)
+    return {
+      ...(bundled ?? {
+        objectID: saved.objectID,
+        medium: saved.medium,
+        objectURL: saved.objectURL ?? '',
+        room: saved.route[saved.route.length - 1]?.roomId ?? START_ROOM,
+        galleryKey: '',
+        mood: saved.moodVector,
+        tags: saved.moodWords,
+        why: saved.why ?? '',
+      }),
+      title: saved.title,
+      artist: saved.artist,
+      date: saved.date,
+      gallery: saved.galleryNumber,
+      image: saved.imageUrl,
+      imageLarge: saved.imageLargeUrl,
+    }
+  }, [saved])
+
+  const painting = saved ? savedPainting : walk.painting
+  const doorId = saved ? (saved.route[saved.route.length - 1]?.roomId ?? null) : walk.doorId
+  const resolved = saved ? true : walk.resolved
+  const backTo = saved ? `/gallery/${saved.objectID}` : '/painting'
 
   const payload = useMemo(
     () =>
       painting && doorId
         ? buildPayload({
-            date: walk.finishedAt ?? new Date(),
+            date: saved ? new Date(saved.savedAt) : (walk.finishedAt ?? new Date()),
             roomId: doorId,
             painting,
-            mood: walk.mood,
-            stops: walk.stops,
+            mood: saved ? saved.moodVector : walk.mood,
+            stops: saved ? saved.route : walk.stops,
           })
         : null,
-    [painting, doorId, walk.finishedAt, walk.mood, walk.stops],
+    [painting, doorId, saved, walk.finishedAt, walk.mood, walk.stops],
   )
   const data = useMemo(() => (payload ? hydrate(payload) : null), [payload])
   const colors = useGradient(painting?.image ?? '')
   const thumb = useExportableImage(painting?.image ?? '')
-
-  if (!painting || !doorId || !payload || !data) return <Navigate to="/" replace />
-  if (!walk.resolved) return <Navigate to="/finding" replace />
-
-  const text = `My Mood Walk at ${MUSEUM.shortName}: ${data.sentence} It led me to "${painting.title}" by ${painting.artist}.`
 
   // Dev-only check: `?export=1` renders the exported PNG under the card so it can be eyeballed.
   const [exportPreview, setExportPreview] = useState<{ url: string; w: number; h: number; ms: number } | null>(null)
@@ -63,6 +91,13 @@ export function SharePath() {
     }, 1500)
     return () => clearTimeout(timer)
   }, [])
+
+  if (savedId && saves.loading) return <Screen dark>{null}</Screen>
+  if (!painting || !doorId || !payload || !data) return <Navigate to={savedId ? '/gallery' : '/'} replace />
+  if (!resolved) return <Navigate to="/finding" replace />
+
+  const text = `My Mood Walk at ${MUSEUM.shortName}: ${data.sentence} It led me to "${painting.title}" by ${painting.artist}.`
+
 
   /** Signed-in users get a short Firestore id; guests carry the walk in the URL. */
   const getLink = async (): Promise<string> => {
@@ -145,7 +180,7 @@ export function SharePath() {
 
   return (
     <Screen dark>
-      <TopAppBar eyebrow="Share your path" left="close" onLeft={() => nav.back('/painting')} />
+      <TopAppBar eyebrow="Share your path" left="close" onLeft={() => nav.back(backTo)} />
       <div className="gap-16" />
       <div className="story-wrap">
         <StoryCard ref={cardRef} data={data} colors={colors} thumb={thumb} />

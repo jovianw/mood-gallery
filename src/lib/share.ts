@@ -145,15 +145,20 @@ export const EXPORT_HEIGHT = 1920
  * (the card then exports without the thumbnail instead of failing on a tainted canvas).
  */
 export async function fetchImageBlobUrl(src: string): Promise<string | null> {
-  try {
-    const res = await fetch(src, { mode: 'cors' })
-    if (!res.ok) return null
-    const blob = await res.blob()
-    if (!blob.type.startsWith('image/')) return null
-    return URL.createObjectURL(blob)
-  } catch {
-    return null
+  // Second attempt busts the HTTP cache: Chrome refuses to reuse an entry that was first
+  // fetched without CORS for a CORS request.
+  for (const url of [src, `${src}${src.includes('?') ? '&' : '?'}cors=1`]) {
+    try {
+      const res = await fetch(url, { mode: 'cors' })
+      if (!res.ok) continue
+      const blob = await res.blob()
+      if (!blob.type.startsWith('image/')) continue
+      return URL.createObjectURL(blob)
+    } catch {
+      /* try the next url */
+    }
   }
+  return null
 }
 
 /** Render a DOM node (laid out at 300x533) to a 1080x1920 PNG blob. */
@@ -161,7 +166,7 @@ export async function exportCardPng(node: HTMLElement): Promise<Blob> {
   const dataUrl = await toPng(node, {
     canvasWidth: EXPORT_WIDTH,
     canvasHeight: EXPORT_HEIGHT,
-    pixelRatio: EXPORT_WIDTH / node.offsetWidth,
+    pixelRatio: 1,
     backgroundColor: '#1F1D1B',
     // Elements that could taint the canvas (cross-origin images we could not fetch) are skipped.
     filter: (n) => !(n instanceof HTMLElement && n.dataset.skipExport === 'true'),

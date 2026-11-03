@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Mood Gallery Firestore rules. Deployed by hand from the Firebase console
+// (Firestore Database > Rules) or with `firebase deploy --only firestore:rules`.
+//
+// users/{uid}/saves/{objectID}  one saved painting
+// users/{uid}/walks/{walkId}    one finished walk (for the walks count)
+// shares/{shareId}              a share-card payload; anyone with the link can read it
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /shares/{shareId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.v == 1;
+      allow update, delete: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

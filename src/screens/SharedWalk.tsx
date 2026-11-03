@@ -31,7 +31,7 @@ export function SharedWalk() {
     return () => {
       alive = false
     }
-  }, [shareId, params, auth.loadShare])
+  }, [shareId, params, auth])
 
   const data = useMemo(() => (state.status === 'ready' ? hydrate(state.payload) : null), [state])
   const colors = useGradient(data?.painting.image ?? '')

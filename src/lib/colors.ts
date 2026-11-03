@@ -54,7 +54,9 @@ export function sampleGradient(src: string): Promise<Rgb[]> {
   if (hit) return hit
   const p = (async () => {
     try {
-      const img = await loadImage(src)
+      const img = await loadImage(src).catch(() =>
+        loadImage(`${src}${src.includes('?') ? '&' : '?'}cors=1`),
+      )
       const w = 48
       const h = 48
       const canvas = document.createElement('canvas')

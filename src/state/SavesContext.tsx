@@ -40,6 +40,10 @@ export interface SavesState {
   recordWalk: (walk: WalkRecord) => Promise<void>
   /** True while the first read from storage or Firestore is in flight. */
   loading: boolean
+  /** Guest saves waiting to be moved into a freshly signed-in account (0 for guests). */
+  pendingMergeCount: number
+  mergeGuestSaves: () => Promise<void>
+  declineMerge: () => void
 }
 
 const SavesContext = createContext<SavesState | null>(null)
@@ -68,6 +72,9 @@ export function GuestSavesProvider({ children }: { children: ReactNode }) {
       walks,
       isSaved,
       loading: false,
+      pendingMergeCount: 0,
+      mergeGuestSaves: async () => undefined,
+      declineMerge: () => undefined,
       save: async (record) =>
         setSaves((prev) => [record, ...prev.filter((s) => s.objectID !== record.objectID)]),
       unsave: async (id) => setSaves((prev) => prev.filter((s) => s.objectID !== id)),
