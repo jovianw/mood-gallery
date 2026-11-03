@@ -1,0 +1,107 @@
+{
+  "42716": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.6, "warmth": 0.5, "outlook": 0.4, "focus": 0.3, "social": 0.5 },
+    "tags": ["Calm", "Warm", "Hopeful"],
+    "why": "A whole temple wall of the Medicine Buddha, fifty feet wide, surrounded by attendants. Walk up close and it holds still for you."
+  },
+  "39328": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": 0.7, "warmth": 0.5, "outlook": 0.3, "focus": -0.2, "social": 0.2 },
+    "tags": ["Restless", "Warm", "Hopeful"],
+    "why": "Shiva dances inside a ring of fire, one foot raised, perfectly balanced in the middle of everything ending and starting again."
+  },
+  "39557": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.5, "warmth": 0.3, "outlook": -0.2, "focus": 0.8, "social": -0.6 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "Kuncan painted dense wooded mountains at dusk with a poem about hiding out from the world. A picture for going inside."
+  },
+  "40020": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.8, "warmth": -0.4, "outlook": 0.2, "focus": 0.6, "social": -0.8 },
+    "tags": ["Calm", "Cool", "Alone"],
+    "why": "Hongren, a monk-painter, drew a valley with almost nothing in it. The title says you can hear spring arriving."
+  },
+  "49132": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.6, "warmth": -0.7, "outlook": -0.4, "focus": 0.6, "social": -0.5 },
+    "tags": ["Calm", "Cool", "Heavy"],
+    "why": "Gong Xian built these wintry mountains out of thousands of small dark dots. Bleak, patient, and strangely comforting."
+  },
+  "48932": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.4, "warmth": 0.1, "outlook": 0.3, "focus": 0.7, "social": -0.3 },
+    "tags": ["Calm", "Inward", "Hopeful"],
+    "why": "Ma Shouzhen painted one orchid and one rock in a few quick strokes. Nothing wasted, nothing missing."
+  },
+  "45420": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.7, "warmth": -0.5, "outlook": 0.1, "focus": 0.4, "social": -0.4 },
+    "tags": ["Calm", "Cool", "Alone"],
+    "why": "Kano Tanyu's landscape in moonlight is mostly mist and silver. A screen for a quiet evening."
+  },
+  "829385": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.2, "warmth": 0.5, "outlook": 0.5, "focus": -0.3, "social": 0.2 },
+    "tags": ["Warm", "Hopeful", "Outward"],
+    "why": "Kano Motonobu filled a pair of screens with birds, blossom and running water. Spring, at full volume."
+  },
+  "64872": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": 0.2, "warmth": 0.4, "outlook": 0.5, "focus": -0.6, "social": 0.8 },
+    "tags": ["Close", "Outward", "Hopeful"],
+    "why": "Genki painted a year in Kyoto, with hundreds of small people out walking in every season. You are one of them."
+  },
+  "39666": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": 0.5, "warmth": -0.2, "outlook": 0.4, "focus": -0.2, "social": 0.1 },
+    "tags": ["Restless", "Hopeful", "Cool"],
+    "why": "A blue-and-white jar with a dragon wrapped all the way around it, mid-flight and grinning."
+  },
+  "42124": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": 0.3, "warmth": 0.4, "outlook": 0.4, "focus": -0.3, "social": 0.3 },
+    "tags": ["Restless", "Warm", "Hopeful"],
+    "why": "A Tang dynasty woman on horseback, sitting easy, ready to ride out. Thirteen hundred years old and still going somewhere."
+  },
+  "38448": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.5, "warmth": 0.5, "outlook": 0.5, "focus": 0.2, "social": 0.6 },
+    "tags": ["Calm", "Warm", "Close"],
+    "why": "Avalokiteshvara, the bodhisattva of compassion, carved by the Tenth Karmapa with a soft, almost shy face."
+  },
+  "640049": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.5, "warmth": 0.1, "outlook": 0.3, "focus": 0.1, "social": -0.2 },
+    "tags": ["Calm", "Hopeful", "Even"],
+    "why": "Lake Biwa in four seasons, painted by a calligrapher. The same water, four different moods."
+  },
+  "36108": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": 0.6, "warmth": 0.6, "outlook": 0.3, "focus": -0.4, "social": 0.5 },
+    "tags": ["Restless", "Warm", "Outward"],
+    "why": "A huge votive painting of a lion tumbling through peonies, made to hang in a shrine and be seen from far away."
+  },
+  "42059": {
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": { "energy": -0.4, "warmth": 0.2, "outlook": 0.5, "focus": 0.5, "social": 0.3 },
+    "tags": ["Calm", "Hopeful", "Inward"],
+    "why": "A jade boulder carved into a Daoist paradise: pines, pavilions and tiny immortals climbing toward the top."
+  }
+}

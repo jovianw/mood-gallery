@@ -1,0 +1,114 @@
+{
+  "253370": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.3, "warmth": -0.2, "outlook": 0.5, "focus": -0.3, "social": 0.1 },
+    "tags": ["Calm", "Hopeful", "Outward"],
+    "why": "The kouros has stood with one foot forward and a small smile for 2,600 years. Young, upright, and about to walk."
+  },
+  "254587": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.7, "warmth": 0.1, "outlook": 0.2, "focus": 0.8, "social": -0.6 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "A marble harp player, head tipped back, lost in a tune from nearly five thousand years ago."
+  },
+  "247967": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.7, "warmth": 0, "outlook": 0.5, "focus": 0.2, "social": -0.2 },
+    "tags": ["Restless", "Hopeful", "Steady"],
+    "why": "A small bronze diskos thrower caught at the top of the wind-up. All of the energy is still to come."
+  },
+  "252890": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.5, "warmth": 0.4, "outlook": -0.5, "focus": 0.4, "social": 0.3 },
+    "tags": ["Heavy", "Warm", "Calm"],
+    "why": "The grave stele of a little girl holding her two pet doves. Quiet, tender and very old."
+  },
+  "248483": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.4, "warmth": 0.3, "outlook": -0.4, "focus": 0.2, "social": 0.8 },
+    "tags": ["Close", "Heavy", "Calm"],
+    "why": "A family group on a grave marker, clasping hands. People holding on to each other, carved in marble."
+  },
+  "248140": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.2, "warmth": 0.2, "outlook": 0.1, "focus": -0.2, "social": -0.5 },
+    "tags": ["Watchful", "Alone", "Steady"],
+    "why": "A marble lion that once guarded a tomb, mouth open, still keeping watch."
+  },
+  "254502": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.9, "warmth": 0.5, "outlook": 0.3, "focus": 0.3, "social": -0.3 },
+    "tags": ["Calm", "Warm", "Inward"],
+    "why": "Eros, the god of love, fast asleep on a rock with his wings folded. Permission to rest."
+  },
+  "247017": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.4, "warmth": 0.6, "outlook": 0.3, "focus": 0.5, "social": -0.5 },
+    "tags": ["Warm", "Inward", "Alone"],
+    "why": "A whole Roman bedroom from a villa buried by Vesuvius, painted red and gold. Step inside and close the door on the day."
+  },
+  "250945": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.3, "warmth": 0.3, "outlook": 0.4, "focus": -0.7, "social": 0.2 },
+    "tags": ["Hopeful", "Outward", "Warm"],
+    "why": "Perseus swooping in to rescue Andromeda, painted on a Roman wall in a landscape full of air and distance."
+  },
+  "247993": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.3, "warmth": -0.3, "outlook": 0.3, "focus": 0.3, "social": 0 },
+    "tags": ["Calm", "Cool", "Hopeful"],
+    "why": "Augustus, carved to look calm and ageless. A face made to say that everything is under control."
+  },
+  "253592": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.6, "warmth": -0.4, "outlook": -0.5, "focus": -0.3, "social": -0.3 },
+    "tags": ["Restless", "Cool", "Heavy"],
+    "why": "Caracalla scowling over his shoulder. The most honest portrait of a bad mood in the building."
+  },
+  "248132": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.2, "warmth": 0.4, "outlook": -0.2, "focus": -0.3, "social": 0.5 },
+    "tags": ["Warm", "Outward", "Close"],
+    "why": "A Roman marble of an old market woman on her way to a festival, basket in hand, tired and determined."
+  },
+  "256403": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": -0.2, "warmth": 0.5, "outlook": 0.6, "focus": -0.3, "social": 0.9 },
+    "tags": ["Close", "Warm", "Hopeful"],
+    "why": "The Three Graces with their arms around each other. Friendship, in marble, for two thousand years."
+  },
+  "254819": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.8, "warmth": 0.5, "outlook": 0.4, "focus": -0.6, "social": 0.8 },
+    "tags": ["Restless", "Warm", "Close"],
+    "why": "A sarcophagus crowded with Dionysos, panthers, satyrs and the four seasons. A party carved in stone."
+  },
+  "247117": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.3, "warmth": -0.3, "outlook": 0.1, "focus": -0.2, "social": -0.2 },
+    "tags": ["Cool", "Watchful", "Steady"],
+    "why": "An eight-foot bronze of the emperor Trebonianus Gallus, one of very few to survive. Heavy, odd and impossible to ignore."
+  },
+  "250551": {
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": { "energy": 0.2, "warmth": 0.4, "outlook": 0.2, "focus": 0.3, "social": 0.4 },
+    "tags": ["Warm", "Inward", "Close"],
+    "why": "An amphora by Exekias, the finest of the black-figure painters. Small figures doing precise things, beautifully."
+  }
+}

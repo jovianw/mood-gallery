@@ -1,0 +1,551 @@
+{
+ "units": "meters; x toward Fifth Avenue (+), y north (+); origin = center of the Great Hall",
+ "source": "traced from maps.metmuseum.org floor plans",
+ "outline": [
+  [
+   -106,
+   -184
+  ],
+  [
+   -106,
+   -171
+  ],
+  [
+   -176,
+   -171
+  ],
+  [
+   -176,
+   -106
+  ],
+  [
+   -146,
+   -106
+  ],
+  [
+   -146,
+   -34
+  ],
+  [
+   -171,
+   -34
+  ],
+  [
+   -199,
+   1
+  ],
+  [
+   -171,
+   36
+  ],
+  [
+   -146,
+   36
+  ],
+  [
+   -146,
+   106
+  ],
+  [
+   -176,
+   106
+  ],
+  [
+   -176,
+   169
+  ],
+  [
+   -101,
+   169
+  ],
+  [
+   -101,
+   187
+  ],
+  [
+   34,
+   187
+  ],
+  [
+   34,
+   -184
+  ]
+ ],
+ "floor1": {
+  "hall": {
+   "name": "Great Hall",
+   "gallery": "Entrance",
+   "x0": -16,
+   "y0": -36,
+   "x1": 20,
+   "y1": 36
+  },
+  "vest": {
+   "name": "82nd St Entrance",
+   "gallery": "",
+   "x0": 20,
+   "y0": -22,
+   "x1": 38,
+   "y1": 25,
+   "small": true
+  },
+  "greek": {
+   "name": "Greek & Roman Art",
+   "gallery": "150s\u2013160s",
+   "x0": -25,
+   "y0": -184,
+   "x1": 34,
+   "y1": -36
+  },
+  "rock": {
+   "name": "Michael C. Rockefeller Wing",
+   "gallery": "340s\u2013360s",
+   "x0": -101,
+   "y0": -184,
+   "x1": -25,
+   "y1": -106
+  },
+  "modern1": {
+   "name": "Modern & Contemporary Art",
+   "gallery": "900s",
+   "x0": -176,
+   "y0": -171,
+   "x1": -106,
+   "y1": -106
+  },
+  "eurs": {
+   "name": "European Sculpture",
+   "gallery": "530s\u2013550s",
+   "x0": -101,
+   "y0": -106,
+   "x1": -61,
+   "y1": -18
+  },
+  "ex199": {
+   "name": "Exhibition Gallery 199",
+   "gallery": "199",
+   "x0": -61,
+   "y0": -104,
+   "x1": -20,
+   "y1": -70
+  },
+  "watson": {
+   "name": "Thomas J. Watson Library",
+   "gallery": "",
+   "x0": -61,
+   "y0": -63,
+   "x1": -20,
+   "y1": -29,
+   "dim": true
+  },
+  "petrie": {
+   "name": "Petrie Court Caf\u00e9 & 500s",
+   "gallery": "520s",
+   "x0": -146,
+   "y0": -106,
+   "x1": -101,
+   "y1": -18
+  },
+  "medieval": {
+   "name": "Medieval Art",
+   "gallery": "300s",
+   "x0": -101,
+   "y0": -18,
+   "x1": -16,
+   "y1": 18
+  },
+  "neck": {
+   "name": "Galleries 961\u2013962",
+   "gallery": "",
+   "x0": -146,
+   "y0": -18,
+   "x1": -101,
+   "y1": 18,
+   "dim": true
+  },
+  "lehman": {
+   "name": "Robert Lehman Wing",
+   "gallery": "950s\u2013960s",
+   "poly": [
+    [
+     -146,
+     -34
+    ],
+    [
+     -171,
+     -34
+    ],
+    [
+     -199,
+     1
+    ],
+    [
+     -171,
+     36
+    ],
+    [
+     -146,
+     36
+    ]
+   ]
+  },
+  "cafe5": {
+   "name": "Galleries 510\u2013516",
+   "gallery": "",
+   "x0": -146,
+   "y0": 18,
+   "x1": -101,
+   "y1": 65,
+   "dim": true
+  },
+  "arms": {
+   "name": "Arms and Armor",
+   "gallery": "370s",
+   "x0": -101,
+   "y0": 36,
+   "x1": -25,
+   "y1": 124
+  },
+  "amer1": {
+   "name": "The American Wing",
+   "gallery": "700s",
+   "x0": -176,
+   "y0": 65,
+   "x1": -101,
+   "y1": 169
+  },
+  "egyptN": {
+   "name": "Egyptian Art",
+   "gallery": "",
+   "x0": -101,
+   "y0": 124,
+   "x1": -25,
+   "y1": 142,
+   "dim": true
+  },
+  "dendur": {
+   "name": "Temple of Dendur",
+   "gallery": "131",
+   "x0": -101,
+   "y0": 142,
+   "x1": -25,
+   "y1": 187
+  },
+  "egypt": {
+   "name": "Egyptian Art",
+   "gallery": "100s\u2013130s",
+   "x0": -25,
+   "y0": 36,
+   "x1": 34,
+   "y1": 187
+  }
+ },
+ "floor2": {
+  "hall2": {
+   "name": "Great Hall Balcony",
+   "gallery": "Stairs",
+   "x0": -59,
+   "y0": -19,
+   "x1": -9,
+   "y1": 36
+  },
+  "stairs": {
+   "name": "Grand Staircase",
+   "gallery": "",
+   "x0": -53,
+   "y0": -43,
+   "x1": -28,
+   "y1": -19,
+   "stairs": true
+  },
+  "eurp": {
+   "name": "European Paintings, 1250\u20131800",
+   "gallery": "600s\u2013640s",
+   "x0": -146,
+   "y0": -73,
+   "x1": -59,
+   "y1": 60
+  },
+  "ex899": {
+   "name": "Exhibition Galleries 899",
+   "gallery": "899",
+   "x0": -153,
+   "y0": -106,
+   "x1": -59,
+   "y1": -73
+  },
+  "modern": {
+   "name": "Modern & Contemporary Art",
+   "gallery": "900s",
+   "x0": -178,
+   "y0": -169,
+   "x1": -153,
+   "y1": -106
+  },
+  "c19": {
+   "name": "19th-Century European Paintings",
+   "gallery": "800s\u2013830s",
+   "x0": -96,
+   "y0": -181,
+   "x1": -21,
+   "y1": -103,
+   "ly": -22
+  },
+  "g822": {
+   "name": "Gallery 822",
+   "gallery": "822",
+   "x0": -71,
+   "y0": -160,
+   "x1": -46,
+   "y1": -136,
+   "inner": true
+  },
+  "islamic": {
+   "name": "Art of the Arab Lands",
+   "gallery": "450s\u2013460s",
+   "x0": -21,
+   "y0": -181,
+   "x1": 32,
+   "y1": -103
+  },
+  "cyprus": {
+   "name": "Ancient West Asia & Cyprus",
+   "gallery": "400s\u2013170s",
+   "x0": -31,
+   "y0": -103,
+   "x1": 32,
+   "y1": -19
+  },
+  "balcafe": {
+   "name": "Great Hall Balcony Caf\u00e9",
+   "gallery": "",
+   "x0": -9,
+   "y0": -19,
+   "x1": 32,
+   "y1": 36,
+   "dim": true
+  },
+  "asian": {
+   "name": "Asian Art",
+   "gallery": "200s",
+   "x0": -31,
+   "y0": 36,
+   "x1": 32,
+   "y1": 187
+  },
+  "music": {
+   "name": "Musical Instruments",
+   "gallery": "680s",
+   "x0": -96,
+   "y0": 63,
+   "x1": -59,
+   "y1": 126
+  },
+  "amer": {
+   "name": "The American Wing",
+   "gallery": "740s\u2013760s",
+   "x0": -178,
+   "y0": 60,
+   "x1": -96,
+   "y1": 187
+  },
+  "mid2": {
+   "name": "Galleries",
+   "gallery": "",
+   "x0": -59,
+   "y0": -103,
+   "x1": -31,
+   "y1": -19,
+   "dim": true
+  },
+  "lehman2": {
+   "name": "Robert Lehman Wing (upper)",
+   "gallery": "960s",
+   "poly": [
+    [
+     -146,
+     -34
+    ],
+    [
+     -171,
+     -34
+    ],
+    [
+     -199,
+     1
+    ],
+    [
+     -171,
+     36
+    ],
+    [
+     -146,
+     36
+    ]
+   ],
+   "dim": true
+  },
+  "nwfill": {
+   "name": "Galleries",
+   "gallery": "",
+   "x0": -153,
+   "y0": -169,
+   "x1": -96,
+   "y1": -106,
+   "dim": true
+  }
+ },
+ "roomHeightMeters": 5,
+ "notes": {
+  "flags": {
+   "dim": "room exists on this floor but is not a destination in v1; draw it dimmed",
+   "stairs": "draw as a stair ramp (Grand Staircase); it connects floor1 hall to floor2 hall2",
+   "inner": "gallery inside its parent block (g822 sits inside c19); draw as a small block on top of the parent",
+   "small": "skip the label",
+   "poly": "non-rectangular footprint, use the polygon instead of x0/y0/x1/y1",
+   "ly": "label y offset in meters, only for labels"
+  },
+  "projection": "default isometric view: screen_x=(x+y)*0.866, screen_y=(x-y)*0.5-z; north points up-right. In three.js just use these meters as world units (x=east toward Fifth Ave, z=-y) and let OrbitControls handle the camera.",
+  "floors": "floor2 sits above floor1 (use ~12 m between floor plates). Only the floor the walk is on is lit; the other floor is a faint outline."
+ },
+ "exampleWalks": [
+  {
+   "title": "Walk A  \u00b7  Restless, warm, hopeful",
+   "floor": 2,
+   "mood": "restless \u00b7 warm \u00b7 looking ahead",
+   "visited": [
+    "hall2",
+    "stairs",
+    "eurp"
+   ],
+   "nxt": "c19",
+   "dest": "g822",
+   "route": [
+    [
+     -34.0,
+     8.5
+    ],
+    [
+     -40.5,
+     -31.0
+    ],
+    [
+     -102.5,
+     -6.5
+    ],
+    [
+     -38.5,
+     -112.0
+    ],
+    [
+     -58.5,
+     -148.0
+    ]
+   ],
+   "log": [
+    "Great Hall: arrived restless",
+    "Grand Staircase up to European Paintings",
+    "European Paintings, 1250\u20131800: warm but heavy",
+    "19th-century galleries: walk straight through",
+    "Gallery 822: Wheat Field with Cypresses"
+   ]
+  },
+  {
+   "title": "Walk B  \u00b7  Heavy, quiet, needs calm",
+   "floor": 1,
+   "mood": "calm \u00b7 cool \u00b7 alone",
+   "visited": [
+    "hall",
+    "egypt"
+   ],
+   "nxt": null,
+   "dest": "dendur",
+   "route": [
+    [
+     2.0,
+     0.0
+    ],
+    [
+     4.5,
+     71.5
+    ],
+    [
+     -15.5,
+     171.5
+    ],
+    [
+     -63.0,
+     164.5
+    ]
+   ],
+   "log": [
+    "Great Hall: low energy, wanted quiet",
+    "Egyptian Art: slowed down, looking back",
+    "Temple of Dendur (131): sit by the water"
+   ]
+  },
+  {
+   "title": "Walk C  \u00b7  Loud, high energy",
+   "floor": 1,
+   "mood": "restless \u00b7 warm \u00b7 together",
+   "visited": [
+    "hall"
+   ],
+   "nxt": null,
+   "dest": "arms",
+   "route": [
+    [
+     2.0,
+     0.0
+    ],
+    [
+     -28.0,
+     25.0
+    ],
+    [
+     -63.0,
+     80.0
+    ]
+   ],
+   "log": [
+    "Great Hall: buzzing",
+    "Arms and Armor (371): the Equestrian Court"
+   ]
+  },
+  {
+   "title": "Walk D  \u00b7  Thinking about the future",
+   "floor": 2,
+   "mood": "restless \u00b7 cool \u00b7 looking ahead",
+   "visited": [
+    "hall2",
+    "stairs",
+    "eurp"
+   ],
+   "nxt": null,
+   "dest": "ex899",
+   "route": [
+    [
+     -34.0,
+     8.5
+    ],
+    [
+     -40.5,
+     -31.0
+    ],
+    [
+     -102.5,
+     -6.5
+    ],
+    [
+     -106.0,
+     -89.5
+    ]
+   ],
+   "log": [
+    "Great Hall: curious",
+    "European Paintings: did not linger",
+    "Galleries 899: Autumn Rhythm"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,107 @@
+{
+  "547802": {
+    "room": "egyptian-art",
+    "galleryKey": "dendur",
+    "mood": { "energy": -0.8, "warmth": 0.3, "outlook": 0.3, "focus": 0.2, "social": -0.6 },
+    "tags": ["Calm", "Alone", "Hopeful"],
+    "why": "The Temple of Dendur sits beside a pool under a wall of glass. Sit on the ledge and let the room go quiet."
+  },
+  "544227": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.3, "warmth": 0.6, "outlook": 0.6, "focus": -0.2, "social": 0.4 },
+    "tags": ["Warm", "Hopeful", "Close"],
+    "why": "William the hippo is small, blue and covered in lotus flowers. Nobody leaves him without smiling."
+  },
+  "544442": {
+    "room": "egyptian-art",
+    "galleryKey": "dendur",
+    "mood": { "energy": -0.5, "warmth": 0.4, "outlook": 0.2, "focus": 0.5, "social": -0.2 },
+    "tags": ["Calm", "Inward", "Warm"],
+    "why": "Hatshepsut as a sphinx: a queen who ruled as king, carved in granite and completely sure of herself."
+  },
+  "543937": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.6, "warmth": 0, "outlook": -0.3, "focus": 0.7, "social": -0.5 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "You can walk into Perneb's tomb. Four thousand years old, cool, dim and very still."
+  },
+  "544214": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": 0.1, "warmth": 0.4, "outlook": 0.4, "focus": -0.4, "social": 0.8 },
+    "tags": ["Close", "Warm", "Hopeful"],
+    "why": "A little wooden boat with a whole crew rowing in time. Meketre packed it for the afterlife so he would never travel alone."
+  },
+  "545281": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.2, "warmth": 0.3, "outlook": 0.2, "focus": 0.1, "social": 0.5 },
+    "tags": ["Steady", "Close", "Warm"],
+    "why": "A model granary with tiny scribes counting the grain. Ordinary work, done carefully, made to last forever."
+  },
+  "543867": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": 0.3, "warmth": 0.5, "outlook": 0.4, "focus": -0.1, "social": 0.7 },
+    "tags": ["Restless", "Warm", "Close"],
+    "why": "A board game from 1800 BCE with ivory hounds and jackals for pieces. Somebody played this with a friend."
+  },
+  "544186": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.4, "warmth": -0.3, "outlook": -0.4, "focus": 0.8, "social": -0.5 },
+    "tags": ["Calm", "Cool", "Inward"],
+    "why": "Senwosret III has the most tired, thoughtful face in the whole museum. A king who had seen a lot."
+  },
+  "544692": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.5, "warmth": 0.2, "outlook": 0.1, "focus": 0.8, "social": -0.3 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "Haremhab, before he was pharaoh, sitting cross-legged with a scroll and his head down, working."
+  },
+  "547951": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.2, "warmth": 0.5, "outlook": -0.2, "focus": 0.6, "social": 0.3 },
+    "tags": ["Warm", "Inward", "Watchful"],
+    "why": "Eutyches was a boy in Roman Egypt. His portrait looks straight at you across two thousand years."
+  },
+  "544320": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.3, "warmth": 0.4, "outlook": 0.3, "focus": 0.2, "social": 0.6 },
+    "tags": ["Calm", "Warm", "Close"],
+    "why": "Mentuwoser sits at a table piled with food while his family brings more. A picture of being looked after."
+  },
+  "544068": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": 0.3, "warmth": 0.4, "outlook": 0.5, "focus": -0.3, "social": -0.4 },
+    "tags": ["Restless", "Hopeful", "Alone"],
+    "why": "An ivory gazelle, alert and about to move, standing on a little hill of desert flowers."
+  },
+  "544326": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.4, "warmth": 0.1, "outlook": -0.5, "focus": 0.5, "social": -0.4 },
+    "tags": ["Heavy", "Inward", "Alone"],
+    "why": "Khnumnakht's coffin is painted with eyes so he could look out, and a door so he could leave. Grief, made practical."
+  },
+  "548344": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.3, "warmth": 0.2, "outlook": -0.3, "focus": 0.7, "social": -0.6 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "Nauny's Book of the Dead shows her heart being weighed against a feather. A long scroll about facing yourself."
+  },
+  "544118": {
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": { "energy": -0.7, "warmth": 0.2, "outlook": 0.2, "focus": 0.5, "social": -0.7 },
+    "tags": ["Calm", "Alone", "Inward"],
+    "why": "A bronze cat sitting perfectly upright with gold earrings. Composed, a little aloof, and not going anywhere."
+  }
+}

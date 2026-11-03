@@ -1,5 +1,83 @@
 [
   {
+    "objectID": 10154,
+    "title": "The Rocky Mountains, Lander's Peak",
+    "artist": "Albert Bierstadt",
+    "date": "1863",
+    "medium": "Oil on canvas",
+    "gallery": "760",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT82.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT82.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10154",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": 0.1,
+      "warmth": 0.3,
+      "outlook": 0.7,
+      "focus": -0.9,
+      "social": 0.2
+    },
+    "tags": [
+      "Hopeful",
+      "Outward",
+      "Steady"
+    ],
+    "why": "Bierstadt's mountains are bigger than anything you have ever seen, and the light is just breaking over them."
+  },
+  {
+    "objectID": 10159,
+    "title": "Fur Traders Descending the Missouri",
+    "artist": "George Caleb Bingham",
+    "date": "1845",
+    "medium": "Oil on canvas",
+    "gallery": "731",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT73.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT73.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10159",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.8,
+      "warmth": 0.5,
+      "outlook": 0.2,
+      "focus": -0.3,
+      "social": 0.3
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Close"
+    ],
+    "why": "Bingham's fur traders drift downriver through pink morning haze, with a cat in the bow and nowhere to hurry to."
+  },
+  {
+    "objectID": 10464,
+    "title": "At the Seaside",
+    "artist": "William Merritt Chase",
+    "date": "ca. 1892",
+    "medium": "Oil on canvas",
+    "gallery": "769",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT95.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT95.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10464",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.5,
+      "outlook": 0.6,
+      "focus": -0.3,
+      "social": 0.6
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Close"
+    ],
+    "why": "Chase painted a bright day at the beach with red umbrellas and children digging in the sand."
+  },
+  {
     "objectID": 10481,
     "title": "Heart of the Andes",
     "artist": "Frederic Edwin Church",
@@ -10,19 +88,20 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT78.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/10481",
     "room": "american-wing",
-    "approachVia": "The American Wing, second floor",
+    "galleryKey": "amer",
     "mood": {
       "energy": -0.3,
-      "warmth": 0.5,
-      "outlook": 0.9,
-      "focus": -0.3
+      "warmth": 0.4,
+      "outlook": 0.6,
+      "focus": -0.8,
+      "social": -0.2
     },
     "tags": [
-      "Open",
+      "Calm",
       "Hopeful",
-      "Vast"
+      "Outward"
     ],
-    "why": "You wanted room to breathe. Church painted an entire continent of light and distance into one frame."
+    "why": "Church packed a whole continent into one view, from the snow on the peak to the moss on the rocks at your feet."
   },
   {
     "objectID": 10497,
@@ -35,19 +114,202 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-12550-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/10497",
     "room": "american-wing",
-    "approachVia": "The American Wing, second floor",
+    "galleryKey": "amer",
     "mood": {
-      "energy": 0.1,
-      "warmth": 0.2,
-      "outlook": 0.2,
-      "focus": 0.7
+      "energy": 0.2,
+      "warmth": 0.3,
+      "outlook": 0.4,
+      "focus": -0.6,
+      "social": -0.4
     },
     "tags": [
-      "Reflective",
-      "Between",
-      "Weathered"
+      "Hopeful",
+      "Outward",
+      "Alone"
     ],
-    "why": "You're somewhere between a storm and a clearing, and you know it. Cole put both in the same sky and stood right in the middle."
+    "why": "Cole's Oxbow is a storm leaving on one side and sun arriving on the other, with the painter alone in between."
+  },
+  {
+    "objectID": 10554,
+    "title": "Watson and the Shark",
+    "artist": "John Singleton Copley",
+    "date": "ca. 1778",
+    "medium": "Oil on canvas",
+    "gallery": "717",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP140862.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP140862.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10554",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": 0.9,
+      "warmth": -0.3,
+      "outlook": -0.5,
+      "focus": -0.5,
+      "social": 0.6
+    },
+    "tags": [
+      "Restless",
+      "Heavy",
+      "Outward"
+    ],
+    "why": "Copley's rescue is one second from going wrong, and nine people are reaching at once."
+  },
+  {
+    "objectID": 10813,
+    "title": "The Chess Players",
+    "artist": "Thomas Eakins",
+    "date": "1876",
+    "medium": "Oil on wood",
+    "gallery": "730",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP-18074-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-18074-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10813",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.6,
+      "warmth": 0.4,
+      "outlook": 0,
+      "focus": 0.6,
+      "social": 0.5
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Close"
+    ],
+    "why": "Eakins painted his father watching two old friends play chess in a dark, comfortable room."
+  },
+  {
+    "objectID": 10819,
+    "title": "The Champion Single Sculls (Max Schmitt in a Single Scull)",
+    "artist": "Thomas Eakins",
+    "date": "1871",
+    "medium": "Oil on canvas",
+    "gallery": "763",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT86.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT86.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10819",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.2,
+      "outlook": 0.5,
+      "focus": 0.5,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Alone",
+      "Hopeful"
+    ],
+    "why": "Eakins put his friend alone on a glassy river in clear autumn light, resting between strokes."
+  },
+  {
+    "objectID": 11050,
+    "title": "Approaching Thunder Storm",
+    "artist": "Martin Johnson Heade",
+    "date": "1859",
+    "medium": "Oil on canvas",
+    "gallery": "761",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP248013.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP248013.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/11050",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": 0.3,
+      "warmth": -0.6,
+      "outlook": -0.4,
+      "focus": 0.2,
+      "social": -0.5
+    },
+    "tags": [
+      "Cool",
+      "Heavy",
+      "Alone"
+    ],
+    "why": "Heade painted the minute before a storm: black sky, flat water, and one man on the shore who has not moved yet."
+  },
+  {
+    "objectID": 11122,
+    "title": "The Gulf Stream",
+    "artist": "Winslow Homer",
+    "date": "1899; reworked by 1906",
+    "medium": "Oil on canvas",
+    "gallery": "767",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP-20821-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-20821-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/11122",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.4,
+      "outlook": -0.7,
+      "focus": 0.1,
+      "social": -0.8
+    },
+    "tags": [
+      "Restless",
+      "Heavy",
+      "Alone"
+    ],
+    "why": "Homer's sailor is adrift with sharks circling and a waterspout coming, and he is not looking at either."
+  },
+  {
+    "objectID": 11145,
+    "title": "The Veteran in a New Field",
+    "artist": "Winslow Homer",
+    "date": "1865",
+    "medium": "Oil on canvas",
+    "gallery": "762",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP102298.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP102298.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/11145",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.7,
+      "outlook": 0.2,
+      "focus": 0.6,
+      "social": -0.7
+    },
+    "tags": [
+      "Warm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Homer's veteran has put down his rifle and picked up a scythe. Hot sun, tall wheat, and a lot to think about."
+  },
+  {
+    "objectID": 11311,
+    "title": "Lake George",
+    "artist": "John Frederick Kensett",
+    "date": "1869",
+    "medium": "Oil on canvas",
+    "gallery": "761",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT84.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT84.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/11311",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.9,
+      "warmth": 0.1,
+      "outlook": 0.3,
+      "focus": -0.4,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Alone",
+      "Even"
+    ],
+    "why": "Kensett's Lake George is a still morning with nothing moving. The quietest picture in the wing."
   },
   {
     "objectID": 11417,
@@ -60,19 +322,20 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP215410.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/11417",
     "room": "american-wing",
-    "approachVia": "The American Wing, second floor",
+    "galleryKey": "amer",
     "mood": {
-      "energy": 0.9,
+      "energy": 0.7,
       "warmth": -0.2,
       "outlook": 0.7,
-      "focus": -0.9
+      "focus": -0.7,
+      "social": 0.8
     },
     "tags": [
       "Restless",
-      "Driven",
-      "Outward"
+      "Hopeful",
+      "Close"
     ],
-    "why": "You've got momentum and you're pointed at something. Leutze's river crossing is all forward motion against the ice."
+    "why": "Leutze's boat is overloaded, the river is full of ice, and every person in it is pulling in the same direction."
   },
   {
     "objectID": 12127,
@@ -85,19 +348,1164 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-29006-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/12127",
     "room": "american-wing",
-    "approachVia": "The American Wing, second floor",
+    "galleryKey": "amer",
     "mood": {
-      "energy": 0,
-      "warmth": -0.6,
-      "outlook": -0.2,
-      "focus": 0.8
+      "energy": 0.1,
+      "warmth": -0.4,
+      "outlook": 0.1,
+      "focus": 0.7,
+      "social": -0.3
     },
     "tags": [
       "Cool",
-      "Poised",
-      "Guarded"
+      "Inward",
+      "Watchful"
     ],
-    "why": "You're keeping your cool and a little distance. Sargent's Madame X turns away from the room and lets it look."
+    "why": "Sargent's Madame X turns her face away and lets you look. Composed on the outside, and a scandal underneath."
+  },
+  {
+    "objectID": 16584,
+    "title": "George Washington",
+    "artist": "Gilbert Stuart",
+    "date": "begun 1795",
+    "medium": "Oil on canvas",
+    "gallery": "723",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT62.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT62.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/16584",
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.2,
+      "outlook": 0.3,
+      "focus": 0.5,
+      "social": 0.1
+    },
+    "tags": [
+      "Steady",
+      "Inward",
+      "Hopeful"
+    ],
+    "why": "Stuart left this portrait of Washington unfinished on purpose, and kept it to copy for the rest of his life."
+  },
+  {
+    "objectID": 22506,
+    "title": "Armor (<i>Yoroi</i>) of Ashikaga Takauji (1305–1358)",
+    "artist": "Unknown artist",
+    "date": "early 14th century",
+    "medium": "Iron, lacquer, leather, silk, gilt copper",
+    "gallery": "377",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP-18838-005.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP-18838-005.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/22506",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.3,
+      "outlook": -0.2,
+      "focus": 0.6,
+      "social": -0.4
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "A fourteenth-century samurai armor of silk cord and lacquered scales, made for a man who founded a dynasty."
+  },
+  {
+    "objectID": 22521,
+    "title": "Armor (<i>Gusoku</i>)",
+    "artist": "Saotome Ietada",
+    "date": "16th and 18th centuries",
+    "medium": "Iron, lacquer, silk, gilt copper",
+    "gallery": "377",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT253026.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DT253026.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/22521",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": -0.3,
+      "warmth": -0.2,
+      "outlook": 0,
+      "focus": 0.5,
+      "social": -0.3
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Inward"
+    ],
+    "why": "Dark lacquer, blue silk and a quiet, upright posture. This armor is about discipline, not display."
+  },
+  {
+    "objectID": 22634,
+    "title": "Burgonet",
+    "artist": "Filippo Negroli",
+    "date": "dated 1543",
+    "medium": "Steel, gold, textile",
+    "gallery": "374",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP-12880-022.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP-12880-022.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/22634",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.2,
+      "warmth": 0.1,
+      "outlook": 0.1,
+      "focus": 0.6,
+      "social": -0.3
+    },
+    "tags": [
+      "Inward",
+      "Steady",
+      "Alone"
+    ],
+    "why": "Negroli hammered a mermaid and a Medusa out of one sheet of steel. Close up, the detail stops time."
+  },
+  {
+    "objectID": 22860,
+    "title": "Sallet in the Shape of a Lion's Head",
+    "artist": "Unknown artist",
+    "date": "ca. 1475–80",
+    "medium": "Steel, copper, gold, glass, pigment, textile",
+    "gallery": "373",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP237081.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP237081.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/22860",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.7,
+      "warmth": 0.6,
+      "outlook": 0.2,
+      "focus": -0.2,
+      "social": 0.2
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Watchful"
+    ],
+    "why": "A helmet shaped like a roaring gilt lion. Somebody wanted to be noticed, and five hundred years later they still are."
+  },
+  {
+    "objectID": 23216,
+    "title": "Helm for the Joust of Peace (<i>Stechhelm</i>)",
+    "artist": "Unknown artist",
+    "date": "ca. 1500",
+    "medium": "Steel, copper alloy",
+    "gallery": "373",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP271142.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP271142.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/23216",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.5,
+      "warmth": -0.3,
+      "outlook": 0.3,
+      "focus": -0.6,
+      "social": 0.8
+    },
+    "tags": [
+      "Restless",
+      "Outward",
+      "Close"
+    ],
+    "why": "A frog-mouth helm for the joust, built for the roar of a crowd and the moment two riders meet."
+  },
+  {
+    "objectID": 23358,
+    "title": "Horse Armor Made for Johann Ernst, Duke of Saxony-Coburg (1521–1553)",
+    "artist": "Kunz Lochner",
+    "date": "dated 1548",
+    "medium": "Steel, leather, copper alloy, textile",
+    "gallery": "371",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT271714.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DT271714.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/23358",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.8,
+      "warmth": 0.2,
+      "outlook": 0.4,
+      "focus": -0.7,
+      "social": 0.8
+    },
+    "tags": [
+      "Restless",
+      "Outward",
+      "Close"
+    ],
+    "why": "Lochner made this horse armor for a duke who liked to be looked at. The whole court rides in a line."
+  },
+  {
+    "objectID": 23939,
+    "title": "Armor Garniture of George Clifford (1558–1605), \nThird Earl of Cumberland",
+    "artist": "Jacob Halder",
+    "date": "1586",
+    "medium": "Steel, gold, leather, textile",
+    "gallery": "371",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT259974.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DT259974.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/23939",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.5,
+      "warmth": 0.3,
+      "outlook": 0.6,
+      "focus": -0.5,
+      "social": 0.5
+    },
+    "tags": [
+      "Restless",
+      "Hopeful",
+      "Outward"
+    ],
+    "why": "George Clifford had this blued and gilded armor made for tilting in front of the Queen. Confidence in steel."
+  },
+  {
+    "objectID": 23944,
+    "title": "Armor of Emperor Ferdinand I (1503–1564)",
+    "artist": "Kunz Lochner",
+    "date": "dated 1549",
+    "medium": "Steel, brass, leather",
+    "gallery": "371",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP-12881-007.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP-12881-007.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/23944",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.4,
+      "warmth": 0.1,
+      "outlook": 0.3,
+      "focus": -0.3,
+      "social": 0.7
+    },
+    "tags": [
+      "Restless",
+      "Hopeful",
+      "Close"
+    ],
+    "why": "Ferdinand I rode into the Equestrian Court in this. It still has the feel of a parade."
+  },
+  {
+    "objectID": 24671,
+    "title": "Armor of Henry II, King of France (reigned 1547–59)",
+    "artist": "Jean Cousin the Elder",
+    "date": "ca. 1555",
+    "medium": "Steel, gold, silver, leather, textile",
+    "gallery": "374",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP256970.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP256970.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/24671",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.5,
+      "outlook": 0.4,
+      "focus": -0.4,
+      "social": 0.5
+    },
+    "tags": [
+      "Warm",
+      "Hopeful",
+      "Close"
+    ],
+    "why": "Henry II's parade armor is covered in gold and silver figures. It was never meant for a fight, only for being seen."
+  },
+  {
+    "objectID": 24693,
+    "title": "Shield",
+    "artist": "Girolamo da Treviso",
+    "date": "ca. 1535",
+    "medium": "Wood, linen, gesso, gold leaf, polychromy",
+    "gallery": "374",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/LC-42_50_16-030.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/LC-42_50_16-030.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/24693",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.4,
+      "outlook": -0.3,
+      "focus": -0.4,
+      "social": 0.6
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Outward"
+    ],
+    "why": "Girolamo da Treviso painted a whole battle onto a parade shield, gold on dark ground, horses everywhere."
+  },
+  {
+    "objectID": 24931,
+    "title": "Costume Armor in the Classical Style",
+    "artist": "Hallé",
+    "date": "ca. 1788–90",
+    "medium": "Helmet: linen, papier-mâché, bole, gold leaf, graphite; tunic: silk, cotton, metal coils and spangles, metallic yarn",
+    "gallery": "376",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT5896.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DT5896.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/24931",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.4,
+      "warmth": 0.5,
+      "outlook": 0.5,
+      "focus": -0.3,
+      "social": 0.6
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Close"
+    ],
+    "why": "Fancy-dress armor for a costume ball in 1790, made to look like a Roman hero. Pure theater."
+  },
+  {
+    "objectID": 24937,
+    "title": "Armor of Infante Luis, Prince of Asturias (1707–1724)",
+    "artist": "Jean Drouart",
+    "date": "dated 1712",
+    "medium": "Steel, gold, brass, silk, cotton, metallic yarn, paper",
+    "gallery": "376",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP-38098-003.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP-38098-003.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/24937",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.1,
+      "warmth": 0.6,
+      "outlook": 0.5,
+      "focus": 0.1,
+      "social": 0.4
+    },
+    "tags": [
+      "Warm",
+      "Hopeful",
+      "Close"
+    ],
+    "why": "A tiny gilded armor made for a five-year-old prince. Equal parts serious and sweet."
+  },
+  {
+    "objectID": 27792,
+    "title": "Harquebusier's Armor of Pedro II, King of Portugal (reigned 1683–1706) with Buff Coat",
+    "artist": "Richard Holden",
+    "date": "ca. 1683 and later; buff coat, 17th–18th century",
+    "medium": "Steel, gold, leather, textile",
+    "gallery": "371",
+    "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DP-38578-002.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/aa/original/DP-38578-002.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/27792",
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": {
+      "energy": 0.3,
+      "warmth": -0.4,
+      "outlook": 0.2,
+      "focus": -0.2,
+      "social": 0.2
+    },
+    "tags": [
+      "Cool",
+      "Restless",
+      "Watchful"
+    ],
+    "why": "Black steel and gilt for a king of Portugal. Armor from the last century anyone wore it to war."
+  },
+  {
+    "objectID": 36108,
+    "title": "Ema (Votive Painting) of a Chinese Lion and Peony Tree",
+    "artist": "Unknown artist",
+    "date": "1631",
+    "medium": "Ink, color, and gold leaf on wood",
+    "gallery": "229",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/LC-1975_268_139_cc-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/LC-1975_268_139_cc-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/36108",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.6,
+      "outlook": 0.3,
+      "focus": -0.4,
+      "social": 0.5
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Outward"
+    ],
+    "why": "A huge votive painting of a lion tumbling through peonies, made to hang in a shrine and be seen from far away."
+  },
+  {
+    "objectID": 38448,
+    "title": "Avalokiteshvara, the Bodhisattva of Infinite Compassion",
+    "artist": "Choying Dorje (the Tenth Karmapa)",
+    "date": "17th century",
+    "medium": "Ivory",
+    "gallery": "253",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP251638.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP251638.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/38448",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.5,
+      "outlook": 0.5,
+      "focus": 0.2,
+      "social": 0.6
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Close"
+    ],
+    "why": "Avalokiteshvara, the bodhisattva of compassion, carved by the Tenth Karmapa with a soft, almost shy face."
+  },
+  {
+    "objectID": 39328,
+    "title": "Shiva as Lord of Dance (Nataraja)",
+    "artist": "Unknown artist",
+    "date": "ca. late 11th century",
+    "medium": "Copper alloy",
+    "gallery": "240",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT240.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DT240.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/39328",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": 0.7,
+      "warmth": 0.5,
+      "outlook": 0.3,
+      "focus": -0.2,
+      "social": 0.2
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "Shiva dances inside a ring of fire, one foot raised, perfectly balanced in the middle of everything ending and starting again."
+  },
+  {
+    "objectID": 39557,
+    "title": "Wooded Mountains at Dusk",
+    "artist": "Kuncan",
+    "date": "dated 1666",
+    "medium": "Hanging scroll; ink and color on paper",
+    "gallery": "211",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36007-002.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP-36007-002.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/39557",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.3,
+      "outlook": -0.2,
+      "focus": 0.8,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Kuncan painted dense wooded mountains at dusk with a poem about hiding out from the world. A picture for going inside."
+  },
+  {
+    "objectID": 39666,
+    "title": "Jar with dragon",
+    "artist": "Unknown artist",
+    "date": "early 15th century",
+    "medium": "Porcelain painted with cobalt blue under transparent glaze (Jingdezhen ware)",
+    "gallery": "202",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-32251-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP-32251-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/39666",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": 0.5,
+      "warmth": -0.2,
+      "outlook": 0.4,
+      "focus": -0.2,
+      "social": 0.1
+    },
+    "tags": [
+      "Restless",
+      "Hopeful",
+      "Cool"
+    ],
+    "why": "A blue-and-white jar with a dragon wrapped all the way around it, mid-flight and grinning."
+  },
+  {
+    "objectID": 40020,
+    "title": "The Sound of Spring in a Lonely Valley",
+    "artist": "Hongren",
+    "date": "1661",
+    "medium": "Hanging scroll; ink on paper",
+    "gallery": "215",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36009-002.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP-36009-002.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/40020",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.8,
+      "warmth": -0.4,
+      "outlook": 0.2,
+      "focus": 0.6,
+      "social": -0.8
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Alone"
+    ],
+    "why": "Hongren, a monk-painter, drew a valley with almost nothing in it. The title says you can hear spring arriving."
+  },
+  {
+    "objectID": 42059,
+    "title": "Boulder with Daoist paradise",
+    "artist": "Unknown artist",
+    "date": "18th century",
+    "medium": "Jade (nephrite)",
+    "gallery": "222",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP223608.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP223608.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/42059",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.2,
+      "outlook": 0.5,
+      "focus": 0.5,
+      "social": 0.3
+    },
+    "tags": [
+      "Calm",
+      "Hopeful",
+      "Inward"
+    ],
+    "why": "A jade boulder carved into a Daoist paradise: pines, pavilions and tiny immortals climbing toward the top."
+  },
+  {
+    "objectID": 42124,
+    "title": "Horse and female rider",
+    "artist": "Unknown artist",
+    "date": "7th century",
+    "medium": "Unfired clay with pigment",
+    "gallery": "207",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT11858.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DT11858.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/42124",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.4,
+      "outlook": 0.4,
+      "focus": -0.3,
+      "social": 0.3
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "A Tang dynasty woman on horseback, sitting easy, ready to ride out. Thirteen hundred years old and still going somewhere."
+  },
+  {
+    "objectID": 42716,
+    "title": "Buddha of Medicine Bhaishajyaguru (Yaoshi fo)",
+    "artist": "Unknown artist",
+    "date": "ca. 1319",
+    "medium": "Water-based pigment over foundation of clay mixed with straw",
+    "gallery": "206",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT227320.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DT227320.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/42716",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.6,
+      "warmth": 0.5,
+      "outlook": 0.4,
+      "focus": 0.3,
+      "social": 0.5
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "A whole temple wall of the Medicine Buddha, fifty feet wide, surrounded by attendants. Walk up close and it holds still for you."
+  },
+  {
+    "objectID": 45420,
+    "title": "Landscape in Moonlight",
+    "artist": "Kano Tan'yū",
+    "date": "after 1662",
+    "medium": "One of a triptych of hanging scrolls; ink on silk",
+    "gallery": "225",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP276502.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP276502.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/45420",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.7,
+      "warmth": -0.5,
+      "outlook": 0.1,
+      "focus": 0.4,
+      "social": -0.4
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Alone"
+    ],
+    "why": "Kano Tanyu's landscape in moonlight is mostly mist and silver. A screen for a quiet evening."
+  },
+  {
+    "objectID": 48932,
+    "title": "Orchid and rock",
+    "artist": "Ma Shouzhen",
+    "date": "dated 1572",
+    "medium": "Hanging scroll; ink on paper",
+    "gallery": "210",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT8794.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DT8794.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/48932",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.1,
+      "outlook": 0.3,
+      "focus": 0.7,
+      "social": -0.3
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Hopeful"
+    ],
+    "why": "Ma Shouzhen painted one orchid and one rock in a few quick strokes. Nothing wasted, nothing missing."
+  },
+  {
+    "objectID": 49132,
+    "title": "Wintry mountains",
+    "artist": "Gong Xian",
+    "date": "ca. 1679–89",
+    "medium": "Hanging scroll; ink on paper",
+    "gallery": "210",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36008-002.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP-36008-002.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/49132",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.6,
+      "warmth": -0.7,
+      "outlook": -0.4,
+      "focus": 0.6,
+      "social": -0.5
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Heavy"
+    ],
+    "why": "Gong Xian built these wintry mountains out of thousands of small dark dots. Bleak, patient, and strangely comforting."
+  },
+  {
+    "objectID": 64872,
+    "title": "Scenes of the Four Seasons in Kyoto",
+    "artist": "Genki (Komai Ki)",
+    "date": "1778",
+    "medium": "Handscroll; ink and color on silk",
+    "gallery": "231",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP359324_crd.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP359324_crd.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/64872",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": 0.2,
+      "warmth": 0.4,
+      "outlook": 0.5,
+      "focus": -0.6,
+      "social": 0.8
+    },
+    "tags": [
+      "Close",
+      "Outward",
+      "Hopeful"
+    ],
+    "why": "Genki painted a year in Kyoto, with hundreds of small people out walking in every season. You are one of them."
+  },
+  {
+    "objectID": 247017,
+    "title": "Cubiculum (bedroom) from the Villa of P. Fannius Synistor at Boscoreale",
+    "artist": "Unknown artist",
+    "date": "ca. 50–40 BCE",
+    "medium": "Fresco",
+    "gallery": "165",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP143704.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP143704.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/247017",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.6,
+      "outlook": 0.3,
+      "focus": 0.5,
+      "social": -0.5
+    },
+    "tags": [
+      "Warm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "A whole Roman bedroom from a villa buried by Vesuvius, painted red and gold. Step inside and close the door on the day."
+  },
+  {
+    "objectID": 247117,
+    "title": "Bronze statue of the emperor Trebonianus Gallus",
+    "artist": "Unknown artist",
+    "date": "251–253 CE",
+    "medium": "Bronze",
+    "gallery": "169",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP138716.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP138716.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/247117",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.3,
+      "warmth": -0.3,
+      "outlook": 0.1,
+      "focus": -0.2,
+      "social": -0.2
+    },
+    "tags": [
+      "Cool",
+      "Watchful",
+      "Steady"
+    ],
+    "why": "An eight-foot bronze of the emperor Trebonianus Gallus, one of very few to survive. Heavy, odd and impossible to ignore."
+  },
+  {
+    "objectID": 247967,
+    "title": "Bronze diskos thrower",
+    "artist": "Unknown artist",
+    "date": "ca. 480–460 BCE",
+    "medium": "Bronze",
+    "gallery": "153",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/CT16055_001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/CT16055_001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/247967",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.7,
+      "warmth": 0,
+      "outlook": 0.5,
+      "focus": 0.2,
+      "social": -0.2
+    },
+    "tags": [
+      "Restless",
+      "Hopeful",
+      "Steady"
+    ],
+    "why": "A small bronze diskos thrower caught at the top of the wind-up. All of the energy is still to come."
+  },
+  {
+    "objectID": 247993,
+    "title": "Marble portrait of the emperor Augustus",
+    "artist": "Unknown artist",
+    "date": "ca. 14–37 CE",
+    "medium": "Marble",
+    "gallery": "166",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP337220.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP337220.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/247993",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.3,
+      "warmth": -0.3,
+      "outlook": 0.3,
+      "focus": 0.3,
+      "social": 0
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Hopeful"
+    ],
+    "why": "Augustus, carved to look calm and ageless. A face made to say that everything is under control."
+  },
+  {
+    "objectID": 248132,
+    "title": "Marble statue of an old woman",
+    "artist": "Unknown artist",
+    "date": "14–68 CE",
+    "medium": "Marble, Pentelic",
+    "gallery": "162",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP277237.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP277237.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/248132",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.2,
+      "warmth": 0.4,
+      "outlook": -0.2,
+      "focus": -0.3,
+      "social": 0.5
+    },
+    "tags": [
+      "Warm",
+      "Outward",
+      "Close"
+    ],
+    "why": "A Roman marble of an old market woman on her way to a festival, basket in hand, tired and determined."
+  },
+  {
+    "objectID": 248140,
+    "title": "Marble statue of a lion",
+    "artist": "Unknown artist",
+    "date": "ca. 400–390 BCE",
+    "medium": "Marble, Parian 2",
+    "gallery": "156",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP-43517-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP-43517-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/248140",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.2,
+      "warmth": 0.2,
+      "outlook": 0.1,
+      "focus": -0.2,
+      "social": -0.5
+    },
+    "tags": [
+      "Watchful",
+      "Alone",
+      "Steady"
+    ],
+    "why": "A marble lion that once guarded a tomb, mouth open, still keeping watch."
+  },
+  {
+    "objectID": 248483,
+    "title": "Marble grave stele with a family group",
+    "artist": "Unknown artist",
+    "date": "ca. 360 BCE",
+    "medium": "Marble, Pentelic",
+    "gallery": "156",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DT281.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DT281.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/248483",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.3,
+      "outlook": -0.4,
+      "focus": 0.2,
+      "social": 0.8
+    },
+    "tags": [
+      "Close",
+      "Heavy",
+      "Calm"
+    ],
+    "why": "A family group on a grave marker, clasping hands. People holding on to each other, carved in marble."
+  },
+  {
+    "objectID": 250551,
+    "title": "Terracotta neck-amphora (jar) with lid and knob (27.16)",
+    "artist": "Exekias",
+    "date": "ca. 540 BCE",
+    "medium": "Terracotta",
+    "gallery": "155",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP218568.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP218568.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/250551",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.2,
+      "warmth": 0.4,
+      "outlook": 0.2,
+      "focus": 0.3,
+      "social": 0.4
+    },
+    "tags": [
+      "Warm",
+      "Inward",
+      "Close"
+    ],
+    "why": "An amphora by Exekias, the finest of the black-figure painters. Small figures doing precise things, beautifully."
+  },
+  {
+    "objectID": 250945,
+    "title": "Wall painting: Perseus and Andromeda in landscape, from the imperial villa at Boscotrecase",
+    "artist": "Unknown artist",
+    "date": "last decade of the 1st century BCE",
+    "medium": "Fresco",
+    "gallery": "166",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP138761.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP138761.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/250945",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.3,
+      "outlook": 0.4,
+      "focus": -0.7,
+      "social": 0.2
+    },
+    "tags": [
+      "Hopeful",
+      "Outward",
+      "Warm"
+    ],
+    "why": "Perseus swooping in to rescue Andromeda, painted on a Roman wall in a landscape full of air and distance."
+  },
+  {
+    "objectID": 252890,
+    "title": "Marble grave stele of a little girl",
+    "artist": "Unknown artist",
+    "date": "ca. 450–440 BCE",
+    "medium": "Marble, Parian",
+    "gallery": "156",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DT279.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DT279.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/252890",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.4,
+      "outlook": -0.5,
+      "focus": 0.4,
+      "social": 0.3
+    },
+    "tags": [
+      "Heavy",
+      "Warm",
+      "Calm"
+    ],
+    "why": "The grave stele of a little girl holding her two pet doves. Quiet, tender and very old."
+  },
+  {
+    "objectID": 253370,
+    "title": "Marble statue of a kouros (youth)",
+    "artist": "Unknown artist",
+    "date": "ca. 590–580 BCE",
+    "medium": "Marble, Naxian",
+    "gallery": "154",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP-23263-005.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP-23263-005.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/253370",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.3,
+      "warmth": -0.2,
+      "outlook": 0.5,
+      "focus": -0.3,
+      "social": 0.1
+    },
+    "tags": [
+      "Calm",
+      "Hopeful",
+      "Outward"
+    ],
+    "why": "The kouros has stood with one foot forward and a small smile for 2,600 years. Young, upright, and about to walk."
+  },
+  {
+    "objectID": 253592,
+    "title": "Marble portrait of the emperor Caracalla",
+    "artist": "Unknown artist",
+    "date": "212–217 CE",
+    "medium": "Marble",
+    "gallery": "169",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP333080.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP333080.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/253592",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.6,
+      "warmth": -0.4,
+      "outlook": -0.5,
+      "focus": -0.3,
+      "social": -0.3
+    },
+    "tags": [
+      "Restless",
+      "Cool",
+      "Heavy"
+    ],
+    "why": "Caracalla scowling over his shoulder. The most honest portrait of a bad mood in the building."
+  },
+  {
+    "objectID": 254502,
+    "title": "Bronze statue of Eros sleeping",
+    "artist": "Unknown artist",
+    "date": "3rd–2nd century BCE",
+    "medium": "Bronze",
+    "gallery": "164",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP123903.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP123903.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/254502",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.9,
+      "warmth": 0.5,
+      "outlook": 0.3,
+      "focus": 0.3,
+      "social": -0.3
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Inward"
+    ],
+    "why": "Eros, the god of love, fast asleep on a rock with his wings folded. Permission to rest."
+  },
+  {
+    "objectID": 254587,
+    "title": "Marble seated harp player",
+    "artist": "Unknown artist",
+    "date": "2800–2700 BCE",
+    "medium": "Marble",
+    "gallery": "151",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP256380.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP256380.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/254587",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.7,
+      "warmth": 0.1,
+      "outlook": 0.2,
+      "focus": 0.8,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "A marble harp player, head tipped back, lost in a tune from nearly five thousand years ago."
+  },
+  {
+    "objectID": 254819,
+    "title": "Marble sarcophagus with the Triumph of Dionysos and the Seasons",
+    "artist": "Unknown artist",
+    "date": "ca. 260–270 CE",
+    "medium": "Marble",
+    "gallery": "162",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP-14287-144.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP-14287-144.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/254819",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": 0.8,
+      "warmth": 0.5,
+      "outlook": 0.4,
+      "focus": -0.6,
+      "social": 0.8
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Close"
+    ],
+    "why": "A sarcophagus crowded with Dionysos, panthers, satyrs and the four seasons. A party carved in stone."
+  },
+  {
+    "objectID": 256403,
+    "title": "Marble Statue Group of the Three Graces",
+    "artist": "Unknown artist",
+    "date": "2nd century CE",
+    "medium": "Marble",
+    "gallery": "162",
+    "image": "https://images.metmuseum.org/CRDImages/gr/web-large/DP222664.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/gr/original/DP222664.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/256403",
+    "room": "greek-and-roman",
+    "galleryKey": "greek",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.5,
+      "outlook": 0.6,
+      "focus": -0.3,
+      "social": 0.9
+    },
+    "tags": [
+      "Close",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "The Three Graces with their arms around each other. Friendship, in marble, for two thousand years."
+  },
+  {
+    "objectID": 435702,
+    "title": "The Horse Fair",
+    "artist": "Rosa Bonheur",
+    "date": "1852–55",
+    "medium": "Oil on canvas",
+    "gallery": "812",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-23550-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-23550-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435702",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": 0.9,
+      "warmth": 0.3,
+      "outlook": 0.4,
+      "focus": -0.8,
+      "social": 0.7
+    },
+    "tags": [
+      "Restless",
+      "Outward",
+      "Close"
+    ],
+    "why": "Rosa Bonheur's Horse Fair is sixteen feet of muscle, dust and shouting. It is impossible to stand still in front of it."
   },
   {
     "objectID": 435809,
@@ -110,19 +1518,202 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP119115.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/435809",
     "room": "european-paintings",
-    "approachVia": "Northern Renaissance galleries",
+    "galleryKey": "eurp",
     "mood": {
       "energy": -0.4,
       "warmth": 0.8,
       "outlook": 0.4,
-      "focus": -0.5
+      "focus": -0.5,
+      "social": 0.5
     },
     "tags": [
-      "Settled",
+      "Calm",
       "Warm",
-      "Grounded"
+      "Close"
     ],
-    "why": "You wanted somewhere unhurried and warm. Bruegel's harvesters eat, nap and work under a hazy late-summer sky, and nobody is in a rush."
+    "why": "Bruegel's harvesters eat, nap and work under a hazy late-summer sky, and nobody is in a rush."
+  },
+  {
+    "objectID": 435839,
+    "title": "Piazza San Marco",
+    "artist": "Canaletto (Giovanni Antonio Canal)",
+    "date": "late 1720s",
+    "medium": "Oil on canvas",
+    "gallery": "644",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-14286-009.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-009.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435839",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.4,
+      "warmth": 0.5,
+      "outlook": 0.5,
+      "focus": -0.7,
+      "social": 0.7
+    },
+    "tags": [
+      "Restless",
+      "Outward",
+      "Close"
+    ],
+    "why": "Canaletto's Piazza San Marco is full of people going somewhere, under a sky that has just cleared."
+  },
+  {
+    "objectID": 435844,
+    "title": "The Musicians",
+    "artist": "Caravaggio (Michelangelo Merisi)",
+    "date": "1597",
+    "medium": "Oil on canvas",
+    "gallery": "620",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-687-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-687-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435844",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.4,
+      "warmth": 0.6,
+      "outlook": 0.3,
+      "focus": -0.3,
+      "social": 0.8
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Close"
+    ],
+    "why": "Caravaggio crowded four young musicians into one warm room, half tuning up and half daydreaming."
+  },
+  {
+    "objectID": 435868,
+    "title": "The Card Players",
+    "artist": "Paul Cézanne",
+    "date": "1890–92",
+    "medium": "Oil on canvas",
+    "gallery": "826",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP231550.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP231550.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435868",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.7,
+      "warmth": 0.2,
+      "outlook": 0,
+      "focus": 0.5,
+      "social": 0.3
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Close"
+    ],
+    "why": "Cezanne's card players have said everything they need to say. Two people, one table, total concentration."
+  },
+  {
+    "objectID": 435888,
+    "title": "Soap Bubbles",
+    "artist": "Jean Siméon Chardin",
+    "date": "ca. 1733–34",
+    "medium": "Oil on canvas",
+    "gallery": "629",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP356133.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP356133.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435888",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.6,
+      "warmth": 0.4,
+      "outlook": 0.2,
+      "focus": 0.5,
+      "social": 0.2
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Inward"
+    ],
+    "why": "Chardin's boy is giving all of his attention to one soap bubble, and for a moment so are you."
+  },
+  {
+    "objectID": 435962,
+    "title": "Hagar in the Wilderness",
+    "artist": "Camille Corot",
+    "date": "1835",
+    "medium": "Oil on canvas",
+    "gallery": "802",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DT2013.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DT2013.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435962",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.1,
+      "outlook": -0.8,
+      "focus": 0.3,
+      "social": -0.7
+    },
+    "tags": [
+      "Heavy",
+      "Alone",
+      "Watchful"
+    ],
+    "why": "Corot's Hagar is at the end of her strength in an empty landscape, and help is just arriving."
+  },
+  {
+    "objectID": 436095,
+    "title": "The Third-Class Carriage",
+    "artist": "Honoré Daumier",
+    "date": "1864",
+    "medium": "Oil on canvas",
+    "gallery": "812",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-21027-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-21027-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436095",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.2,
+      "outlook": -0.6,
+      "focus": 0.2,
+      "social": 0.5
+    },
+    "tags": [
+      "Heavy",
+      "Close",
+      "Calm"
+    ],
+    "why": "Daumier's third-class carriage is tired strangers pressed together, each lost in their own thoughts."
+  },
+  {
+    "objectID": 436101,
+    "title": "The Rest on the Flight into Egypt",
+    "artist": "Gerard David",
+    "date": "ca. 1512–15",
+    "medium": "Oil on wood",
+    "gallery": "605",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-14936-023.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14936-023.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436101",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.8,
+      "warmth": 0.5,
+      "outlook": 0.4,
+      "focus": 0.3,
+      "social": 0.4
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "Gerard David's holy family stops to rest on a long journey. The grass is soft and the day is kind."
   },
   {
     "objectID": 436105,
@@ -135,19 +1726,46 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-13139-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/436105",
     "room": "european-paintings",
-    "approachVia": "Neoclassical galleries",
+    "galleryKey": "eurp",
     "mood": {
       "energy": 0.3,
-      "warmth": -0.5,
-      "outlook": -0.6,
-      "focus": 0.5
+      "warmth": -0.3,
+      "outlook": -0.4,
+      "focus": 0.6,
+      "social": 0.4
     },
     "tags": [
-      "Resolute",
-      "Cool",
-      "Heavy"
+      "Heavy",
+      "Inward",
+      "Close"
     ],
-    "why": "Something is weighing on you and you're meeting it head-on. David's Socrates keeps talking, calm and certain, as he reaches for the cup."
+    "why": "David's Socrates keeps talking, calm and certain, while the people who love him fall apart around him."
+  },
+  {
+    "objectID": 436282,
+    "title": "The Crucifixion; The Last Judgment",
+    "artist": "Jan van Eyck",
+    "date": "ca. 1436–38",
+    "medium": "Oil on canvas, transferred from wood",
+    "gallery": "605",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/LC-33_92ab-Primary_Temp.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/LC-33_92ab-Primary_Temp.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436282",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.2,
+      "warmth": -0.5,
+      "outlook": -0.7,
+      "focus": 0.5,
+      "social": 0.2
+    },
+    "tags": [
+      "Heavy",
+      "Cool",
+      "Inward"
+    ],
+    "why": "Van Eyck fit a whole crowded world into two small panels, every face and cloud painted as if it mattered."
   },
   {
     "objectID": 436528,
@@ -160,19 +1778,72 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP346474.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/436528",
     "room": "nineteenth-century",
-    "approachVia": "Van Gogh gallery",
+    "galleryKey": "g822",
     "mood": {
-      "energy": -0.3,
-      "warmth": -0.4,
-      "outlook": 0.6,
-      "focus": 0.5
+      "energy": 0.2,
+      "warmth": -0.3,
+      "outlook": 0.5,
+      "focus": 0.4,
+      "social": -0.3
     },
     "tags": [
       "Cool",
       "Hopeful",
-      "Tender"
+      "Inward"
     ],
-    "why": "You're quieter than usual and hoping for something gentle. Van Gogh painted these irises in his last spring, and they are nothing but colour and care."
+    "why": "Van Gogh's irises push up against a yellow wall, every one of them a little different and all of them alive."
+  },
+  {
+    "objectID": 436532,
+    "title": "Self-Portrait with a Straw Hat (obverse: The Potato Peeler)",
+    "artist": "Vincent van Gogh",
+    "date": "1887",
+    "medium": "Oil on canvas",
+    "gallery": "825",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DT1502_cropped2.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DT1502_cropped2.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436532",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.5,
+      "outlook": 0.2,
+      "focus": 0.8,
+      "social": -0.5
+    },
+    "tags": [
+      "Restless",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Van Gogh painted himself in a straw hat because he could not afford a model, in quick, nervous strokes of yellow."
+  },
+  {
+    "objectID": 436534,
+    "title": "Roses",
+    "artist": "Vincent van Gogh",
+    "date": "1890",
+    "medium": "Oil on canvas",
+    "gallery": "822",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP346475.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP346475.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436534",
+    "room": "nineteenth-century",
+    "galleryKey": "g822",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.4,
+      "outlook": 0.6,
+      "focus": 0.1,
+      "social": -0.1
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "Van Gogh painted these roses in his last spring, in the week he left the asylum, and they are pure relief."
   },
   {
     "objectID": 436535,
@@ -185,19 +1856,72 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-42549-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/436535",
     "room": "european-paintings",
-    "approachVia": "19th-Century European Paintings",
+    "galleryKey": "g822",
     "mood": {
       "energy": 0.8,
       "warmth": 0.6,
       "outlook": 0.6,
-      "focus": 0.2
+      "focus": 0.2,
+      "social": 0
     },
     "tags": [
       "Restless",
       "Warm",
       "Hopeful"
     ],
-    "why": "Your mind has been racing, but you're drawn to warm light and looking ahead. Van Gogh painted a restless, swirling sky over a calm golden field."
+    "why": "Van Gogh painted a restless, swirling sky over a calm golden field."
+  },
+  {
+    "objectID": 436545,
+    "title": "Manuel Osorio Manrique de Zuñiga (1784–1792)",
+    "artist": "Goya (Francisco de Goya y Lucientes)",
+    "date": "1787–88",
+    "medium": "Oil on canvas",
+    "gallery": "641",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP287624.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP287624.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436545",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.1,
+      "warmth": 0.6,
+      "outlook": 0.1,
+      "focus": 0.3,
+      "social": 0.3
+    },
+    "tags": [
+      "Warm",
+      "Watchful",
+      "Close"
+    ],
+    "why": "Goya's little boy in red stands very still while the cats watch his pet magpie. Tender, and a bit uneasy."
+  },
+  {
+    "objectID": 436839,
+    "title": "The Penitent Magdalen",
+    "artist": "Georges de La Tour",
+    "date": "ca. 1640",
+    "medium": "Oil on canvas",
+    "gallery": "622",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-27910-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-27910-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436839",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.7,
+      "warmth": 0.3,
+      "outlook": -0.5,
+      "focus": 0.9,
+      "social": -0.8
+    },
+    "tags": [
+      "Calm",
+      "Heavy",
+      "Alone"
+    ],
+    "why": "La Tour's Magdalen sits alone with a single candle, letting a hard thought settle."
   },
   {
     "objectID": 436947,
@@ -210,19 +1934,254 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-25466-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/436947",
     "room": "nineteenth-century",
-    "approachVia": "Impressionism galleries",
+    "galleryKey": "c19",
     "mood": {
-      "energy": 0.4,
+      "energy": -0.3,
       "warmth": 0.3,
-      "outlook": 0.8,
-      "focus": -0.7
+      "outlook": 0.6,
+      "focus": -0.5,
+      "social": 0.6
     },
     "tags": [
-      "Bright",
-      "Open",
+      "Calm",
+      "Hopeful",
+      "Close"
+    ],
+    "why": "Manet's Boating is a bright afternoon on the water with someone you like and nowhere to be."
+  },
+  {
+    "objectID": 437097,
+    "title": "Haystacks: Autumn",
+    "artist": "Jean-François Millet",
+    "date": "ca. 1874",
+    "medium": "Oil on canvas",
+    "gallery": "802",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP124093.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP124093.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437097",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.6,
+      "outlook": 0.1,
+      "focus": -0.3,
+      "social": -0.4
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Alone"
+    ],
+    "why": "Millet's haystacks sit in the last warm light of autumn, with the shepherd and his flock already heading home."
+  },
+  {
+    "objectID": 437329,
+    "title": "The Abduction of the Sabine Women",
+    "artist": "Nicolas Poussin",
+    "date": "probably 1633–34",
+    "medium": "Oil on canvas",
+    "gallery": "623",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-29324-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-29324-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437329",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.9,
+      "warmth": 0.1,
+      "outlook": -0.5,
+      "focus": -0.6,
+      "social": 0.6
+    },
+    "tags": [
+      "Restless",
+      "Heavy",
       "Outward"
     ],
-    "why": "You're feeling bright and ready to be out in the world. Manet's Boating is all sun, blue water and an easy afternoon with someone else at the tiller."
+    "why": "Poussin's Sabine Women is all motion and noise, every figure pulling in a different direction."
+  },
+  {
+    "objectID": 437394,
+    "title": "Aristotle with a Bust of Homer",
+    "artist": "Rembrandt (Rembrandt van Rijn)",
+    "date": "1653",
+    "medium": "Oil on canvas",
+    "gallery": "616",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-30758-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-30758-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437394",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.4,
+      "outlook": -0.3,
+      "focus": 0.9,
+      "social": -0.5
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Rembrandt's Aristotle rests a hand on Homer's head and thinks about what lasts, in gold light and deep shadow."
+  },
+  {
+    "objectID": 437397,
+    "title": "Self-Portrait",
+    "artist": "Rembrandt (Rembrandt van Rijn)",
+    "date": "1660",
+    "medium": "Oil on canvas",
+    "gallery": "616",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-16323-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-16323-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437397",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.3,
+      "outlook": -0.4,
+      "focus": 0.9,
+      "social": -0.6
+    },
+    "tags": [
+      "Inward",
+      "Heavy",
+      "Alone"
+    ],
+    "why": "Rembrandt at fifty-four, looking at himself without flattery and without flinching."
+  },
+  {
+    "objectID": 437430,
+    "title": "By the Seashore",
+    "artist": "Auguste Renoir",
+    "date": "1883",
+    "medium": "Oil on canvas",
+    "gallery": "824",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-14936-039.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14936-039.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437430",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.6,
+      "warmth": 0.4,
+      "outlook": 0.5,
+      "focus": -0.2,
+      "social": 0.2
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "Renoir sat a friend in a wicker chair by the sea and let the whole afternoon go soft around her."
+  },
+  {
+    "objectID": 437549,
+    "title": "Wheat Fields",
+    "artist": "Jacob van Ruisdael",
+    "date": "ca. 1670",
+    "medium": "Oil on canvas",
+    "gallery": "615",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP145911.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP145911.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437549",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.2,
+      "outlook": 0.5,
+      "focus": -0.6,
+      "social": -0.3
+    },
+    "tags": [
+      "Calm",
+      "Hopeful",
+      "Outward"
+    ],
+    "why": "Ruisdael gives you a wide road, ripe wheat and a sky that takes up most of the picture."
+  },
+  {
+    "objectID": 437654,
+    "title": "Circus Sideshow (Parade de cirque)",
+    "artist": "Georges Seurat",
+    "date": "1887–88",
+    "medium": "Oil on canvas",
+    "gallery": "825",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP375450_cropped.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP375450_cropped.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437654",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.2,
+      "warmth": -0.5,
+      "outlook": -0.2,
+      "focus": 0.3,
+      "social": 0.6
+    },
+    "tags": [
+      "Cool",
+      "Watchful",
+      "Close"
+    ],
+    "why": "Seurat's sideshow is a crowd at night, lit by gas lamps, waiting to be let in. Quiet, strange, together."
+  },
+  {
+    "objectID": 437835,
+    "title": "The Englishman (William Tom Warrener, 1861–1934) at the Moulin Rouge",
+    "artist": "Henri de Toulouse-Lautrec",
+    "date": "1892",
+    "medium": "Oil on cardboard",
+    "gallery": "817",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DT1500.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DT1500.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437835",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.4,
+      "outlook": 0.2,
+      "focus": -0.4,
+      "social": 0.9
+    },
+    "tags": [
+      "Restless",
+      "Close",
+      "Outward"
+    ],
+    "why": "Toulouse-Lautrec caught an Englishman at the Moulin Rouge mid-flirt, in a room that is all noise and color."
+  },
+  {
+    "objectID": 437854,
+    "title": "Whalers",
+    "artist": "Joseph Mallord William Turner",
+    "date": "ca. 1845",
+    "medium": "Oil on canvas",
+    "gallery": "808",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-13360-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-13360-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437854",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": 0.7,
+      "warmth": -0.4,
+      "outlook": -0.3,
+      "focus": -0.5,
+      "social": -0.4
+    },
+    "tags": [
+      "Restless",
+      "Cool",
+      "Heavy"
+    ],
+    "why": "Turner's whalers are barely there, swallowed by spray and weather. A storm you can feel in your chest."
   },
   {
     "objectID": 437869,
@@ -235,19 +2194,20 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/437869",
     "room": "european-paintings",
-    "approachVia": "Spanish galleries",
+    "galleryKey": "eurp",
     "mood": {
       "energy": -0.2,
       "warmth": 0.1,
       "outlook": 0.2,
-      "focus": 0.9
+      "focus": 0.9,
+      "social": -0.2
     },
     "tags": [
       "Steady",
-      "Composed",
-      "Inward"
+      "Inward",
+      "Watchful"
     ],
-    "why": "You've been holding yourself together with quiet dignity. Velázquez painted his assistant looking straight back at you with exactly that."
+    "why": "Velazquez painted his assistant Juan de Pareja looking straight back at you with quiet, unshakable dignity."
   },
   {
     "objectID": 437881,
@@ -260,19 +2220,98 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP353257.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/437881",
     "room": "european-paintings",
-    "approachVia": "Dutch galleries",
+    "galleryKey": "eurp",
     "mood": {
       "energy": -0.8,
-      "warmth": 0.3,
-      "outlook": 0.5,
-      "focus": 0.6
+      "warmth": 0.5,
+      "outlook": 0.3,
+      "focus": 0.4,
+      "social": -0.4
     },
     "tags": [
       "Calm",
-      "Clear",
-      "Morning"
+      "Warm",
+      "Alone"
     ],
-    "why": "You're after a clear, quiet moment. Vermeer caught one: cool morning light, an open window, and nothing that needs doing yet."
+    "why": "Vermeer caught a woman alone at a window in the first soft light of the day, and nothing else needs to happen."
+  },
+  {
+    "objectID": 437926,
+    "title": "Mezzetin",
+    "artist": "Antoine Watteau",
+    "date": "ca. 1718–20",
+    "medium": "Oil on canvas",
+    "gallery": "629",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP170811.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP170811.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437926",
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.5,
+      "outlook": -0.4,
+      "focus": 0.4,
+      "social": -0.5
+    },
+    "tags": [
+      "Heavy",
+      "Warm",
+      "Alone"
+    ],
+    "why": "Watteau's Mezzetin plays his guitar to someone who has already turned away. Sweet, sad and a little funny."
+  },
+  {
+    "objectID": 438417,
+    "title": "Two Men Contemplating the Moon",
+    "artist": "Caspar David Friedrich",
+    "date": "ca. 1825–30",
+    "medium": "Oil on canvas",
+    "gallery": "807",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-31997-001-NEW.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/438417",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.8,
+      "warmth": -0.5,
+      "outlook": 0,
+      "focus": 0.7,
+      "social": 0.6
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Inward"
+    ],
+    "why": "Friedrich's two friends stand in the dark and look at the moon together, saying nothing."
+  },
+  {
+    "objectID": 438814,
+    "title": "The Abduction of Rebecca",
+    "artist": "Eugène Delacroix",
+    "date": "1846",
+    "medium": "Oil on canvas",
+    "gallery": "801",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-14344-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14344-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/438814",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": 0.9,
+      "warmth": 0.5,
+      "outlook": -0.4,
+      "focus": -0.6,
+      "social": 0.3
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Heavy"
+    ],
+    "why": "Delacroix painted a rescue in the middle of a burning castle, all hot color and panic."
   },
   {
     "objectID": 438815,
@@ -285,19 +2324,20 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-35674-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/438815",
     "room": "nineteenth-century",
-    "approachVia": "Impressionism galleries",
+    "galleryKey": "c19",
     "mood": {
-      "energy": -0.5,
+      "energy": -0.4,
       "warmth": 0.7,
-      "outlook": 0.4,
-      "focus": -0.6
+      "outlook": 0.5,
+      "focus": -0.2,
+      "social": 0.9
     },
     "tags": [
-      "Calm",
       "Warm",
-      "Together"
+      "Close",
+      "Calm"
     ],
-    "why": "You're after warmth and company more than quiet. Renoir painted a mother, two children and a very patient dog settling into a long afternoon at home."
+    "why": "Renoir painted a mother, two children and a very patient dog in a room that feels like home."
   },
   {
     "objectID": 438817,
@@ -310,18 +2350,487 @@
     "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-20101-001.jpg",
     "objectURL": "https://www.metmuseum.org/art/collection/search/438817",
     "room": "nineteenth-century",
-    "approachVia": "Degas gallery",
+    "galleryKey": "c19",
     "mood": {
-      "energy": 0.6,
-      "warmth": 0.2,
-      "outlook": 0.1,
-      "focus": -0.4
+      "energy": 0.4,
+      "warmth": 0.3,
+      "outlook": 0.4,
+      "focus": -0.5,
+      "social": 0.8
     },
     "tags": [
-      "Busy",
-      "Focused",
-      "Social"
+      "Restless",
+      "Close",
+      "Hopeful"
     ],
-    "why": "Your energy is up and scattered in a good way. Degas's dancers stretch, fidget and wait their turn in a room full of small motions."
+    "why": "Degas caught a dance class between exercises: fidgeting, stretching, whispering, waiting to begin."
+  },
+  {
+    "objectID": 438821,
+    "title": "Ia Orana Maria (Hail Mary)",
+    "artist": "Paul Gauguin",
+    "date": "1891",
+    "medium": "Oil on canvas",
+    "gallery": "825",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DT1025.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DT1025.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/438821",
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.8,
+      "outlook": 0.5,
+      "focus": 0.2,
+      "social": 0.4
+    },
+    "tags": [
+      "Warm",
+      "Calm",
+      "Hopeful"
+    ],
+    "why": "Gauguin moved the Annunciation to Tahiti and filled it with fruit, flowers and heat."
+  },
+  {
+    "objectID": 543867,
+    "title": "Game of Hounds and Jackals",
+    "artist": "Unknown artist",
+    "date": "ca. 1814–1805 B.C.",
+    "medium": "Ebony, ivory",
+    "gallery": "111",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP263833.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP263833.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/543867",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.5,
+      "outlook": 0.4,
+      "focus": -0.1,
+      "social": 0.7
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Close"
+    ],
+    "why": "A board game from 1800 BCE with ivory hounds and jackals for pieces. Somebody played this with a friend."
+  },
+  {
+    "objectID": 543937,
+    "title": "Mastaba Tomb of Perneb",
+    "artist": "Unknown artist",
+    "date": "ca. 2381–2323 BCE",
+    "medium": "Limestone, paint",
+    "gallery": "100",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP108489.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP108489.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/543937",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.6,
+      "warmth": 0,
+      "outlook": -0.3,
+      "focus": 0.7,
+      "social": -0.5
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "You can walk into Perneb's tomb. Four thousand years old, cool, dim and very still."
+  },
+  {
+    "objectID": 544068,
+    "title": "Gazelle",
+    "artist": "Unknown artist",
+    "date": "ca. 1386–1347 BCE",
+    "medium": "Ivory (elephant), wood, blue-pigment inlay",
+    "gallery": "119",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP-17702-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP-17702-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544068",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": 0.3,
+      "warmth": 0.4,
+      "outlook": 0.5,
+      "focus": -0.3,
+      "social": -0.4
+    },
+    "tags": [
+      "Restless",
+      "Hopeful",
+      "Alone"
+    ],
+    "why": "An ivory gazelle, alert and about to move, standing on a little hill of desert flowers."
+  },
+  {
+    "objectID": 544118,
+    "title": "Cat Statuette intended to contain a mummified cat",
+    "artist": "Unknown artist",
+    "date": "332–30 BCE",
+    "medium": "Leaded bronze",
+    "gallery": "134",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP-38628-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP-38628-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544118",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.7,
+      "warmth": 0.2,
+      "outlook": 0.2,
+      "focus": 0.5,
+      "social": -0.7
+    },
+    "tags": [
+      "Calm",
+      "Alone",
+      "Inward"
+    ],
+    "why": "A bronze cat sitting perfectly upright with gold earrings. Composed, a little aloof, and not going anywhere."
+  },
+  {
+    "objectID": 544186,
+    "title": "Senwosret III as a Sphinx",
+    "artist": "Unknown artist",
+    "date": "ca. 1878–1840 B.C.",
+    "medium": "Gneiss",
+    "gallery": "111",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP247658.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP247658.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544186",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.4,
+      "warmth": -0.3,
+      "outlook": -0.4,
+      "focus": 0.8,
+      "social": -0.5
+    },
+    "tags": [
+      "Calm",
+      "Cool",
+      "Inward"
+    ],
+    "why": "Senwosret III has the most tired, thoughtful face in the whole museum. A king who had seen a lot."
+  },
+  {
+    "objectID": 544214,
+    "title": "Travelling Boat being Rowed",
+    "artist": "Unknown artist",
+    "date": "ca. 1981–1975 B.C.",
+    "medium": "Wood, paint, gesso, linen twine and linen fabric",
+    "gallery": "105",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP249000.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP249000.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544214",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": 0.1,
+      "warmth": 0.4,
+      "outlook": 0.4,
+      "focus": -0.4,
+      "social": 0.8
+    },
+    "tags": [
+      "Close",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "A little wooden boat with a whole crew rowing in time. Meketre packed it for the afterlife so he would never travel alone."
+  },
+  {
+    "objectID": 544227,
+    "title": "Hippopotamus (\"William\")",
+    "artist": "Unknown artist",
+    "date": "ca. 1961–1878 B.C.",
+    "medium": "Faience",
+    "gallery": "111",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP248993.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP248993.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544227",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.6,
+      "outlook": 0.6,
+      "focus": -0.2,
+      "social": 0.4
+    },
+    "tags": [
+      "Warm",
+      "Hopeful",
+      "Close"
+    ],
+    "why": "William the hippo is small, blue and covered in lotus flowers. Nobody leaves him without smiling."
+  },
+  {
+    "objectID": 544320,
+    "title": "Stela of the Steward Mentuwoser",
+    "artist": "Unknown artist",
+    "date": "ca. 1944 B.C.",
+    "medium": "Limestone, paint",
+    "gallery": "110",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP322064.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP322064.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544320",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.4,
+      "outlook": 0.3,
+      "focus": 0.2,
+      "social": 0.6
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Close"
+    ],
+    "why": "Mentuwoser sits at a table piled with food while his family brings more. A picture of being looked after."
+  },
+  {
+    "objectID": 544326,
+    "title": "Coffin of Khnumnakht",
+    "artist": "Unknown artist",
+    "date": "ca. 1850–1750 B.C.",
+    "medium": "Wood, paint",
+    "gallery": "112",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP354909.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP354909.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544326",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.1,
+      "outlook": -0.5,
+      "focus": 0.5,
+      "social": -0.4
+    },
+    "tags": [
+      "Heavy",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Khnumnakht's coffin is painted with eyes so he could look out, and a door so he could leave. Grief, made practical."
+  },
+  {
+    "objectID": 544442,
+    "title": "Sphinx of Hatshepsut",
+    "artist": "Unknown artist",
+    "date": "ca. 1473–1458 BCE",
+    "medium": "Granite, paint",
+    "gallery": "131",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP-24216-003.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP-24216-003.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544442",
+    "room": "egyptian-art",
+    "galleryKey": "dendur",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.4,
+      "outlook": 0.2,
+      "focus": 0.5,
+      "social": -0.2
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Warm"
+    ],
+    "why": "Hatshepsut as a sphinx: a queen who ruled as king, carved in granite and completely sure of herself."
+  },
+  {
+    "objectID": 544692,
+    "title": "Haremhab as a Scribe of the King",
+    "artist": "Unknown artist",
+    "date": "ca. 1328–1314 BCE",
+    "medium": "Granodiorite",
+    "gallery": "121",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP238391.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP238391.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/544692",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.2,
+      "outlook": 0.1,
+      "focus": 0.8,
+      "social": -0.3
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Haremhab, before he was pharaoh, sitting cross-legged with a scroll and his head down, working."
+  },
+  {
+    "objectID": 545281,
+    "title": "Model of a Granary with Scribes",
+    "artist": "Unknown artist",
+    "date": "ca. 1981–1975 B.C.",
+    "medium": "Wood, plaster, paint, linen, grain",
+    "gallery": "105",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP351557.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP351557.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/545281",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.3,
+      "outlook": 0.2,
+      "focus": 0.1,
+      "social": 0.5
+    },
+    "tags": [
+      "Steady",
+      "Close",
+      "Warm"
+    ],
+    "why": "A model granary with tiny scribes counting the grain. Ordinary work, done carefully, made to last forever."
+  },
+  {
+    "objectID": 547802,
+    "title": "The Temple of Dendur",
+    "artist": "Unknown artist",
+    "date": "completed by 10 CE",
+    "medium": "Aeolian sandstone",
+    "gallery": "131",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP240337.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP240337.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/547802",
+    "room": "egyptian-art",
+    "galleryKey": "dendur",
+    "mood": {
+      "energy": -0.8,
+      "warmth": 0.3,
+      "outlook": 0.3,
+      "focus": 0.2,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Alone",
+      "Hopeful"
+    ],
+    "why": "The Temple of Dendur sits beside a pool under a wall of glass. Sit on the ledge and let the room go quiet."
+  },
+  {
+    "objectID": 547951,
+    "title": "Portrait of the Boy Eutyches",
+    "artist": "Unknown artist",
+    "date": "100–150 CE",
+    "medium": "Encaustic on wood",
+    "gallery": "111",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DP-25887-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DP-25887-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/547951",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.5,
+      "outlook": -0.2,
+      "focus": 0.6,
+      "social": 0.3
+    },
+    "tags": [
+      "Warm",
+      "Inward",
+      "Watchful"
+    ],
+    "why": "Eutyches was a boy in Roman Egypt. His portrait looks straight at you across two thousand years."
+  },
+  {
+    "objectID": 548344,
+    "title": "Book of the Dead for the Chantress of Amun, Nauny",
+    "artist": "Unknown artist",
+    "date": "ca. 1050 BCE",
+    "medium": "Papyrus, paint",
+    "gallery": "126",
+    "image": "https://images.metmuseum.org/CRDImages/eg/web-large/DT11633.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/eg/original/DT11633.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/548344",
+    "room": "egyptian-art",
+    "galleryKey": "egypt",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.2,
+      "outlook": -0.3,
+      "focus": 0.7,
+      "social": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Inward",
+      "Alone"
+    ],
+    "why": "Nauny's Book of the Dead shows her heart being weighed against a feather. A long scroll about facing yourself."
+  },
+  {
+    "objectID": 640049,
+    "title": "Lake Biwa in Four Seasons",
+    "artist": "Nukina Kaioku",
+    "date": "1834",
+    "medium": "Pair of six-panel folding screens; ink and color on paper",
+    "gallery": "225",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP704991.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP704991.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/640049",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.1,
+      "outlook": 0.3,
+      "focus": 0.1,
+      "social": -0.2
+    },
+    "tags": [
+      "Calm",
+      "Hopeful",
+      "Even"
+    ],
+    "why": "Lake Biwa in four seasons, painted by a calligrapher. The same water, four different moods."
+  },
+  {
+    "objectID": 829385,
+    "title": "Birds and Flowers",
+    "artist": "Kano Motonobu",
+    "date": "mid-16th century",
+    "medium": "Set of three hanging scrolls; ink and color on paper",
+    "gallery": "226",
+    "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-20035-001_crd.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/as/original/DP-20035-001_crd.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/829385",
+    "room": "asian-art",
+    "galleryKey": "asian",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.5,
+      "outlook": 0.5,
+      "focus": -0.3,
+      "social": 0.2
+    },
+    "tags": [
+      "Warm",
+      "Hopeful",
+      "Outward"
+    ],
+    "why": "Kano Motonobu filled a pair of screens with birds, blossom and running water. Spring, at full volume."
   }
 ]

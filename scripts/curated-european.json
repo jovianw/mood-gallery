@@ -1,0 +1,247 @@
+{
+  "436535": {
+    "room": "european-paintings",
+    "galleryKey": "g822",
+    "mood": { "energy": 0.8, "warmth": 0.6, "outlook": 0.6, "focus": 0.2, "social": 0 },
+    "tags": ["Restless", "Warm", "Hopeful"],
+    "why": "Van Gogh painted a restless, swirling sky over a calm golden field."
+  },
+  "435809": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.4, "warmth": 0.8, "outlook": 0.4, "focus": -0.5, "social": 0.5 },
+    "tags": ["Calm", "Warm", "Close"],
+    "why": "Bruegel's harvesters eat, nap and work under a hazy late-summer sky, and nobody is in a rush."
+  },
+  "437869": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.2, "warmth": 0.1, "outlook": 0.2, "focus": 0.9, "social": -0.2 },
+    "tags": ["Steady", "Inward", "Watchful"],
+    "why": "Velazquez painted his assistant Juan de Pareja looking straight back at you with quiet, unshakable dignity."
+  },
+  "437881": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.8, "warmth": 0.5, "outlook": 0.3, "focus": 0.4, "social": -0.4 },
+    "tags": ["Calm", "Warm", "Alone"],
+    "why": "Vermeer caught a woman alone at a window in the first soft light of the day, and nothing else needs to happen."
+  },
+  "436105": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.3, "warmth": -0.3, "outlook": -0.4, "focus": 0.6, "social": 0.4 },
+    "tags": ["Heavy", "Inward", "Close"],
+    "why": "David's Socrates keeps talking, calm and certain, while the people who love him fall apart around him."
+  },
+  "437394": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.5, "warmth": 0.4, "outlook": -0.3, "focus": 0.9, "social": -0.5 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "Rembrandt's Aristotle rests a hand on Homer's head and thinks about what lasts, in gold light and deep shadow."
+  },
+  "435844": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.4, "warmth": 0.6, "outlook": 0.3, "focus": -0.3, "social": 0.8 },
+    "tags": ["Restless", "Warm", "Close"],
+    "why": "Caravaggio crowded four young musicians into one warm room, half tuning up and half daydreaming."
+  },
+  "436839": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.7, "warmth": 0.3, "outlook": -0.5, "focus": 0.9, "social": -0.8 },
+    "tags": ["Calm", "Heavy", "Alone"],
+    "why": "La Tour's Magdalen sits alone with a single candle, letting a hard thought settle."
+  },
+  "437549": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.3, "warmth": 0.2, "outlook": 0.5, "focus": -0.6, "social": -0.3 },
+    "tags": ["Calm", "Hopeful", "Outward"],
+    "why": "Ruisdael gives you a wide road, ripe wheat and a sky that takes up most of the picture."
+  },
+  "435888": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.6, "warmth": 0.4, "outlook": 0.2, "focus": 0.5, "social": 0.2 },
+    "tags": ["Calm", "Warm", "Inward"],
+    "why": "Chardin's boy is giving all of his attention to one soap bubble, and for a moment so are you."
+  },
+  "436545": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.1, "warmth": 0.6, "outlook": 0.1, "focus": 0.3, "social": 0.3 },
+    "tags": ["Warm", "Watchful", "Close"],
+    "why": "Goya's little boy in red stands very still while the cats watch his pet magpie. Tender, and a bit uneasy."
+  },
+  "437926": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.3, "warmth": 0.5, "outlook": -0.4, "focus": 0.4, "social": -0.5 },
+    "tags": ["Heavy", "Warm", "Alone"],
+    "why": "Watteau's Mezzetin plays his guitar to someone who has already turned away. Sweet, sad and a little funny."
+  },
+  "435839": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.4, "warmth": 0.5, "outlook": 0.5, "focus": -0.7, "social": 0.7 },
+    "tags": ["Restless", "Outward", "Close"],
+    "why": "Canaletto's Piazza San Marco is full of people going somewhere, under a sky that has just cleared."
+  },
+  "437397": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.3, "warmth": 0.3, "outlook": -0.4, "focus": 0.9, "social": -0.6 },
+    "tags": ["Inward", "Heavy", "Alone"],
+    "why": "Rembrandt at fifty-four, looking at himself without flattery and without flinching."
+  },
+  "436101": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": -0.8, "warmth": 0.5, "outlook": 0.4, "focus": 0.3, "social": 0.4 },
+    "tags": ["Calm", "Warm", "Hopeful"],
+    "why": "Gerard David's holy family stops to rest on a long journey. The grass is soft and the day is kind."
+  },
+  "437329": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.9, "warmth": 0.1, "outlook": -0.5, "focus": -0.6, "social": 0.6 },
+    "tags": ["Restless", "Heavy", "Outward"],
+    "why": "Poussin's Sabine Women is all motion and noise, every figure pulling in a different direction."
+  },
+  "436282": {
+    "room": "european-paintings",
+    "galleryKey": "eurp",
+    "mood": { "energy": 0.2, "warmth": -0.5, "outlook": -0.7, "focus": 0.5, "social": 0.2 },
+    "tags": ["Heavy", "Cool", "Inward"],
+    "why": "Van Eyck fit a whole crowded world into two small panels, every face and cloud painted as if it mattered."
+  },
+  "438817": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.4, "warmth": 0.3, "outlook": 0.4, "focus": -0.5, "social": 0.8 },
+    "tags": ["Restless", "Close", "Hopeful"],
+    "why": "Degas caught a dance class between exercises: fidgeting, stretching, whispering, waiting to begin."
+  },
+  "436947": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.3, "warmth": 0.3, "outlook": 0.6, "focus": -0.5, "social": 0.6 },
+    "tags": ["Calm", "Hopeful", "Close"],
+    "why": "Manet's Boating is a bright afternoon on the water with someone you like and nowhere to be."
+  },
+  "438815": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.4, "warmth": 0.7, "outlook": 0.5, "focus": -0.2, "social": 0.9 },
+    "tags": ["Warm", "Close", "Calm"],
+    "why": "Renoir painted a mother, two children and a very patient dog in a room that feels like home."
+  },
+  "436534": {
+    "room": "nineteenth-century",
+    "galleryKey": "g822",
+    "mood": { "energy": -0.5, "warmth": 0.4, "outlook": 0.6, "focus": 0.1, "social": -0.1 },
+    "tags": ["Calm", "Warm", "Hopeful"],
+    "why": "Van Gogh painted these roses in his last spring, in the week he left the asylum, and they are pure relief."
+  },
+  "436528": {
+    "room": "nineteenth-century",
+    "galleryKey": "g822",
+    "mood": { "energy": 0.2, "warmth": -0.3, "outlook": 0.5, "focus": 0.4, "social": -0.3 },
+    "tags": ["Cool", "Hopeful", "Inward"],
+    "why": "Van Gogh's irises push up against a yellow wall, every one of them a little different and all of them alive."
+  },
+  "435868": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.7, "warmth": 0.2, "outlook": 0, "focus": 0.5, "social": 0.3 },
+    "tags": ["Calm", "Inward", "Close"],
+    "why": "Cezanne's card players have said everything they need to say. Two people, one table, total concentration."
+  },
+  "438417": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.8, "warmth": -0.5, "outlook": 0, "focus": 0.7, "social": 0.6 },
+    "tags": ["Calm", "Cool", "Inward"],
+    "why": "Friedrich's two friends stand in the dark and look at the moon together, saying nothing."
+  },
+  "437854": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.7, "warmth": -0.4, "outlook": -0.3, "focus": -0.5, "social": -0.4 },
+    "tags": ["Restless", "Cool", "Heavy"],
+    "why": "Turner's whalers are barely there, swallowed by spray and weather. A storm you can feel in your chest."
+  },
+  "438814": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.9, "warmth": 0.5, "outlook": -0.4, "focus": -0.6, "social": 0.3 },
+    "tags": ["Restless", "Warm", "Heavy"],
+    "why": "Delacroix painted a rescue in the middle of a burning castle, all hot color and panic."
+  },
+  "437654": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.2, "warmth": -0.5, "outlook": -0.2, "focus": 0.3, "social": 0.6 },
+    "tags": ["Cool", "Watchful", "Close"],
+    "why": "Seurat's sideshow is a crowd at night, lit by gas lamps, waiting to be let in. Quiet, strange, together."
+  },
+  "437430": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.6, "warmth": 0.4, "outlook": 0.5, "focus": -0.2, "social": 0.2 },
+    "tags": ["Calm", "Warm", "Hopeful"],
+    "why": "Renoir sat a friend in a wicker chair by the sea and let the whole afternoon go soft around her."
+  },
+  "436532": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.6, "warmth": 0.5, "outlook": 0.2, "focus": 0.8, "social": -0.5 },
+    "tags": ["Restless", "Inward", "Alone"],
+    "why": "Van Gogh painted himself in a straw hat because he could not afford a model, in quick, nervous strokes of yellow."
+  },
+  "437097": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.4, "warmth": 0.6, "outlook": 0.1, "focus": -0.3, "social": -0.4 },
+    "tags": ["Calm", "Warm", "Alone"],
+    "why": "Millet's haystacks sit in the last warm light of autumn, with the shepherd and his flock already heading home."
+  },
+  "435702": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.9, "warmth": 0.3, "outlook": 0.4, "focus": -0.8, "social": 0.7 },
+    "tags": ["Restless", "Outward", "Close"],
+    "why": "Rosa Bonheur's Horse Fair is sixteen feet of muscle, dust and shouting. It is impossible to stand still in front of it."
+  },
+  "436095": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.3, "warmth": 0.2, "outlook": -0.6, "focus": 0.2, "social": 0.5 },
+    "tags": ["Heavy", "Close", "Calm"],
+    "why": "Daumier's third-class carriage is tired strangers pressed together, each lost in their own thoughts."
+  },
+  "438821": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.5, "warmth": 0.8, "outlook": 0.5, "focus": 0.2, "social": 0.4 },
+    "tags": ["Warm", "Calm", "Hopeful"],
+    "why": "Gauguin moved the Annunciation to Tahiti and filled it with fruit, flowers and heat."
+  },
+  "435962": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": -0.2, "warmth": 0.1, "outlook": -0.8, "focus": 0.3, "social": -0.7 },
+    "tags": ["Heavy", "Alone", "Watchful"],
+    "why": "Corot's Hagar is at the end of her strength in an empty landscape, and help is just arriving."
+  },
+  "437835": {
+    "room": "nineteenth-century",
+    "galleryKey": "c19",
+    "mood": { "energy": 0.6, "warmth": 0.4, "outlook": 0.2, "focus": -0.4, "social": 0.9 },
+    "tags": ["Restless", "Close", "Outward"],
+    "why": "Toulouse-Lautrec caught an Englishman at the Moulin Rouge mid-flirt, in a room that is all noise and color."
+  }
+}

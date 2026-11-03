@@ -1,0 +1,198 @@
+{
+  "11417": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.7, "warmth": -0.2, "outlook": 0.7, "focus": -0.7, "social": 0.8 },
+    "tags": ["Restless", "Hopeful", "Close"],
+    "why": "Leutze's boat is overloaded, the river is full of ice, and every person in it is pulling in the same direction."
+  },
+  "10481": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.3, "warmth": 0.4, "outlook": 0.6, "focus": -0.8, "social": -0.2 },
+    "tags": ["Calm", "Hopeful", "Outward"],
+    "why": "Church packed a whole continent into one view, from the snow on the peak to the moss on the rocks at your feet."
+  },
+  "10497": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.2, "warmth": 0.3, "outlook": 0.4, "focus": -0.6, "social": -0.4 },
+    "tags": ["Hopeful", "Outward", "Alone"],
+    "why": "Cole's Oxbow is a storm leaving on one side and sun arriving on the other, with the painter alone in between."
+  },
+  "12127": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.1, "warmth": -0.4, "outlook": 0.1, "focus": 0.7, "social": -0.3 },
+    "tags": ["Cool", "Inward", "Watchful"],
+    "why": "Sargent's Madame X turns her face away and lets you look. Composed on the outside, and a scandal underneath."
+  },
+  "10159": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.8, "warmth": 0.5, "outlook": 0.2, "focus": -0.3, "social": 0.3 },
+    "tags": ["Calm", "Warm", "Close"],
+    "why": "Bingham's fur traders drift downriver through pink morning haze, with a cat in the bow and nowhere to hurry to."
+  },
+  "10154": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.1, "warmth": 0.3, "outlook": 0.7, "focus": -0.9, "social": 0.2 },
+    "tags": ["Hopeful", "Outward", "Steady"],
+    "why": "Bierstadt's mountains are bigger than anything you have ever seen, and the light is just breaking over them."
+  },
+  "11311": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.9, "warmth": 0.1, "outlook": 0.3, "focus": -0.4, "social": -0.6 },
+    "tags": ["Calm", "Alone", "Even"],
+    "why": "Kensett's Lake George is a still morning with nothing moving. The quietest picture in the wing."
+  },
+  "11050": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.3, "warmth": -0.6, "outlook": -0.4, "focus": 0.2, "social": -0.5 },
+    "tags": ["Cool", "Heavy", "Alone"],
+    "why": "Heade painted the minute before a storm: black sky, flat water, and one man on the shore who has not moved yet."
+  },
+  "11145": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.4, "warmth": 0.7, "outlook": 0.2, "focus": 0.6, "social": -0.7 },
+    "tags": ["Warm", "Inward", "Alone"],
+    "why": "Homer's veteran has put down his rifle and picked up a scythe. Hot sun, tall wheat, and a lot to think about."
+  },
+  "10819": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.2, "warmth": 0.2, "outlook": 0.5, "focus": 0.5, "social": -0.6 },
+    "tags": ["Calm", "Alone", "Hopeful"],
+    "why": "Eakins put his friend alone on a glassy river in clear autumn light, resting between strokes."
+  },
+  "11122": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.6, "warmth": 0.4, "outlook": -0.7, "focus": 0.1, "social": -0.8 },
+    "tags": ["Restless", "Heavy", "Alone"],
+    "why": "Homer's sailor is adrift with sharks circling and a waterspout coming, and he is not looking at either."
+  },
+  "10464": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.5, "warmth": 0.5, "outlook": 0.6, "focus": -0.3, "social": 0.6 },
+    "tags": ["Calm", "Warm", "Close"],
+    "why": "Chase painted a bright day at the beach with red umbrellas and children digging in the sand."
+  },
+  "10813": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.6, "warmth": 0.4, "outlook": 0, "focus": 0.6, "social": 0.5 },
+    "tags": ["Calm", "Inward", "Close"],
+    "why": "Eakins painted his father watching two old friends play chess in a dark, comfortable room."
+  },
+  "10554": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": 0.9, "warmth": -0.3, "outlook": -0.5, "focus": -0.5, "social": 0.6 },
+    "tags": ["Restless", "Heavy", "Outward"],
+    "why": "Copley's rescue is one second from going wrong, and nine people are reaching at once."
+  },
+  "16584": {
+    "room": "american-wing",
+    "galleryKey": "amer",
+    "mood": { "energy": -0.3, "warmth": 0.2, "outlook": 0.3, "focus": 0.5, "social": 0.1 },
+    "tags": ["Steady", "Inward", "Hopeful"],
+    "why": "Stuart left this portrait of Washington unfinished on purpose, and kept it to copy for the rest of his life."
+  },
+  "24671": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.3, "warmth": 0.5, "outlook": 0.4, "focus": -0.4, "social": 0.5 },
+    "tags": ["Warm", "Hopeful", "Close"],
+    "why": "Henry II's parade armor is covered in gold and silver figures. It was never meant for a fight, only for being seen."
+  },
+  "23944": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.4, "warmth": 0.1, "outlook": 0.3, "focus": -0.3, "social": 0.7 },
+    "tags": ["Restless", "Hopeful", "Close"],
+    "why": "Ferdinand I rode into the Equestrian Court in this. It still has the feel of a parade."
+  },
+  "23939": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.5, "warmth": 0.3, "outlook": 0.6, "focus": -0.5, "social": 0.5 },
+    "tags": ["Restless", "Hopeful", "Outward"],
+    "why": "George Clifford had this blued and gilded armor made for tilting in front of the Queen. Confidence in steel."
+  },
+  "22860": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.7, "warmth": 0.6, "outlook": 0.2, "focus": -0.2, "social": 0.2 },
+    "tags": ["Restless", "Warm", "Watchful"],
+    "why": "A helmet shaped like a roaring gilt lion. Somebody wanted to be noticed, and five hundred years later they still are."
+  },
+  "22634": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.2, "warmth": 0.1, "outlook": 0.1, "focus": 0.6, "social": -0.3 },
+    "tags": ["Inward", "Steady", "Alone"],
+    "why": "Negroli hammered a mermaid and a Medusa out of one sheet of steel. Close up, the detail stops time."
+  },
+  "22506": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": -0.4, "warmth": 0.3, "outlook": -0.2, "focus": 0.6, "social": -0.4 },
+    "tags": ["Calm", "Inward", "Alone"],
+    "why": "A fourteenth-century samurai armor of silk cord and lacquered scales, made for a man who founded a dynasty."
+  },
+  "22521": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": -0.3, "warmth": -0.2, "outlook": 0, "focus": 0.5, "social": -0.3 },
+    "tags": ["Calm", "Cool", "Inward"],
+    "why": "Dark lacquer, blue silk and a quiet, upright posture. This armor is about discipline, not display."
+  },
+  "24693": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.6, "warmth": 0.4, "outlook": -0.3, "focus": -0.4, "social": 0.6 },
+    "tags": ["Restless", "Warm", "Outward"],
+    "why": "Girolamo da Treviso painted a whole battle onto a parade shield, gold on dark ground, horses everywhere."
+  },
+  "23216": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.5, "warmth": -0.3, "outlook": 0.3, "focus": -0.6, "social": 0.8 },
+    "tags": ["Restless", "Outward", "Close"],
+    "why": "A frog-mouth helm for the joust, built for the roar of a crowd and the moment two riders meet."
+  },
+  "24937": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.1, "warmth": 0.6, "outlook": 0.5, "focus": 0.1, "social": 0.4 },
+    "tags": ["Warm", "Hopeful", "Close"],
+    "why": "A tiny gilded armor made for a five-year-old prince. Equal parts serious and sweet."
+  },
+  "24931": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.4, "warmth": 0.5, "outlook": 0.5, "focus": -0.3, "social": 0.6 },
+    "tags": ["Restless", "Warm", "Close"],
+    "why": "Fancy-dress armor for a costume ball in 1790, made to look like a Roman hero. Pure theater."
+  },
+  "27792": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.3, "warmth": -0.4, "outlook": 0.2, "focus": -0.2, "social": 0.2 },
+    "tags": ["Cool", "Restless", "Watchful"],
+    "why": "Black steel and gilt for a king of Portugal. Armor from the last century anyone wore it to war."
+  },
+  "23358": {
+    "room": "arms-and-armor",
+    "galleryKey": "arms",
+    "mood": { "energy": 0.8, "warmth": 0.2, "outlook": 0.4, "focus": -0.7, "social": 0.8 },
+    "tags": ["Restless", "Outward", "Close"],
+    "why": "Lochner made this horse armor for a duke who liked to be looked at. The whole court rides in a line."
+  }
+}
