@@ -1,29 +1,32 @@
 import { useEffect, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import type { Answer, Statement as StatementData } from '../data/types'
-import { ArrowLeft, ArrowRight, Bookmark, Check, Close, Share } from './Icons'
+import { useNav } from '../lib/nav'
+import { Bookmark, BookmarkSolid, Check, ChevronLeft, Close, Share } from './Icons'
 import './components.css'
 
 /* ---------- Button ---------- */
 
 type ButtonProps = {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'outline' | 'outline-soft' | 'accent-outline'
   to?: string
+  /** Appends the arrow glyph used on the Figma buttons ("Enter The Met  →"). */
   arrow?: boolean
   children: ReactNode
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'>
 
 export function Button({ variant = 'primary', to, arrow, children, className, ...rest }: ButtonProps) {
+  const nav = useNav()
   const cls = ['btn', `btn--${variant}`, className].filter(Boolean).join(' ')
   const inner = (
     <>
       {children}
-      {arrow && <ArrowRight width={18} height={18} />}
+      {arrow && <span aria-hidden="true">{'  →'}</span>}
     </>
   )
   if (to && !rest.disabled) {
     return (
-      <Link to={to} className={cls}>
+      <Link to={to} className={cls} onClick={() => nav.markForward()}>
         {inner}
       </Link>
     )
@@ -37,8 +40,8 @@ export function Button({ variant = 'primary', to, arrow, children, className, ..
 
 /* ---------- Chip ---------- */
 
-export function Chip({ children }: { children: ReactNode }) {
-  return <span className="chip">{children}</span>
+export function Chip({ children, muted }: { children: ReactNode; muted?: boolean }) {
+  return <span className={`chip ${muted ? 'chip--muted' : ''}`}>{children}</span>
 }
 
 /* ---------- Top app bar ---------- */
@@ -48,13 +51,12 @@ interface AppBarProps {
   title?: string
   left?: 'back' | 'close' | 'none'
   onLeft?: () => void
-  right?: 'share' | 'none'
-  onRight?: () => void
+  right?: ReactNode
 }
 
-export function TopAppBar({ eyebrow, title, left = 'back', onLeft, right = 'none', onRight }: AppBarProps) {
-  const navigate = useNavigate()
-  const handleLeft = onLeft ?? (() => navigate(-1))
+export function TopAppBar({ eyebrow, title, left = 'back', onLeft, right }: AppBarProps) {
+  const nav = useNav()
+  const handleLeft = onLeft ?? (() => nav.back())
   return (
     <header className="appbar">
       {left === 'none' ? (
@@ -66,31 +68,59 @@ export function TopAppBar({ eyebrow, title, left = 'back', onLeft, right = 'none
           aria-label={left === 'back' ? 'Back' : 'Close'}
           onClick={handleLeft}
         >
-          {left === 'back' ? <ArrowLeft /> : <Close />}
+          {left === 'back' ? <ChevronLeft /> : <Close />}
         </button>
       )}
       <div className="appbar__title">
-        <p className={`t-label ${title ? '' : 't-label--accent'}`}>{eyebrow}</p>
-        {title && <h1 className="t-room">{title}</h1>}
+        <p className="t-label t-label--11 t-label--accent">{eyebrow}</p>
+        {title && <h1 className="appbar__name">{title}</h1>}
       </div>
-      {right === 'share' ? (
-        <button type="button" className="icon-button" aria-label="Share" onClick={onRight}>
-          <Share />
-        </button>
-      ) : (
-        <span />
-      )}
+      {right ?? <span />}
     </header>
+  )
+}
+
+export function IconButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string
+  onClick?: () => void
+  children: ReactNode
+}) {
+  return (
+    <button type="button" className="icon-button" aria-label={label} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+
+export function ShareButton({ onClick }: { onClick: () => void }) {
+  return (
+    <IconButton label="Share" onClick={onClick}>
+      <Share />
+    </IconButton>
   )
 }
 
 /* ---------- Info card ---------- */
 
-export function InfoCard({ eyebrow, children, serif }: { eyebrow: string; children: ReactNode; serif?: boolean }) {
+export function InfoCard({
+  eyebrow,
+  children,
+  serif,
+  labelSize = 10,
+}: {
+  eyebrow: string
+  children: ReactNode
+  serif?: boolean
+  labelSize?: 10 | 11
+}) {
   return (
-    <section className={`card ${serif ? 'card--serif' : ''}`}>
-      <p className={`t-label ${serif ? '' : 't-label--accent'}`}>{eyebrow}</p>
-      <p className="card__text t-body">{children}</p>
+    <section className={`card ${serif ? 'card--serif' : 'card--16'}`}>
+      <p className={`t-label t-label--accent ${labelSize === 11 ? 't-label--11' : ''}`}>{eyebrow}</p>
+      <p className="card__text">{children}</p>
     </section>
   )
 }
@@ -99,6 +129,15 @@ export function InfoCard({ eyebrow, children, serif }: { eyebrow: string; childr
 
 const DOT_SIZES = [48, 40, 32, 26, 32, 40, 48]
 const ANSWERS: Answer[] = [1, 2, 3, 4, 5, 6, 7]
+const DOT_LABELS = [
+  'Strongly agree',
+  'Agree',
+  'Somewhat agree',
+  'Neutral',
+  'Somewhat disagree',
+  'Disagree',
+  'Strongly disagree',
+]
 
 export function Statement({
   statement,
@@ -121,11 +160,13 @@ export function Statement({
             type="button"
             role="radio"
             aria-checked={value === a}
-            aria-label={a === 1 ? 'Strongly agree' : a === 7 ? 'Strongly disagree' : a === 4 ? 'Neutral' : `Option ${a}`}
+            aria-label={DOT_LABELS[i]}
             className={`scale__dot ${i < 3 ? 'scale__dot--agree' : i > 3 ? 'scale__dot--disagree' : ''}`}
             style={{ ['--dot-size' as string]: `${DOT_SIZES[i]}px` }}
             onClick={() => onChange(a)}
-          />
+          >
+            <Check aria-hidden="true" />
+          </button>
         ))}
       </div>
       <div className="scale__labels" aria-hidden="true">
@@ -152,14 +193,10 @@ export function DoorCard({
   return (
     <button type="button" className={`door ${recommended ? 'door--recommended' : ''}`} onClick={onClick}>
       <span className="door__arch" aria-hidden="true" />
-      <span>
+      <span className="door__text">
         {recommended && <span className="t-label t-label--accent">Your door</span>}
-        <span className="t-room door__name" style={{ display: 'block' }}>
-          {name}
-        </span>
-        <span className="t-small door__reason" style={{ display: 'block' }}>
-          {reason}
-        </span>
+        <span className="door__name">{name}</span>
+        <span className="door__reason">{reason}</span>
       </span>
     </button>
   )
@@ -167,21 +204,30 @@ export function DoorCard({
 
 /* ---------- Save toggle ---------- */
 
-export function SaveToggle({ saved, onToggle }: { saved: boolean; onToggle: () => void }) {
+export function SaveToggle({
+  saved,
+  onToggle,
+  disabled,
+}: {
+  saved: boolean
+  onToggle: () => void
+  disabled?: boolean
+}) {
   return (
     <button
       type="button"
-      className={`btn btn--secondary save ${saved ? 'save--on' : ''}`}
+      className={`btn btn--accent-outline ${saved ? 'is-on' : ''}`}
       aria-pressed={saved}
       onClick={onToggle}
+      disabled={disabled}
     >
-      {saved ? <Check width={18} height={18} /> : <Bookmark width={18} height={18} />}
-      {saved ? 'Saved' : 'Save to My Gallery'}
+      {saved ? <BookmarkSolid width={20} height={20} /> : <Bookmark width={20} height={20} />}
+      {saved ? 'Saved to My Gallery' : 'Save to My Gallery'}
     </button>
   )
 }
 
-/* ---------- Path trail ---------- */
+/* ---------- Breadcrumb trail ---------- */
 
 export function PathTrail({ stops, current }: { stops: string[]; current: string }) {
   return (
@@ -190,9 +236,11 @@ export function PathTrail({ stops, current }: { stops: string[]; current: string
         const isCurrent = s === current
         return (
           <span key={s} className="row" style={{ gap: 6 }}>
-            {i > 0 && <span className="trail__link" />}
-            <span className={`trail__dot ${isCurrent ? 'trail__dot--current' : ''}`} />
-            <span className={isCurrent ? 'trail__current' : ''}>{s}</span>
+            {i > 0 && <span className="trail__link" aria-hidden="true" />}
+            <span className={`trail__dot ${isCurrent ? 'trail__dot--current' : ''}`} aria-hidden="true" />
+            <span className={`trail__name ${isCurrent ? 'trail__name--current' : ''}`} aria-current={isCurrent ? 'step' : undefined}>
+              {s}
+            </span>
           </span>
         )
       })}
@@ -203,14 +251,31 @@ export function PathTrail({ stops, current }: { stops: string[]; current: string
 
 /* ---------- Screen shell ---------- */
 
-export function Screen({ dark, children, footer }: { dark?: boolean; children: ReactNode; footer?: ReactNode }) {
+export function Screen({
+  dark,
+  center,
+  children,
+  footer,
+  className,
+}: {
+  dark?: boolean
+  center?: boolean
+  children: ReactNode
+  footer?: ReactNode
+  className?: string
+}) {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <main className={`screen ${dark ? 'screen--dark' : ''}`}>
+    <main className={['screen', dark && 'screen--dark', center && 'screen--center', className].filter(Boolean).join(' ')}>
       <div className="screen__body">{children}</div>
-      {footer && <div className="screen__footer">{footer}</div>}
+      {footer && (
+        <>
+          <div className="spacer" />
+          <div className="screen__footer">{footer}</div>
+        </>
+      )}
     </main>
   )
 }
