@@ -47,13 +47,34 @@ export interface WalkState {
 
 const WalkContext = createContext<WalkState | null>(null)
 
-export function WalkProvider({ children, userId: userIdProp }: { children: ReactNode; userId?: string }) {
-  const [answers, setAnswers] = useState<Record<string, Answer | undefined>>({})
-  const [doorId, setDoorId] = useState<RoomId | null>(null)
-  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(undefined)
-  const [finishedAt, setFinishedAt] = useState<Date | undefined>(undefined)
+/**
+ * Dev-only shortcut: `?demo=<roomId>` prefills a finished walk through that room so any
+ * screen can be opened directly (used for screenshots). Never active in production builds.
+ */
+function demoState(): { answers: Record<string, Answer>; doorId: RoomId | null } {
+  if (!import.meta.env.DEV || typeof window === 'undefined') return { answers: {}, doorId: null }
+  const demo = new URLSearchParams(window.location.search).get('demo')
+  if (!demo || !(demo in rooms) || demo === START_ROOM) return { answers: {}, doorId: null }
+  const answers: Record<string, Answer> = {}
+  const pattern: Answer[] = [1, 2, 6, 2, 1, 3]
+  ;[...rooms[START_ROOM].statements, ...rooms[demo as RoomId].statements].forEach((s, i) => {
+    answers[s.id] = pattern[i % pattern.length]
+  })
+  return { answers, doorId: demo as RoomId }
+}
 
+export function WalkProvider({ children, userId: userIdProp }: { children: ReactNode; userId?: string }) {
+  const [demo] = useState(demoState)
+  const [answers, setAnswers] = useState<Record<string, Answer | undefined>>(demo.answers)
+  const [doorId, setDoorId] = useState<RoomId | null>(demo.doorId)
   const userId = userIdProp ?? getGuestId()
+  const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => {
+    if (!demo.doorId) return undefined
+    const all = [...rooms[START_ROOM].statements, ...rooms[demo.doorId].statements]
+    const m = moodFromAnswers(all, demo.answers)
+    return matchPaintings(m, paintings.filter((p) => p.room === demo.doorId), dailySeed(userId))[0]
+  })
+  const [finishedAt, setFinishedAt] = useState<Date | undefined>(() => (demo.doorId ? new Date() : undefined))
 
   const path = useMemo<RoomId[]>(() => (doorId ? [START_ROOM, doorId] : [START_ROOM]), [doorId])
 
