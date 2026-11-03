@@ -1,0 +1,179 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--stone);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--size-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The product is designed phone-first at 390px. On larger viewports the app
+   sits as a single centred column so the layout never has to reflow. */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+}
+
+.screen {
+  width: 100%;
+  max-width: var(--phone-width);
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+  padding: calc(env(safe-area-inset-top) + 56px) var(--gutter)
+    calc(env(safe-area-inset-bottom) + 34px);
+  display: flex;
+  flex-direction: column;
+}
+
+.screen--dark {
+  --bg: var(--ink);
+  --bg-card: #2a2724;
+  --fg: var(--plaster);
+  --fg-muted: #b8b1a8;
+  --divider: #3b3733;
+}
+
+.screen__body {
+  flex: 1 0 auto;
+}
+
+.screen__footer {
+  flex: 0 0 auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Type styles */
+.t-headline {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--size-headline);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.t-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--size-title);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.t-room {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--size-room);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.t-body {
+  font-size: var(--size-body);
+  line-height: 1.45;
+  margin: 0;
+  color: var(--fg);
+}
+
+.t-body--muted {
+  color: var(--fg-muted);
+}
+
+.t-small {
+  font-size: var(--size-small);
+  line-height: 1.4;
+  margin: 0;
+  color: var(--fg-muted);
+}
+
+.t-label {
+  font-size: var(--size-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--fg-muted);
+}
+
+.t-label--accent {
+  color: var(--accent);
+}
+
+.t-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.gap-8 { height: 8px; }
+.gap-12 { height: 12px; }
+.gap-16 { height: 16px; }
+.gap-20 { height: 20px; }
+.gap-24 { height: 24px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.icon-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

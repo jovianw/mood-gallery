@@ -1,0 +1,43 @@
+/* Design tokens from the HW3 report (Part B colour palette, Part C typography). */
+:root {
+  /* Palette */
+  --met-red: #e4002b;
+  --ink: #1f1d1b;
+  --plaster: #f6f3ee;
+  --stone: #e3ddd3;
+  --slate-blue: #3d5a80;
+  --mute-gray: #6b6661;
+  --white: #ffffff;
+
+  /* Semantic */
+  --bg: var(--plaster);
+  --bg-card: var(--white);
+  --fg: var(--ink);
+  --fg-muted: var(--mute-gray);
+  --divider: var(--stone);
+  --accent: var(--met-red);
+  --agree: var(--met-red);
+  --disagree: var(--slate-blue);
+  --neutral-dot: var(--mute-gray);
+
+  /* Type */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --size-display: 38px;
+  --size-headline: 30px;
+  --size-title: 26px;
+  --size-room: 20px;
+  --size-statement: 17px;
+  --size-body: 16px;
+  --size-small: 14px;
+  --size-label: 10px;
+
+  /* Spacing and shape */
+  --gutter: 24px;
+  --phone-width: 390px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --button-height: 56px;
+  --chip-height: 28px;
+  --tracking-label: 0.12em;
+}

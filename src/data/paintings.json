@@ -1,0 +1,327 @@
+[
+  {
+    "objectID": 10481,
+    "title": "Heart of the Andes",
+    "artist": "Frederic Edwin Church",
+    "date": "1859",
+    "medium": "Oil on canvas",
+    "gallery": "760",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DT78.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DT78.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10481",
+    "room": "american-wing",
+    "approachVia": "The American Wing, second floor",
+    "mood": {
+      "energy": -0.3,
+      "warmth": 0.5,
+      "outlook": 0.9,
+      "focus": -0.3
+    },
+    "tags": [
+      "Open",
+      "Hopeful",
+      "Vast"
+    ],
+    "why": "You wanted room to breathe. Church painted an entire continent of light and distance into one frame."
+  },
+  {
+    "objectID": 10497,
+    "title": "View from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm—The Oxbow",
+    "artist": "Thomas Cole",
+    "date": "1836",
+    "medium": "Oil on canvas",
+    "gallery": "759",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP-12550-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-12550-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/10497",
+    "room": "american-wing",
+    "approachVia": "The American Wing, second floor",
+    "mood": {
+      "energy": 0.1,
+      "warmth": 0.2,
+      "outlook": 0.2,
+      "focus": 0.7
+    },
+    "tags": [
+      "Reflective",
+      "Between",
+      "Weathered"
+    ],
+    "why": "You're somewhere between a storm and a clearing, and you know it. Cole put both in the same sky and stood right in the middle."
+  },
+  {
+    "objectID": 11417,
+    "title": "Washington Crossing the Delaware",
+    "artist": "Emanuel Leutze",
+    "date": "1851",
+    "medium": "Oil on canvas",
+    "gallery": "760",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP215410.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP215410.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/11417",
+    "room": "american-wing",
+    "approachVia": "The American Wing, second floor",
+    "mood": {
+      "energy": 0.9,
+      "warmth": -0.2,
+      "outlook": 0.7,
+      "focus": -0.9
+    },
+    "tags": [
+      "Restless",
+      "Driven",
+      "Outward"
+    ],
+    "why": "You've got momentum and you're pointed at something. Leutze's river crossing is all forward motion against the ice."
+  },
+  {
+    "objectID": 12127,
+    "title": "Madame X (Virginie Amélie Avegno Gautreau)",
+    "artist": "John Singer Sargent",
+    "date": "1883–84",
+    "medium": "Oil on canvas",
+    "gallery": "771",
+    "image": "https://images.metmuseum.org/CRDImages/ad/web-large/DP-29006-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ad/original/DP-29006-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/12127",
+    "room": "american-wing",
+    "approachVia": "The American Wing, second floor",
+    "mood": {
+      "energy": 0,
+      "warmth": -0.6,
+      "outlook": -0.2,
+      "focus": 0.8
+    },
+    "tags": [
+      "Cool",
+      "Poised",
+      "Guarded"
+    ],
+    "why": "You're keeping your cool and a little distance. Sargent's Madame X turns away from the room and lets it look."
+  },
+  {
+    "objectID": 435809,
+    "title": "The Harvesters",
+    "artist": "Pieter Bruegel the Elder",
+    "date": "1565",
+    "medium": "Oil on oak",
+    "gallery": "638",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP119115.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP119115.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/435809",
+    "room": "european-paintings",
+    "approachVia": "Northern Renaissance galleries",
+    "mood": {
+      "energy": -0.4,
+      "warmth": 0.8,
+      "outlook": 0.4,
+      "focus": -0.5
+    },
+    "tags": [
+      "Settled",
+      "Warm",
+      "Grounded"
+    ],
+    "why": "You wanted somewhere unhurried and warm. Bruegel's harvesters eat, nap and work under a hazy late-summer sky, and nobody is in a rush."
+  },
+  {
+    "objectID": 436105,
+    "title": "The Death of Socrates",
+    "artist": "Jacques Louis David",
+    "date": "1787",
+    "medium": "Oil on canvas",
+    "gallery": "634",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-13139-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-13139-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436105",
+    "room": "european-paintings",
+    "approachVia": "Neoclassical galleries",
+    "mood": {
+      "energy": 0.3,
+      "warmth": -0.5,
+      "outlook": -0.6,
+      "focus": 0.5
+    },
+    "tags": [
+      "Resolute",
+      "Cool",
+      "Heavy"
+    ],
+    "why": "Something is weighing on you and you're meeting it head-on. David's Socrates keeps talking, calm and certain, as he reaches for the cup."
+  },
+  {
+    "objectID": 436528,
+    "title": "Irises",
+    "artist": "Vincent van Gogh",
+    "date": "1890",
+    "medium": "Oil on canvas",
+    "gallery": "099",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP346474.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP346474.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436528",
+    "room": "nineteenth-century",
+    "approachVia": "Van Gogh gallery",
+    "mood": {
+      "energy": -0.3,
+      "warmth": -0.4,
+      "outlook": 0.6,
+      "focus": 0.5
+    },
+    "tags": [
+      "Cool",
+      "Hopeful",
+      "Tender"
+    ],
+    "why": "You're quieter than usual and hoping for something gentle. Van Gogh painted these irises in his last spring, and they are nothing but colour and care."
+  },
+  {
+    "objectID": 436535,
+    "title": "Wheat Field with Cypresses",
+    "artist": "Vincent van Gogh",
+    "date": "1889",
+    "medium": "Oil on canvas",
+    "gallery": "822",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-42549-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-42549-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436535",
+    "room": "european-paintings",
+    "approachVia": "19th-Century European Paintings",
+    "mood": {
+      "energy": 0.8,
+      "warmth": 0.6,
+      "outlook": 0.6,
+      "focus": 0.2
+    },
+    "tags": [
+      "Restless",
+      "Warm",
+      "Hopeful"
+    ],
+    "why": "Your mind has been racing, but you're drawn to warm light and looking ahead. Van Gogh painted a restless, swirling sky over a calm golden field."
+  },
+  {
+    "objectID": 436947,
+    "title": "Boating",
+    "artist": "Edouard Manet",
+    "date": "1874",
+    "medium": "Oil on canvas",
+    "gallery": "818",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25466-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-25466-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/436947",
+    "room": "nineteenth-century",
+    "approachVia": "Impressionism galleries",
+    "mood": {
+      "energy": 0.4,
+      "warmth": 0.3,
+      "outlook": 0.8,
+      "focus": -0.7
+    },
+    "tags": [
+      "Bright",
+      "Open",
+      "Outward"
+    ],
+    "why": "You're feeling bright and ready to be out in the world. Manet's Boating is all sun, blue water and an easy afternoon with someone else at the tiller."
+  },
+  {
+    "objectID": 437869,
+    "title": "Juan de Pareja (ca. 1608–1670)",
+    "artist": "Velázquez (Diego Rodríguez de Silva y Velázquez)",
+    "date": "1650",
+    "medium": "Oil on canvas",
+    "gallery": "625",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-14286-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437869",
+    "room": "european-paintings",
+    "approachVia": "Spanish galleries",
+    "mood": {
+      "energy": -0.2,
+      "warmth": 0.1,
+      "outlook": 0.2,
+      "focus": 0.9
+    },
+    "tags": [
+      "Steady",
+      "Composed",
+      "Inward"
+    ],
+    "why": "You've been holding yourself together with quiet dignity. Velázquez painted his assistant looking straight back at you with exactly that."
+  },
+  {
+    "objectID": 437881,
+    "title": "Young Woman with a Water Pitcher",
+    "artist": "Johannes Vermeer",
+    "date": "ca. 1662",
+    "medium": "Oil on canvas",
+    "gallery": "614",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP353257.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP353257.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/437881",
+    "room": "european-paintings",
+    "approachVia": "Dutch galleries",
+    "mood": {
+      "energy": -0.8,
+      "warmth": 0.3,
+      "outlook": 0.5,
+      "focus": 0.6
+    },
+    "tags": [
+      "Calm",
+      "Clear",
+      "Morning"
+    ],
+    "why": "You're after a clear, quiet moment. Vermeer caught one: cool morning light, an open window, and nothing that needs doing yet."
+  },
+  {
+    "objectID": 438815,
+    "title": "Madame Georges Charpentier (Marguerite-Louise Lemonnier, 1848–1904) and Her Children, Georgette-Berthe (1872–1945) and Paul-Emile-Charles (1875–1895)",
+    "artist": "Auguste Renoir",
+    "date": "1878",
+    "medium": "Oil on canvas",
+    "gallery": "824",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-35674-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-35674-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/438815",
+    "room": "nineteenth-century",
+    "approachVia": "Impressionism galleries",
+    "mood": {
+      "energy": -0.5,
+      "warmth": 0.7,
+      "outlook": 0.4,
+      "focus": -0.6
+    },
+    "tags": [
+      "Calm",
+      "Warm",
+      "Together"
+    ],
+    "why": "You're after warmth and company more than quiet. Renoir painted a mother, two children and a very patient dog settling into a long afternoon at home."
+  },
+  {
+    "objectID": 438817,
+    "title": "The Dance Class",
+    "artist": "Edgar Degas",
+    "date": "1874",
+    "medium": "Oil on canvas",
+    "gallery": "815",
+    "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-20101-001.jpg",
+    "imageLarge": "https://images.metmuseum.org/CRDImages/ep/original/DP-20101-001.jpg",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/438817",
+    "room": "nineteenth-century",
+    "approachVia": "Degas gallery",
+    "mood": {
+      "energy": 0.6,
+      "warmth": 0.2,
+      "outlook": 0.1,
+      "focus": -0.4
+    },
+    "tags": [
+      "Busy",
+      "Focused",
+      "Social"
+    ],
+    "why": "Your energy is up and scattered in a good way. Degas's dancers stretch, fidget and wait their turn in a room full of small motions."
+  }
+]
