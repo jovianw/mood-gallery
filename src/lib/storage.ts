@@ -1,9 +1,8 @@
-/** Guest-side persistence. Keys follow the handoff: mg.saves, mg.walks, mg.guestId, mg.obj.<id>. */
+/** Guest-side persistence. Keys follow the handoff: mg.saves, mg.walks, mg.obj.<id>. */
 
 export const KEYS = {
   saves: 'mg.saves',
   walks: 'mg.walks',
-  guestId: 'mg.guestId',
   object: (id: number) => `mg.obj.${id}`,
   emailForSignIn: 'mg.emailForSignIn',
 } as const
@@ -33,16 +32,3 @@ export function removeKey(key: string): void {
   }
 }
 
-function randomId(): string {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
-  return Math.random().toString(36).slice(2) + Date.now().toString(36)
-}
-
-/** Stable random id for this browser, used for the daily painting seed and guest shares. */
-export function getGuestId(): string {
-  const existing = readJson<string | null>(KEYS.guestId, null)
-  if (existing) return existing
-  const id = randomId()
-  writeJson(KEYS.guestId, id)
-  return id
-}

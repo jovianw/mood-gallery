@@ -88,6 +88,13 @@ export function Entrance() {
           </Chip>
         ))}
       </div>
+      <div className="gap-20" />
+      <p className="t-caption" style={{ textAlign: 'center' }}>
+        An unofficial project, not affiliated with The Met.{' '}
+        <Link to="/privacy" className="t-link t-link--muted" onClick={() => nav.markForward()}>
+          Privacy and terms
+        </Link>
+      </p>
       {sheetOpen && <MuseumSheet onClose={() => setSheetOpen(false)} />}
       {roomSheetOpen && (
         <StartRoomSheet

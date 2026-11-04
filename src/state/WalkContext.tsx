@@ -26,7 +26,6 @@ import {
   roomPhrase,
   type RecentPick,
 } from '../lib/matching'
-import { getGuestId } from '../lib/storage'
 import { useSaves } from './SavesContext'
 
 export type Unsure = 'rooms' | 'room' | 'painting'
@@ -193,7 +192,8 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     stored?.answers ?? demo?.answers ?? {},
   )
   const [path, setPath] = useState<RoomId[]>(stored?.path ?? demo?.path ?? [START_ROOM])
-  const userId = userIdProp ?? getGuestId()
+  // Guests have no id: nothing is keyed by one any more (variety is history-based, see pickWithHistory).
+  const userId = userIdProp ?? 'guest'
   const [resolvedPainting, setResolvedPainting] = useState<Painting | undefined>(() => {
     if (stored) return stored.painting
     if (!demo) return undefined

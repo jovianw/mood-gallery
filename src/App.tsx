@@ -1,5 +1,6 @@
-import { Suspense, type ReactNode } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Suspense, useEffect, useRef, type ReactNode } from 'react'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { isRoomId, rooms } from './data/rooms'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { MergeSheet } from './components/MergeSheet'
 import { ChooseDoor } from './screens/ChooseDoor'
@@ -19,6 +20,7 @@ import { WalkProvider } from './state/WalkContext'
 import { lazyWithRetry } from './lib/lazy'
 
 const About = lazyWithRetry(() => import('./screens/About').then((m) => ({ default: m.About })))
+const Privacy = lazyWithRetry(() => import('./screens/Privacy').then((m) => ({ default: m.Privacy })))
 
 /** The daily painting seed follows the account when there is one. */
 function WalkWithUser({ children }: { children: ReactNode }) {
@@ -37,6 +39,49 @@ function MergePrompt() {
       onNotNow={saves.declineMerge}
     />
   )
+}
+
+/** Document title for a path, so tabs, history and screen readers name the screen. */
+function titleFor(pathname: string): string {
+  const room = pathname.match(/^\/room\/([^/]+)/)?.[1]
+  if (room && isRoomId(room)) return `${rooms[room].name} · Mood Gallery`
+  const names: Record<string, string> = {
+    '/': 'Mood Gallery',
+    '/doors': 'Choose a door · Mood Gallery',
+    '/final': 'The final stretch · Mood Gallery',
+    '/finding': 'Finding your painting · Mood Gallery',
+    '/painting': 'Your painting · Mood Gallery',
+    '/share': 'Share your path · Mood Gallery',
+    '/gallery': 'My Gallery · Mood Gallery',
+    '/about': 'How it works · Mood Gallery',
+    '/privacy': 'Privacy and terms · Mood Gallery',
+  }
+  if (names[pathname]) return names[pathname]
+  if (pathname.startsWith('/gallery/')) return pathname.endsWith('/share') ? 'Share your path · Mood Gallery' : 'Saved painting · Mood Gallery'
+  if (pathname.startsWith('/w/')) return 'A shared walk · Mood Gallery'
+  return 'Mood Gallery'
+}
+
+/**
+ * On every navigation: name the document after the screen and move focus to the new screen's
+ * main landmark, so keyboard and screen-reader users land where the change happened instead of
+ * at the top of a document that silently replaced itself. The first render is left alone.
+ */
+function RouteEffects() {
+  const { pathname } = useLocation()
+  const first = useRef(true)
+  useEffect(() => {
+    document.title = titleFor(pathname)
+    if (first.current) {
+      first.current = false
+      return
+    }
+    const main = document.querySelector<HTMLElement>('main')
+    if (!main) return
+    main.setAttribute('tabindex', '-1')
+    main.focus({ preventScroll: true })
+  }, [pathname])
+  return null
 }
 
 export default function App() {
@@ -67,8 +112,17 @@ export default function App() {
                     </Suspense>
                   }
                 />
+                <Route
+                  path="/privacy"
+                  element={
+                    <Suspense fallback={<main className="screen" />}>
+                      <Privacy />
+                    </Suspense>
+                  }
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+              <RouteEffects />
             </div>
             <MergePrompt />
           </WalkWithUser>

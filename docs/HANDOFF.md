@@ -133,6 +133,17 @@ Dark screen. X (back), "SHARE YOUR PATH" label. The story card is 300x533 on scr
 ### 12 Desktop (37:202) `docs/figma/12-desktop-layout.png`
 Phone column centered on Stone with a soft shadow at >= 768px. Nothing else changes.
 
+### 13 Privacy and terms `/privacy` (added 2026-11-04)
+Plain-language page, same typography as About: what a guest's browser keeps, what signing in stores in Firebase (saves, one record per walk, share cards), that the site sets no cookies and runs no analytics, how to request account deletion (GitHub issue), and short terms (unofficial, Met Open Access CC0, not an assessment or advice, provided as is). Linked from the Entrance footer, the sign-in sheet's small print, and About section 11.9. No cookie banner: nothing on the site needs consent under the cookie rules, and the page says so.
+
+### Accessibility and interaction rules (added 2026-11-04)
+- One `main` per screen and one `h1` (the app bar title or the screen headline). `RouteEffects` in `App.tsx` sets `document.title` per route and moves focus to `main` after each navigation.
+- The 7-point scale is a `radiogroup` with a roving tab stop: arrows move and select, Home and End jump to the poles. Every dot has a 44 px hit area whatever its visual size.
+- Bottom sheets return focus to the control that opened them; Escape, scrim tap, handle drag and the "not now" link all close them.
+- Rooms show "N of M left to answer." under the disabled button until every statement is answered.
+- Text in the accent uses `--accent-text` (Met Red 10% darker on light screens, a lighter tint on dark) so it clears 4.5:1; buttons and marks keep `--accent`.
+- Copy never says the model is "sure"; it says the answer is clear, or that another room would not change it.
+
 ## Rooms are data
 
 `src/data/rooms.ts` becomes the list below. A room = `{ id, name, floor, planKey, about, statements[3], affinity, reason, shortReason, department }`. `planKey` is the key in `met_floorplan.json`; `department` is the Met department name used when curating paintings.

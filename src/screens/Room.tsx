@@ -13,7 +13,7 @@ function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string 
   if (walk.canFinish) {
     return walk.assessment.because === 'gain'
       ? 'Another room would not change the answer. Your painting is in this one.'
-      : 'We are sure now. Your painting is close.'
+      : 'The answer is clear now. Your painting is close.'
   }
   const a = walk.assessment
   const left = Math.max(0, MIN_ROOMS - walk.path.length)
@@ -56,7 +56,14 @@ export function Room() {
   const trail = walk.path.map((id) => (id === START_ROOM ? 'Great Hall' : rooms[id].name))
   const current = room.id === START_ROOM ? 'Great Hall' : room.name
   const finishHere = isCurrent && !isStart && walk.canFinish
-  const status = isCurrent && complete ? statusLine(walk, isStart) : null
+  const total = room.statements.length
+  const answered = room.statements.filter((s) => walk.answers[s.id] !== undefined).length
+  const status =
+    isCurrent && complete
+      ? statusLine(walk, isStart)
+      : !complete
+        ? `${total - answered} of ${total} left to answer.`
+        : null
 
   const index = walk.path.indexOf(room.id)
   const prevRoom = index > 0 ? walk.path[index - 1] : null

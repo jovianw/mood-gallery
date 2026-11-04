@@ -2,6 +2,8 @@
 :root {
   /* Palette */
   --met-red: #e4002b;
+  /* Met Red for text under 18px: the same hue, 4.9:1 on Plaster. Buttons and marks keep --met-red. */
+  --met-red-text: #d40028;
   --ink: #1f1d1b;
   --plaster: #f6f3ee;
   --stone: #e3ddd3;
@@ -16,6 +18,7 @@
   --fg-muted: var(--mute-gray);
   --divider: var(--stone);
   --accent: var(--met-red);
+  --accent-text: var(--met-red-text);
   --agree: var(--met-red);
   --disagree: var(--slate-blue);
   --neutral-dot: var(--mute-gray);

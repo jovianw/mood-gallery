@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ButtonHTMLAttributes, type KeyboardEvent, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Answer, Statement as StatementData } from '../data/types'
 import { useNav } from '../lib/nav'
@@ -149,12 +149,27 @@ export function Statement({
   value: Answer | undefined
   onChange: (a: Answer) => void
 }) {
+  const group = useRef<HTMLDivElement>(null)
+  // One tab stop per group (the chosen dot, or the middle one before any choice); arrows move and
+  // select, Home and End jump to the poles, as a radio group is expected to behave.
+  const tabStop = value === undefined ? 3 : ANSWERS.indexOf(value)
+  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    let next: number | null = null
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = Math.min(ANSWERS.length - 1, i + 1)
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = Math.max(0, i - 1)
+    else if (e.key === 'Home') next = 0
+    else if (e.key === 'End') next = ANSWERS.length - 1
+    if (next === null) return
+    e.preventDefault()
+    onChange(ANSWERS[next])
+    group.current?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus()
+  }
   return (
     <div className="statement">
       <p className="statement__text" id={`${statement.id}-label`}>
         {statement.text}
       </p>
-      <div className="scale" role="radiogroup" aria-labelledby={`${statement.id}-label`}>
+      <div className="scale" role="radiogroup" aria-labelledby={`${statement.id}-label`} ref={group}>
         {ANSWERS.map((a, i) => (
           <button
             key={a}
@@ -162,9 +177,11 @@ export function Statement({
             role="radio"
             aria-checked={value === a}
             aria-label={DOT_LABELS[i]}
+            tabIndex={i === tabStop ? 0 : -1}
             className={`scale__dot ${i < 3 ? 'scale__dot--agree' : i > 3 ? 'scale__dot--disagree' : ''}`}
             style={{ ['--dot-size' as string]: `${DOT_SIZES[i]}px` }}
             onClick={() => onChange(a)}
+            onKeyDown={(e) => onKeyDown(e, i)}
           >
             <Check aria-hidden="true" />
           </button>

@@ -6,7 +6,7 @@ feels like you today. A web build of the "Mood Walk" prototype designed for Corn
 
 Live at <https://jovian.wang/mood-gallery/>.
 
-Not affiliated with The Metropolitan Museum of Art. Artwork images and metadata come from
+Not affiliated with The Metropolitan Museum of Art. What the site stores, and what it does not, is on its [privacy and terms page](https://jovian.wang/mood-gallery/privacy). Artwork images and metadata come from
 [The Met Open Access](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)
 program via the public [Collection API](https://metmuseum.github.io/).
 

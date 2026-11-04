@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../state/AuthContext'
 import { BottomSheet } from './BottomSheet'
 import { Google, Mail } from './Icons'
@@ -69,6 +70,7 @@ export function SignInSheet({
                 type="email"
                 inputMode="email"
                 autoComplete="email"
+                aria-label="Email address"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -114,7 +116,7 @@ export function SignInSheet({
           {error && (
             <>
               <div className="gap-10" />
-              <p className="t-small" style={{ color: 'var(--accent)', textAlign: 'center' }}>
+              <p className="t-small" style={{ color: 'var(--accent-text)', textAlign: 'center' }} role="alert">
                 {error}
               </p>
             </>
@@ -133,7 +135,12 @@ export function SignInSheet({
           </button>
           <div className="gap-8" />
           <p className="t-caption" style={{ textAlign: 'center' }}>
-            Guest saves live in this browser and are lost if you clear it.
+            Guest saves live in this browser and are lost if you clear it. Signing in stores your gallery
+            with Google Firebase; see{' '}
+            <Link to="/privacy" style={{ color: 'inherit' }}>
+              privacy and terms
+            </Link>
+            .
           </p>
         </>
       )}

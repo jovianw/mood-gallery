@@ -23,6 +23,7 @@ import {
 } from '../lib/bayes'
 import { blocks, blocksOnFloor, OUTLINE } from '../lib/floorplan'
 import { AXES, AXIS_LABEL, RECENT_HALF_LIFE_DAYS, RECENT_PENALTY } from '../lib/matching'
+import { Link } from 'react-router-dom'
 import { useNav } from '../lib/nav'
 import { CELL, gridStats, legBetween } from '../lib/routing'
 import { useWalk } from '../state/WalkContext'
@@ -618,6 +619,136 @@ export function About() {
       <RouteFigure />
       <p className="t-caption">Figure 9. One leg: Great Hall to the American Wing galleries on floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m.</p>
 
+      <h2 className="about__h">11. Interaction design</h2>
+      <p className="about__p">
+        The interface is held to the same standard as the inference: each decision below is stated with the
+        principle it follows, so that it can be checked against the running site. The review was carried out
+        screen by screen against the ten usability heuristics [6] and the principles of visibility, feedback,
+        mapping and constraint [7]; the defects it found (an unanswered-item count, keyboard operation of the
+        scale, focus on navigation, the contrast of red text, rooms on a second floor missing from the map)
+        were corrected before this section was written.
+      </p>
+
+      <h3 className="about__h3">11.1 Conceptual model and mapping</h3>
+      <p className="about__p">
+        The adaptive test is presented as a walk through a building the visitor already has a model of: rooms,
+        doors, a route and a destination. Every quantity in Sections 3 to 6 has a physical counterpart. The
+        posterior's spread is how far along the walk is; the door value is which door the guide recommends;
+        the stopping rule is the sentence "your painting is in this room"; the final leg is a route on a map.
+        The map keeps the mapping literal: north is on the compass, floors are drawn one above the other,
+        rooms are numbered in the order they were walked, and the leg still ahead is drawn differently from the
+        legs behind. Nothing on the map is abstract decoration; each mark corresponds to a state of the walk.
+      </p>
+
+      <h3 className="about__h3">11.2 Visibility of status and feedback</h3>
+      <p className="about__p">
+        Each screen states where the visitor is (the path trail, "You are in"), what remains (the count of
+        statements left in a room, the minimum of three rooms) and how settled the model is (the progress bar,
+        the share of the remaining gap the next room is expected to close). Every selection is confirmed in
+        place by a filled dot and a check. Waiting is acknowledged with its expected duration. The explanation
+        card under each painting and the live figures on this page extend the same visibility to the model's
+        internal state, so that the system is never a black box at the moment it matters most.
+      </p>
+
+      <h3 className="about__h3">11.3 User control, error prevention and recovery</h3>
+      <p className="about__p">
+        Answers can be revised until a door is chosen. The recommended door is a default, not a constraint; any
+        open door may be taken, and the model updates from whichever room is entered. The starting room is the
+        visitor's choice and defaults to where the previous walk ended. The primary action is disabled, with
+        the count of remaining statements shown, rather than accepting an incomplete room and failing later. A
+        walk survives a page reload and a failed script load, back navigation never discards a result, and
+        saving is reversible with a single tap. The only dialog in the application, the sign-in sheet, can be
+        dismissed by scrim, handle, Escape key or an equally visible "not now".
+      </p>
+
+      <h3 className="about__h3">11.4 Consistency and patterns</h3>
+      <p className="about__p">
+        One component vocabulary is reused on every screen: a top bar with a small label and a title, a single
+        primary action pinned to the bottom, bottom sheets for choices, chips for mood words, white cards for
+        explanations. Action labels name the outcome in verb-noun form ("Find my door", "Reveal my painting",
+        "Share my path"). The same seven-point scale appears in every room with the same colours, sizes and
+        labels. Conventions are borrowed rather than invented: the sheet's drag handle, dismissal by tapping
+        outside, the share sheet's row of actions. A visitor learns the interface once, in the Great Hall.
+      </p>
+
+      <h3 className="about__h3">11.5 Visual hierarchy, colour and type</h3>
+      <p className="about__p">
+        Hierarchy is produced by varying one property at a time. Headlines differ from body text in size and
+        family (Playfair Display at 28 to 30 px against Inter at 15 to 16 px); labels differ in weight and
+        letter-spacing; colour is reserved for the single accent and for the agree and disagree poles. Proximity
+        and whitespace group each statement with its scale and separate one statement from the next, so no
+        rules or boxes are needed. The organising idea is the museum itself: the accent is the museum's red,
+        the surfaces are plaster and stone, and Slate Blue serves as the complementary colour for the disagree
+        pole so the two ends of the scale are distinguished by hue as well as position. The type pairing sets a
+        high-contrast serif for headlines against a neutral sans for everything else. The reading column is 342
+        px wide, about 50 characters at 15 px, inside the 45 to 75 character range in which line length does
+        not impede reading, with body leading of 1.45 to 1.5.
+      </p>
+
+      <h3 className="about__h3">11.6 Questionnaire design</h3>
+      <p className="about__p">
+        Each item is a single first-person statement about the present ("I feel light on my feet today"). No
+        item is double-barrelled, leading or loaded, and none asks the visitor to rate the model's own
+        constructs; the axis an item measures is never shown while answering. Responses use a symmetric
+        seven-point agree-disagree scale with a labelled neutral midpoint, mapped to an observation as in
+        Section 3. Within each axis, items alternate direction so that a tendency to agree is not read as a
+        mood. The Great Hall opens with two items per axis as a warm-up and to give the posterior an
+        observation on every coordinate; later rooms ask one item per axis plus one on the axis along which
+        that room's works vary most. Rooms are short (twelve items, then seven) because the adaptive design,
+        not a long instrument, is what carries the precision.
+      </p>
+
+      <h3 className="about__h3">11.7 Mobile first and device language</h3>
+      <p className="about__p">
+        The layout is designed at 390 px and centred, not reflowed, on larger screens, so one layout is tested
+        and shipped. The primary action sits in the thumb zone at the bottom of the screen. Every control meets
+        a 44 px target: the scale dots measure 26 to 48 px visually so that their size encodes strength of
+        agreement, but each carries a 44 px hit area. Hover effects are gated behind a hover media query so
+        touch devices never show a stuck hover state. The map is turned by drag and the walk by tap; every
+        pointer interaction has a keyboard equivalent.
+      </p>
+
+      <h3 className="about__h3">11.8 Accessibility</h3>
+      <p className="about__p">
+        Each screen has one main landmark and one first-level heading; the document title changes with the
+        screen and focus moves to the new screen on navigation, so a screen reader announces where it is. The
+        scale is a radio group: arrow keys move and select, Home and End jump to the poles, and one dot per
+        group is in the tab order. Buttons are named, status lines are live regions, focus is always visible,
+        and the reduced-motion preference disables slide transitions and the map's auto-rotation. Images of
+        works carry the title and artist as alternative text; thumbnails beside a visible title are marked
+        decorative. The 3D map has a text equivalent, the route list beneath it, and never carries information
+        the list does not. Contrast is measured against the palette [8]: Ink on Plaster 15.2:1, Mute Gray on
+        Plaster 5.1:1, Stone on Ink 9.6:1. Met Red itself measures 4.4:1 on Plaster and 3.5:1 on Ink, which
+        clears the 4.5:1 criterion only for large text, so text set in the accent uses a shade of the same hue
+        at 4.9:1 on both surfaces while buttons and marks keep the true red. Nothing depends on colour alone:
+        agree and disagree differ in position and label as well as hue.
+      </p>
+
+      <h3 className="about__h3">11.9 Transparency, data and ethics</h3>
+      <p className="about__p">
+        The axes were discovered by factoring a language model's ratings, and the site says so rather than
+        presenting them as human constants. Every painting shows which ratings earned its words, so a visitor
+        can disagree with the model on the evidence. The live figures on this page expose the inference itself.
+        The catalogue mirrors the museum's departments, so the candidate pool over-represents Western painting
+        and contains objects as well as pictures; Section 9 reports the composition rather than concealing it.
+        The questionnaire is a way of choosing a painting, not an assessment of the visitor, and the copy does
+        not claim otherwise. On data: a guest's answers never leave the device, the site sets no cookies and
+        runs no analytics, signing in is optional and stores only what the gallery needs, there is no
+        countdown, no pre-ticked box, and declining to sign in is a plain option of equal weight. The{' '}
+        <Link to="/privacy" onClick={() => nav.markForward()}>privacy notice</Link> states this in full.
+      </p>
+
+      <h3 className="about__h3">11.10 Evaluation</h3>
+      <p className="about__p">
+        No behavioural instrumentation exists, by design, so there is no A/B testing; the simulation of Section 8
+        stands in for traffic when constants are tuned. The heuristic review above is the discount method it is
+        meant to be, and it does not replace observation. A usability study of this interface would seat eight
+        to twelve visitors with a think-aloud protocol, measure rooms per walk, time per room and whether the
+        visitor could say why the painting was chosen, and compare satisfaction with the painting against the
+        expected regret the model reported at the stop. That comparison, between the model's confidence and
+        the visitor's, is the evaluation the method most needs and has not yet had.
+      </p>
+
       <h2 className="about__h">References</h2>
       <ol className="about__refs">
         <li>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <i>Psychometrika</i>, 30(2), 179–185.</li>
@@ -625,6 +756,9 @@ export function About() {
         <li>Lindley, D. V. (1956). On a measure of the information provided by an experiment. <i>Annals of Mathematical Statistics</i>, 27(4), 986–1005.</li>
         <li>Radford, A. et al. (2021). Learning transferable visual models from natural language supervision. <i>ICML</i>.</li>
         <li>Hart, P. E., Nilsson, N. J. and Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. <i>IEEE Transactions on Systems Science and Cybernetics</i>, 4(2), 100–107.</li>
+        <li>Nielsen, J. (1994). Heuristic evaluation. In J. Nielsen and R. L. Mack (eds.), <i>Usability Inspection Methods</i>. Wiley.</li>
+        <li>Norman, D. A. (2013). <i>The Design of Everyday Things</i>, revised and expanded edition. Basic Books.</li>
+        <li>W3C (2023). <i>Web Content Accessibility Guidelines (WCAG) 2.2</i>. W3C Recommendation.</li>
       </ol>
 
     </Screen>

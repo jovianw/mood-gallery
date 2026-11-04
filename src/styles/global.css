@@ -72,6 +72,8 @@ button {
   --bg-card: #2e2b29;
   --fg: #ffffff;
   --fg-muted: var(--stone);
+  /* Met Red lightened for text on Ink: 4.9:1 (the true red measures 3.5:1 here). */
+  --accent-text: #f54d68;
   --fg-faint: var(--mute-gray);
   --divider: #3b3733;
 }
@@ -194,7 +196,7 @@ button {
 }
 
 .t-label--accent {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .t-link {
@@ -216,7 +218,7 @@ button {
 }
 
 .t-link--accent {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .gap-4 { height: 4px; flex: none; }
@@ -259,6 +261,7 @@ button {
 }
 
 .icon-button:focus-visible,
+main:focus { outline: none; }
 button:focus-visible,
 a:focus-visible {
   outline: 2px solid var(--accent);

@@ -38,7 +38,7 @@ export function FinalStretch() {
       <h1 className="t-headline t-headline--italic">Your painting is just ahead.</h1>
       <div className="gap-8" />
       <p className="t-body t-body--15 t-body--muted">
-        {roomsWalked} rooms in, we are sure. Here&rsquo;s the rest of your route, and a look back at
+        {roomsWalked} rooms in, the answer is clear. Here&rsquo;s the rest of your route, and a look back at
         the path that got you here.
       </p>
       <div className="gap-16" />

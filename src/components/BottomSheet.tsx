@@ -28,6 +28,13 @@ export function BottomSheet({
     setTimeout(onClose, reduced ? 0 : CLOSE_MS)
   }, [closing, onClose])
 
+  // Focus returns to whatever opened the sheet once it closes.
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null
+    return () => {
+      opener?.focus?.()
+    }
+  }, [])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
