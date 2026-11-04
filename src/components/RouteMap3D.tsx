@@ -10,6 +10,7 @@ import {
   FLOOR_GAP,
   OUTLINE,
   ROOM_HEIGHT,
+  type FloorRoute,
   type PlanBlock,
   type WalkRoute,
 } from '../lib/floorplan'
@@ -44,8 +45,29 @@ const CAMERA_DISTANCE = 900
 /** Building center in plan coordinates, used as the orbit target. */
 const CENTER: [number, number] = [-82, 1.5]
 
-function floorY(floor: 1 | 2) {
-  return floor === 1 ? 0 : FLOOR_GAP
+/** Vertical gap between the floors when both are drawn: pulled apart so floor 1 stays readable. */
+const SPLIT_GAP = 34
+
+/** Which floors to draw and how far apart. A walk on one floor keeps the true 12 m gap. */
+function gapFor(route: WalkRoute) {
+  return route.other ? SPLIT_GAP : FLOOR_GAP
+}
+
+/** Every numbered room stop across the floors drawn, with its world position, by walk order. */
+export function numberedStops(route: WalkRoute) {
+  const gap = gapFor(route)
+  const views: FloorRoute[] = route.other ? [route, route.other] : [route]
+  const out: { key: string; n: number; position: [number, number, number] }[] = []
+  for (const v of views) {
+    const lineY = (v.floor === 1 ? 0 : gap) + ROOM_HEIGHT + 0.8
+    for (const st of v.stops) {
+      if (st.n === undefined) continue
+      // The room you are in gets the "here" marker instead of a number.
+      if (v === route && st.index === route.hereIndex) continue
+      out.push({ key: `${v.floor}:${st.key}`, n: st.n, position: toWorld(v.waypoints[st.index], lineY) })
+    }
+  }
+  return out.sort((a, b) => a.n - b.n)
 }
 
 /** Plan (x, y) -> world (x, y_up, z). North (+y) is -z. */
@@ -62,10 +84,11 @@ function shapeFrom(poly: [number, number][]): THREE.Shape {
 
 type Role = 'visited' | 'next' | 'dest' | 'dim' | 'stairs' | 'room'
 
-function roleOf(block: PlanBlock, route: WalkRoute): Role {
-  if (block.key === route.dest) return 'dest'
-  if (route.visited.includes(block.key)) return block.stairs ? 'stairs' : 'visited'
-  if (block.key === route.next) return 'next'
+function roleOf(block: PlanBlock, view: FloorRoute, route: WalkRoute): Role {
+  const isFinal = view.floor === route.floor
+  if (isFinal && block.key === route.dest) return 'dest'
+  if (view.visited.includes(block.key)) return block.stairs ? 'stairs' : 'visited'
+  if (isFinal && block.key === route.next) return 'next'
   if (block.stairs) return 'stairs'
   if (block.dim) return 'dim'
   return 'room'
@@ -80,15 +103,18 @@ const ROLE_COLORS: Record<Role, [top: string, side: string]> = {
   room: [C.room, C.roomSide],
 }
 
-function Block({ block, role, up, height }: { block: PlanBlock; role: Role; up: number; height: number }) {
+function Block({ block, role, up, height, ghost }: { block: PlanBlock; role: Role; up: number; height: number; ghost?: boolean }) {
   const geometry = useMemo(() => {
     const g = new THREE.ExtrudeGeometry(shapeFrom(block.poly), { depth: height, bevelEnabled: false })
     return g
   }, [block, height])
   const [top, side] = ROLE_COLORS[role]
   const materials = useMemo(
-    () => [new THREE.MeshBasicMaterial({ color: top }), new THREE.MeshBasicMaterial({ color: side })],
-    [top, side],
+    () => [
+      new THREE.MeshBasicMaterial({ color: top, transparent: ghost, opacity: ghost ? 0.42 : 1, depthWrite: !ghost }),
+      new THREE.MeshBasicMaterial({ color: side, transparent: ghost, opacity: ghost ? 0.42 : 1, depthWrite: !ghost }),
+    ],
+    [top, side, ghost],
   )
   useEffect(() => () => geometry.dispose(), [geometry])
   return (
@@ -99,21 +125,20 @@ function Block({ block, role, up, height }: { block: PlanBlock; role: Role; up: 
         color={C.plateOutline}
         lineWidth={0.6}
         transparent
-        opacity={role === 'dim' ? 0.12 : 0.28}
+        opacity={role === 'dim' ? 0.12 : ghost ? 0.18 : 0.28}
       />
     </group>
   )
 }
 
 /** Stair ramp: a wedge rising from floor 1 toward floor 2 inside the staircase footprint. */
-function Stairs({ block, lit }: { block: PlanBlock; lit: boolean }) {
+function Stairs({ block, lit, top }: { block: PlanBlock; lit: boolean; top: number }) {
   const xs = block.poly.map((p) => p[0])
   const ys = block.poly.map((p) => p[1])
   const x0 = Math.min(...xs)
   const x1 = Math.max(...xs)
   const y0 = Math.min(...ys)
   const y1 = Math.max(...ys)
-  const top = FLOOR_GAP
   // The Grand Staircase climbs westward (away from the hall), so the wedge is tall at x0.
   const geometry = useMemo(() => {
     const s = new THREE.Shape()
@@ -152,14 +177,14 @@ function Stairs({ block, lit }: { block: PlanBlock; lit: boolean }) {
   )
 }
 
-function Plate({ up, lit }: { up: number; lit: boolean }) {
+function Plate({ up, lit, ghost }: { up: number; lit: boolean; ghost?: boolean }) {
   const geometry = useMemo(() => new THREE.ShapeGeometry(shapeFrom(OUTLINE)), [])
   useEffect(() => () => geometry.dispose(), [geometry])
   return (
     <group>
       {lit && (
         <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[0, up - 0.02, 0]}>
-          <meshBasicMaterial color={C.plate} />
+          <meshBasicMaterial color={C.plate} transparent={ghost} opacity={ghost ? 0.3 : 1} depthWrite={!ghost} />
         </mesh>
       )}
       <Line
@@ -301,40 +326,68 @@ interface Labels {
 }
 
 function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
-  const lit = route.floor
-  const up = floorY(lit)
-  const other: 1 | 2 = lit === 1 ? 2 : 1
-  const lineY = up + ROOM_HEIGHT + 0.8
-  const pts = route.waypoints.map((p) => toWorld(p, lineY))
-  // Rooms already walked: a thin, quieter line. The leg still ahead: bold and solid.
-  const walked = pts.slice(0, route.hereIndex + 1)
-  const ahead = pts.slice(route.hereIndex)
+  const gap = gapFor(route)
+  const floorY = (f: 1 | 2) => (f === 1 ? 0 : gap)
+  const views: FloorRoute[] = route.other ? [route, route.other] : [route]
+  const drawn = (f: 1 | 2) => views.some((v) => v.floor === f)
+  // With both floors up, the upper one is ghosted except for the rooms that matter, so the floor
+  // below shows through.
+  const ghostFloor: 1 | 2 | null = route.other ? 2 : null
+  const stairsBlock = blocksOnFloor(2).find((b) => b.stairs)!
+  const stairsLit = views.some((v) => v.visited.includes('stairs'))
+
+  const upFinal = floorY(route.floor)
+  const lineYOf = (f: 1 | 2) => floorY(f) + ROOM_HEIGHT + 0.8
+  const pts = route.waypoints.map((p) => toWorld(p, lineYOf(route.floor)))
   const here = pts[route.hereIndex]
   const dest = pts[pts.length - 1]
-  const destTop = up + ROOM_HEIGHT + (blocks[route.dest]?.inner ? 2.5 : 0)
-  const numbered = route.stops.filter((s) => s.n !== undefined && s.index !== route.hereIndex)
+  const destTop = upFinal + ROOM_HEIGHT + (blocks[route.dest]?.inner ? 2.5 : 0)
+  const numbered = numberedStops(route)
+
+  // The stair connector: from where the line leaves one floor to where it picks up on the other.
+  let connector: [number, number, number][] | null = null
+  if (route.other) {
+    const leaving = route.other
+    const from = toWorld(leaving.waypoints[leaving.waypoints.length - 1], lineYOf(leaving.floor))
+    const to = toWorld(route.waypoints[0], lineYOf(route.floor))
+    connector = [from, to]
+  }
 
   return (
     <group>
       <Surroundings />
-      <Plate up={0} lit={lit === 1} />
-      <Plate up={FLOOR_GAP} lit={lit === 2} />
-      {blocksOnFloor(other).length > 0 && null}
-      {blocksOnFloor(lit).map((b) => {
-        if (b.stairs) return <Stairs key={b.key} block={b} lit={route.visited.includes(b.key)} />
-        const role = roleOf(b, route)
-        const h = b.inner ? ROOM_HEIGHT + 2.5 : ROOM_HEIGHT
-        return <Block key={b.key} block={b} role={role} up={up} height={h} />
+      <Plate up={0} lit={drawn(1)} />
+      <Plate up={gap} lit={drawn(2)} ghost={ghostFloor === 2} />
+      {views.map((v) =>
+        blocksOnFloor(v.floor).map((b) => {
+          if (b.stairs) return null
+          const role = roleOf(b, v, route)
+          const h = b.inner ? ROOM_HEIGHT + 2.5 : ROOM_HEIGHT
+          const ghost = v.floor === ghostFloor && (role === 'room' || role === 'dim')
+          return <Block key={`${v.floor}:${b.key}`} block={b} role={role} up={floorY(v.floor)} height={h} ghost={ghost} />
+        }),
+      )}
+      <Stairs block={stairsBlock} lit={stairsLit} top={gap} />
+      {views.map((v) => {
+        const vp = v.waypoints.map((p) => toWorld(p, lineYOf(v.floor)))
+        const isFinal = v.floor === route.floor
+        // Rooms already walked: a thin, quieter line. The leg still ahead: bold and solid.
+        const walked = isFinal ? vp.slice(0, v.hereIndex + 1) : vp
+        const ahead = isFinal ? vp.slice(v.hereIndex) : []
+        return (
+          <group key={v.floor}>
+            {walked.length > 1 && (
+              <Line points={walked} color={C.plaster} lineWidth={1.6} transparent opacity={0.55} dashed dashSize={4} gapSize={3} />
+            )}
+            {ahead.length > 1 && <Line points={ahead} color={C.plaster} lineWidth={3.2} />}
+          </group>
+        )
       })}
-      {lit === 1 && blocksOnFloor(2).find((b) => b.stairs) && (
-        <Stairs block={blocksOnFloor(2).find((b) => b.stairs)!} lit={false} />
+      {connector && (
+        <Line points={connector} color={C.plaster} lineWidth={1.6} transparent opacity={0.55} dashed dashSize={4} gapSize={3} />
       )}
-      {walked.length > 1 && (
-        <Line points={walked} color={C.plaster} lineWidth={1.6} transparent opacity={0.55} dashed dashSize={4} gapSize={3} />
-      )}
-      {ahead.length > 1 && <Line points={ahead} color={C.plaster} lineWidth={3.2} />}
       {numbered.map((s) => (
-        <mesh key={s.key} position={pts[s.index]}>
+        <mesh key={s.key} position={s.position}>
           <sphereGeometry args={[2.4, 14, 12]} />
           <meshBasicMaterial color={C.plaster} />
         </mesh>
@@ -347,7 +400,7 @@ function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
           { el: labels.dest, point: [dest[0], destTop + 1, dest[2]] },
           ...numbered.map((s, i) => ({
             el: { current: labels.stops.current?.[i] ?? null },
-            point: [pts[s.index][0], pts[s.index][1] + 1, pts[s.index][2]] as [number, number, number],
+            point: [s.position[0], s.position[1] + 1, s.position[2]] as [number, number, number],
           })),
         ]}
       />
@@ -411,18 +464,20 @@ function FirstFrame({ onReady }: { onReady: () => void }) {
 
 interface RigProps {
   autoRotate: boolean
+  /** True when two floors are drawn: zoom out a little and aim between them. */
+  split: boolean
   resetSignal: number
   onAzimuth: (rad: number) => void
 }
 
 /** Camera + controls. Auto-rotate pauses while dragging and resumes after a short idle. */
-function Rig({ autoRotate, resetSignal, onAzimuth }: RigProps) {
+function Rig({ autoRotate, resetSignal, onAzimuth, split }: RigProps) {
   const controls = useRef<OrbitControlsImpl>(null)
   const { size } = useThree()
   const [idle, setIdle] = useState(true)
   const idleTimer = useRef<number | undefined>(undefined)
-  const zoom = BASE_ZOOM * (size.width / 342)
-  const target = useMemo(() => new THREE.Vector3(CENTER[0], 4, -CENTER[1]), [])
+  const zoom = BASE_ZOOM * (size.width / 342) * (split ? 0.78 : 1)
+  const target = useMemo(() => new THREE.Vector3(CENTER[0], split ? SPLIT_GAP / 2 + 2 : 4, -CENTER[1]), [split])
 
   const defaultPosition = useMemo(() => {
     const p = new THREE.Vector3().setFromSphericalCoords(CAMERA_DISTANCE, DEFAULT_POLAR, DEFAULT_AZIMUTH)
@@ -497,7 +552,7 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
   const hereLabel = useRef<HTMLDivElement>(null)
   const destLabel = useRef<HTMLDivElement>(null)
   const stopLabels = useRef<(HTMLDivElement | null)[]>([])
-  const numbered = route.stops.filter((s) => s.n !== undefined && s.index !== route.hereIndex)
+  const numbered = numberedStops(route)
 
   useEffect(() => {
     const el = wrap.current
@@ -528,7 +583,7 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
         style={{ touchAction: 'none' }}
       >
         <Scene route={route} labels={{ here: hereLabel, dest: destLabel, stops: stopLabels }} />
-        <Rig autoRotate={autoRotate} resetSignal={resetSignal} onAzimuth={onAzimuth} />
+        <Rig autoRotate={autoRotate} resetSignal={resetSignal} onAzimuth={onAzimuth} split={!!route.other} />
         <FirstFrame onReady={() => setReady(true)} />
       </Canvas>
       {!ready && (

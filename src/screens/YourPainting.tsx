@@ -138,8 +138,6 @@ function PaintingView(v: ViewProps) {
         <>
           <div className="gap-10" />
           <InfoCard eyebrow="How this work reads" labelSize={11}>
-            A model rated this work on 40 feelings, 1 to 7. Next to the rest of the collection it
-            came out:
             <ul className="evidence">
               {evidence.map((e) => (
                 <li key={e.tag}>

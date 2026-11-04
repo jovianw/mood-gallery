@@ -322,7 +322,7 @@ export function About() {
         </Button>
       }
     >
-      <TopAppBar eyebrow="Method" title="A Bayesian adaptive walk" onLeft={() => nav.back('/')} />
+      <TopAppBar eyebrow="Method" title="A Bayesian adaptive walk" onLeft={() => (window.history.state?.idx > 0 ? nav.back() : nav.back('/'))} />
       <div className="gap-16" />
       <p className="about__abstract">
         <b>Abstract.</b> We frame the selection of an artwork for a visitor as sequential Bayesian
