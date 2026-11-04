@@ -449,7 +449,7 @@ export function About() {
       </p>
       {stateNote}
       <Bars rows={top} label="Probability that each work is within epsilon of the best match" />
-      <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable. The events are not exclusive: several works can lie within <Eq tex={String.raw`arepsilon`} /> of the best in the same sample, so the bars need not sum to one.</p>
+      <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable. The events are not exclusive: several works can lie within <Eq tex={String.raw`varepsilon`} /> of the best in the same sample, so the bars need not sum to one.</p>
 
       <h2 className="about__h">5. Stopping rule</h2>
       <p className="about__p">
