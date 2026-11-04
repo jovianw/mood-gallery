@@ -503,22 +503,20 @@ export function About() {
 
       <h2 className="about__h">8. Where the painting vectors come from</h2>
       <p className="about__p">
-        {CURATED_COUNT} works were placed by hand. The rest come from a vision-language model
-        {es.model ? ` (${es.model})` : ''}: each image becomes a unit vector <Eq tex="e_i" />, each
-        axis a direction <Eq tex="u_k" /> built from the text encoder,
+        Every one of the {es.appPaintings.toLocaleString()} works in the app has a vector <Eq tex="v_i" /> in
+        the {AXES.length} discovered axes: its regression factor scores from section 1b, standardized per axis
       </p>
       <Eq
         display
-        tex={String.raw`u_k = \frac{\bar t_k^{+} - \bar t_k^{-}}{\lVert \bar t_k^{+} - \bar t_k^{-}\rVert},\qquad
-        v_{ik} = \mathrm{clip}\!\left(\frac{e_i \cdot u_k - \mathrm{med}_k}{q_{90,k}},\,-1,\,1\right)`}
+        tex={String.raw`v_{ik} = \mathrm{clip}\!\left(\frac{s_{ik} - \mathrm{med}_k}{q_{90,k}},\,-1,\,1\right),\qquad s_i = z_i\, R^{-1} \Lambda`}
       />
       <p className="about__p">
-        where <Eq tex={String.raw`\bar t_k^{\pm}`} /> are the mean embeddings of a few sentences
-        describing each pole, and the raw projections are standardized over the catalog so every axis
-        uses the whole range.
-        {es.catalogImages
-          ? ` ${es.catalogImages.toLocaleString()} images were embedded; ${es.fromClip.toLocaleString()} made it into the app alongside the curated set, ${es.appPaintings.toLocaleString()} works in all.`
-          : ''}
+        where <Eq tex="z_i" /> is the work's standardized row of adjective ratings, <Eq tex="R" /> the adjective
+        correlation matrix and <Eq tex={String.raw`\Lambda`} /> the rotated loadings. {CURATED_COUNT} works also carry
+        a hand-written sentence about why they fit; their vectors are rated like everything else. A
+        vision-language model{es.model ? ` (${es.model})` : ''} still embeds every image: the embedding
+        predicts the factor scores well enough (section 1b) to place any future work the rater has not seen, and
+        it draws the map below.
       </p>
       <Scatter points={es.scatter} />
       {es.scatter.length > 0 && (
