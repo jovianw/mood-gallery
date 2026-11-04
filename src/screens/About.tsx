@@ -608,11 +608,15 @@ export function About() {
       </p>
       <Eq display tex={String.raw`h(n) = \max(|\Delta x|, |\Delta y|) + (\sqrt{2} - 1)\min(|\Delta x|, |\Delta y|),`} />
       <p className="about__p">
-        followed by line-of-sight simplification. Walk duration is total path length at 80 m per minute
-        plus a fixed allowance per change of floor.
+        followed by line-of-sight simplification. A walk is routed as a chain of such legs: from the room
+        it began in through every room answered, in order, to the gallery of the selected work. Each floor
+        is routed on its own grid, and a change of floor inserts a leg to the Grand Staircase on one floor
+        and a leg from it on the other. Walk duration is total path length at 80 m per minute plus a fixed
+        60 m allowance per change of floor. The maps draw every floor the walk used, with each floor's
+        legs on its own plane and the staircase joining them.
       </p>
       <RouteFigure />
-      <p className="t-caption">Figure 9. Great Hall to The American Wing, floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m.</p>
+      <p className="t-caption">Figure 9. One leg: Great Hall to the American Wing galleries on floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m.</p>
 
       <h2 className="about__h">References</h2>
       <ol className="about__refs">
