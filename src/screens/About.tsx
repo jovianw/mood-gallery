@@ -17,6 +17,7 @@ import {
   posteriorFromAnswers,
   PRIOR_VAR,
   REGRET_OK,
+  ROOM_COST,
   toCandidate,
   type Posterior,
 } from '../lib/bayes'
@@ -439,14 +440,19 @@ export function About() {
       </p>
       <Eq
         display
-        tex={String.raw`|\text{rooms visited}| \ge ${MIN_ROOMS} \quad\text{and}\quad \min_{i \in \text{room}} R_i \le \delta,\qquad \delta = ${REGRET_OK},`}
+        tex={String.raw`|\text{rooms visited}| \ge ${MIN_ROOMS} \quad\text{and}\quad \Big( \min_{i \in \text{room}} R_i \le \delta \;\;\text{or}\;\; \min_{i \in \text{room}} R_i - \min_r \mathbb{E}\big[R^{\star} \mid \text{visit } r\big] < c \Big),`}
       />
       <p className="about__p">
-        and otherwise proceeds to door selection (Section 6). Expected regret is used in preference to a
-        threshold on <Eq tex={String.raw`\hat P(i^\star = i)`} /> because the latter is sensitive to the
-        number of near-duplicate works, whereas regret is not; it is also the quantity measured in the
-        evaluation of Section 8, so the decision rule and the evaluation metric coincide. The threshold{' '}
-        <Eq tex={String.raw`\delta`} /> was selected by simulation.
+        with <Eq tex={String.raw`\delta = ${REGRET_OK}`} /> and room cost <Eq tex={`c = ${ROOM_COST}`} />, and
+        otherwise proceeds to door selection (Section 6). The first clause stops when the gap to the best
+        reachable work is already small. The second is the sampling-cost form of the sequential decision:
+        the expected minimum regret after visiting each candidate room is estimated by the same lookahead
+        used for door selection, and the walk ends when no room is expected to close the gap by more than
+        the cost of visiting it. Without the second clause a walk can chase a target that shifts with
+        every new answer. Expected regret is used in preference to a threshold on{' '}
+        <Eq tex={String.raw`\hat P(i^\star = i)`} /> because the latter is sensitive to the number of
+        near-duplicate works; it is also the quantity measured in Section 8, so the decision rule and the
+        evaluation metric coincide. Both constants were selected by simulation.
         {inWalk && walk.doorId
           ? ` Current state: minimum expected regret ${walk.assessment.regret.toFixed(3)}; probability that this room contains a near-best work ${Math.round(100 * walk.assessment.pRoom)}%; near-best probability of the selected work ${Math.round(100 * walk.assessment.pPaint)}%.`
           : ''}

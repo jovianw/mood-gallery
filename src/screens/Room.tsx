@@ -10,7 +10,11 @@ import { useWalk } from '../state/WalkContext'
 function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string | null {
   if (isStart) return null
   if (walk.mustFinish) return 'You have seen every room. Your painting is in this one.'
-  if (walk.canFinish) return 'We are sure now. Your painting is close.'
+  if (walk.canFinish) {
+    return walk.assessment.because === 'gain'
+      ? 'Another room would not change the answer. Your painting is in this one.'
+      : 'We are sure now. Your painting is close.'
+  }
   const a = walk.assessment
   const left = Math.max(0, MIN_ROOMS - walk.path.length)
   const pct = Math.round(100 * a.confidence)
@@ -20,15 +24,11 @@ function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string 
       const more = left === 1 ? 'One more room at least' : `${left} more rooms at least`
       return topics.length ? `${more}. We still want to hear about ${topics.join(' and ')}.` : `${more}, then we will know.`
     }
-    case 'room': {
-      const best = walk.doors[0]
-      const p = best ? Math.round(100 * best.pRoom) : 0
-      return p >= 50
-        ? `Getting warmer. There is a ${p}% chance your painting is behind the next door.`
-        : `${pct}% sure so far. Another room fits you a little better than this one.`
+    case 'room':
+    case 'painting': {
+      const cut = Math.round(100 * Math.min(1, a.gain / Math.max(a.regret, 1e-6)))
+      return `${pct}% sure so far. The next room should close about ${cut}% of the remaining gap.`
     }
-    case 'painting':
-      return `Almost. Two works here are neck and neck (${pct}% sure). One more room will settle it.`
     default:
       return null
   }

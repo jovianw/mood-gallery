@@ -8,6 +8,7 @@ import {
   MIN_ROOMS,
   posteriorFromAnswers,
   REGRET_OK,
+  ROOM_COST,
   ROOM_SURE,
   toCandidate,
   type Belief,
@@ -30,6 +31,8 @@ import { useSaves } from './SavesContext'
 
 export type Unsure = 'rooms' | 'room' | 'painting'
 
+export type SureBecause = 'gap' | 'gain' | null
+
 export interface WalkAssessment {
   /** True when the walk can end here. */
   sure: boolean
@@ -43,6 +46,10 @@ export interface WalkAssessment {
   confidence: number
   /** Expected regret (cosine) of the work the walk would pick here. */
   regret: number
+  /** Expected regret reduction from the most useful door. */
+  gain: number
+  /** Which test ended the walk: the gap is small, or no door is worth a room. */
+  because: SureBecause
   /** Axes nobody has asked about yet. */
   missingAxes: Axis[]
   /** No unvisited rooms are left, so the walk must end here. */
@@ -271,11 +278,18 @@ export function WalkProvider({ children, userId: userIdProp }: { children: React
     let bestAnywhere = 0
     if (beliefNow) for (const q of beliefNow.pNear) if (q > bestAnywhere) bestAnywhere = q
     const confidence = doorId ? pPaint : bestAnywhere
+    // What the best door could still buy: current regret minus the expected regret after it.
+    let bestAfter = Infinity
+    for (const d of doors) if (d.regretAfter < bestAfter) bestAfter = d.regretAfter
+    const gain = Number.isFinite(regret) && Number.isFinite(bestAfter) ? Math.max(0, regret - bestAfter) : 0
     let why: Unsure | null = null
+    let because: SureBecause = null
     if (path.length < MIN_ROOMS) why = 'rooms'
-    else if (!(regret <= REGRET_OK)) why = pRoom < ROOM_SURE ? 'room' : 'painting'
-    return { sure: why === null && !!doorId, why, pRoom, pPaint, confidence, regret, missingAxes, noneLeft }
-  }, [pathRooms, answers, unvisited, doorId, beliefNow, path.length, live])
+    else if (regret <= REGRET_OK) because = 'gap'
+    else if (doors.length > 0 && gain < ROOM_COST) because = 'gain'
+    else why = pRoom < ROOM_SURE ? 'room' : 'painting'
+    return { sure: why === null && !!doorId, why, pRoom, pPaint, confidence, regret, gain, because, missingAxes, noneLeft }
+  }, [pathRooms, answers, unvisited, doorId, beliefNow, path.length, live, doors])
 
   // Demo walks skip the confidence check so any screen can be opened for a screenshot.
   const canFinish = !!doorId && (assessment.sure || assessment.noneLeft || !!demo)

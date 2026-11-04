@@ -40,16 +40,12 @@ export function ChooseDoor() {
         break
       }
       case 'room':
-        headline = 'Getting warmer.'
-        copy =
-          pBest >= 40
-            ? `There is a ${pBest}% chance your painting is behind the first door. The others would teach us the most if it is not.`
-            : 'Your painting is probably not in the room you just left. The first door is the most likely place, and the best question to ask next.'
+      case 'painting': {
+        const cut = Math.round(100 * Math.min(1, a.gain / Math.max(a.regret, 1e-6)))
+        headline = pBest >= 40 ? 'Getting warmer.' : 'Not there yet.'
+        copy = `A better match is probably behind the first door (${pBest}% chance). Going there should close about ${cut}% of the gap between where you are and the best we could find.`
         break
-      case 'painting':
-        headline = 'Almost there.'
-        copy = 'Two works are neck and neck. The first door asks the question most likely to split them.'
-        break
+      }
       default:
         break
     }

@@ -203,9 +203,19 @@ export interface DoorValue {
   pRoom: number
   /** Expected information gain in nats: entropy now minus expected entropy after its statements. */
   eig: number
+  /** Expected minimum regret of the best pick anywhere after answering this room's statements. */
+  regretAfter: number
   /** Combined score used to rank doors. */
   score: number
 }
+
+/**
+ * The cost of one more room, in the same cosine units as regret. The walk stops when no door is
+ * expected to reduce the regret of the pick by more than this: another room would not change the
+ * answer enough to be worth the visitor's time. This is the sampling-cost form of the stopping
+ * problem, and it is what keeps a walk from chasing a target that moves with every answer.
+ */
+export const ROOM_COST = 0.02
 
 /** Weight of expected information gain against "the match is probably in there" when ranking doors. */
 export const EIG_WEIGHT = 0.6
@@ -244,6 +254,7 @@ export function doorValues(
   return rooms
     .map((room) => {
       let expectedEntropy = 0
+      let expectedRegret = 0
       for (let s = 0; s < outer; s++) {
         const theta = sampleTheta(p, next)
         let q = p
@@ -252,12 +263,17 @@ export function doorValues(
           const y = theta[AXES.indexOf(st.axis)] + Math.sqrt(NOISE_VAR) * gaussian(next)
           q = updatePosterior(q, st.axis, Math.max(-1, Math.min(1, y)))
         }
-        expectedEntropy += belief(q, subset, inner, (s + 1) * 7919).entropy
+        const after = belief(q, subset, inner, (s + 1) * 7919)
+        expectedEntropy += after.entropy
+        let best = Infinity
+        for (const r of after.regret) if (r < best) best = r
+        expectedRegret += best
       }
       expectedEntropy /= outer
+      expectedRegret /= outer
       const eig = Math.max(0, now.entropy - expectedEntropy)
       const pRoom = now.pRoom[room.id] ?? 0
-      return { room: room.id, pRoom, eig, score: pRoom + EIG_WEIGHT * eig }
+      return { room: room.id, pRoom, eig, regretAfter: expectedRegret, score: pRoom + EIG_WEIGHT * eig }
     })
     .sort((a, b) => b.score - a.score)
 }

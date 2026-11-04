@@ -33,6 +33,8 @@ const WRITE = process.argv.includes('--write')
 const EPS = arg('--eps', 0.03)
 let DELTA_OVERRIDE: number | null = null
 const DELTA_ARG = arg('--delta', 0.06)
+let COST_OVERRIDE: number | null = null
+const COST_ARG = arg('--cost', 0.02)
 
 /* ---------- Visitors ---------- */
 
@@ -189,10 +191,14 @@ function walkBayes(v: Visitor, tr: number, tp: number): Outcome {
     void tr
     void tp
     const enough = path.length >= MIN_ROOMS
-    if ((enough && cur !== START_ROOM && regret <= (DELTA_OVERRIDE ?? DELTA_ARG)) || unvisited.length === 0) {
+    const values = unvisited.length ? doorValues(post, unvisited, cands, b, { seed: path.length }) : []
+    let bestAfter = Infinity
+    for (const d of values) if (d.regretAfter < bestAfter) bestAfter = d.regretAfter
+    const gain = Number.isFinite(bestAfter) ? Math.max(0, regret - bestAfter) : 0
+    const stop = regret <= (DELTA_OVERRIDE ?? DELTA_ARG) || (values.length > 0 && gain < (COST_OVERRIDE ?? COST_ARG))
+    if ((enough && cur !== START_ROOM && stop) || unvisited.length === 0) {
       return finishWith(v, path, pickId)
     }
-    const values = doorValues(post, unvisited, cands, b, { seed: path.length })
     const doors = values.slice(0, 3).map((d) => d.room as RoomId)
     const pick = follow() ? doors[0] : doors[Math.floor(rnd() * doors.length)]
     path.push(pick)
@@ -240,10 +246,13 @@ const fmt = (s: Summary) =>
     .join(' ')
 
 if (GRID) {
-  for (const d of [0.04, 0.06, 0.08, 0.1]) {
-    DELTA_OVERRIDE = d
-    const r = run(WALKS, 0, 0)
-    console.log(`delta ${d} | bayes ${fmt(r.bayes)} | ${r.msBayes} ms`)
+  for (const d of [0.04, 0.08]) {
+    for (const c of [0.01, 0.02, 0.04]) {
+      DELTA_OVERRIDE = d
+      COST_OVERRIDE = c
+      const r = run(WALKS, 0, 0)
+      console.log(`delta ${d} cost ${c} | bayes ${fmt(r.bayes)} | ${r.msBayes} ms`)
+    }
   }
   const r = run(WALKS, 0, 0)
   console.log(`heuristic         | ${fmt(r.heur)}`)
@@ -257,7 +266,7 @@ if (GRID) {
     const out = {
       generatedAt: new Date().toISOString().slice(0, 10),
       walks: WALKS,
-      thresholds: { regret: DELTA_ARG, minRooms: MIN_ROOMS, eps: EPS },
+      thresholds: { regret: DELTA_ARG, roomCost: COST_ARG, minRooms: MIN_ROOMS, eps: EPS },
       visitors: {
         personas: PERSONAS.length,
         noise: 'sigma 0.3 (60%) or 0.6 (30%), 10% answer at random, 30% lean toward agree; personas are six far-apart real works',
