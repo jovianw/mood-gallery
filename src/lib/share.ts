@@ -97,7 +97,7 @@ export function hydrate(payload: SharePayload): ShareCardData {
     words: moodWords(payload.mood),
     destinationPhrase: destinationPhrase(payload.mood),
     answers,
-    rooms: path.length + 1,
+    rooms: path.length,
   }
 }
 

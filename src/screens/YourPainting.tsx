@@ -5,7 +5,8 @@ import { SignInSheet } from '../components/SignInSheet'
 import { Button, Chip, InfoCard, SaveToggle, Screen, ShareButton, TopAppBar } from '../components/ui'
 import { MUSEUM, START_ROOM } from '../data/rooms'
 import type { MoodVector, Painting, RouteStop } from '../data/types'
-import { moodWords, whyThisOne } from '../lib/matching'
+import { paintings } from '../data/paintings'
+import { moodWords, tagEvidence, whyThisOne } from '../lib/matching'
 import { useNav } from '../lib/nav'
 import { useAuth } from '../state/AuthContext'
 import { useSaves, type SavedPainting } from '../state/SavesContext'
@@ -80,6 +81,8 @@ function PaintingView(v: ViewProps) {
   const [sheet, setSheet] = useState(false)
   const { painting } = v
   const saved = saves.isSaved(painting.objectID)
+  // Saved works carry no evidence of their own; look the current catalog entry up by id.
+  const evidence = tagEvidence(painting.ev ? painting : (paintings.find((p) => p.objectID === painting.objectID) ?? painting))
 
   const saveNow = () => void saves.save(toRecord(v))
 
@@ -131,6 +134,26 @@ function PaintingView(v: ViewProps) {
       <InfoCard eyebrow="Why this one" labelSize={11}>
         {v.why}
       </InfoCard>
+      {evidence.length > 0 && (
+        <>
+          <div className="gap-10" />
+          <InfoCard eyebrow="How this work reads" labelSize={11}>
+            A model rated this work on 40 feelings, 1 to 7. Next to the rest of the collection it
+            came out:
+            <ul className="evidence">
+              {evidence.map((e) => (
+                <li key={e.tag}>
+                  <b>{e.tag}</b>
+                  <span>{e.reason}</span>
+                </li>
+              ))}
+            </ul>
+            <button type="button" className="t-link evidence__more" onClick={() => nav.forward('/about')}>
+              How the words were found
+            </button>
+          </InfoCard>
+        </>
+      )}
       <div className="gap-14" />
       <SaveToggle saved={saved} onToggle={toggleSaved} disabled={auth.loading} />
       <div className="gap-10" />

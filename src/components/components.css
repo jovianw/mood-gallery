@@ -446,6 +446,22 @@
   transform: translate(10px, -50%);
 }
 .map-label--below { transform: translate(-50%, 6px); }
+.map-badge {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--plaster);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 0 0 1.5px var(--plaster);
+  transform: translate(-50%, -50%);
+}
 .map-label-anchor.is-left .map-label { transform: translate(calc(-100% - 10px), -50%); }
 .map-label-anchor.is-above .map-label--below { transform: translate(-50%, -42px); }
 .map-legend {
@@ -771,3 +787,10 @@
 .about__abstract { font-size: 14px; line-height: 1.55; margin: 0; width: 100%; padding: 12px 14px; background: #fff; border-radius: 12px; }
 .about__refs { font-size: 12px; line-height: 1.45; padding-left: 20px; margin: 4px 0 0; width: 100%; color: var(--mute-gray); }
 .about__refs li { margin-bottom: 6px; }
+
+/* "Why these words" on the painting screen */
+.evidence { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.evidence li { display: flex; gap: 8px; align-items: baseline; font-size: 14px; line-height: 1.35; }
+.evidence b { font-weight: 600; flex: none; min-width: 72px; }
+.evidence span { color: var(--fg-muted); }
+.evidence__more { margin-top: 10px; font-size: 13px; }

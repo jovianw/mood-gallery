@@ -1,4 +1,5 @@
 import axesData from '../data/axes.json'
+import factorStats from '../data/factor-stats.json'
 import type { Answer, Axis, MoodVector, Painting, Room, Statement } from '../data/types'
 
 export interface AxisPole {
@@ -328,4 +329,35 @@ export function pickWithHistory(mood: MoodVector, candidates: Painting[], recent
     })
     .sort((a, b) => b.s - a.s || a.i - b.i)
     .map((x) => x.p)
+}
+
+/* ---------- Why a work carries its tags ---------- */
+
+const ADJECTIVES: string[] = (factorStats as { adjectives: string[] }).adjectives
+const ADJECTIVE_MEANS: number[] = (factorStats as { adjectiveMeans?: number[] }).adjectiveMeans ?? []
+
+export interface TagEvidence {
+  tag: string
+  /** "more intimate, more shadowy": how the rater saw it next to the rest of the collection. */
+  reason: string
+}
+
+/**
+ * One line per tag, built from the two adjective ratings that pushed the work furthest toward
+ * that pole (see scripts/evidence.py). Empty when the rater never saw the work.
+ */
+export function tagEvidence(painting: Pick<Painting, 'tags' | 'ev'>): TagEvidence[] {
+  if (!painting.ev || !ADJECTIVE_MEANS.length) return []
+  return painting.tags
+    .map((tag, t) => {
+      const pairs = painting.ev?.[t] ?? []
+      const parts: string[] = []
+      for (let i = 0; i + 1 < pairs.length; i += 2) {
+        const adj = ADJECTIVES[pairs[i]]
+        if (!adj) continue
+        parts.push(`${pairs[i + 1] > ADJECTIVE_MEANS[pairs[i]] ? 'more' : 'less'} ${adj}`)
+      }
+      return { tag, reason: parts.join(', ') }
+    })
+    .filter((e) => e.reason)
 }

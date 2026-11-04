@@ -296,6 +296,8 @@ function HereMarker({ position }: { position: [number, number, number] }) {
 interface Labels {
   here: RefObject<HTMLDivElement | null>
   dest: RefObject<HTMLDivElement | null>
+  /** One numbered badge per room stop, in route.stops order. */
+  stops: RefObject<(HTMLDivElement | null)[]>
 }
 
 function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
@@ -304,11 +306,13 @@ function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
   const other: 1 | 2 = lit === 1 ? 2 : 1
   const lineY = up + ROOM_HEIGHT + 0.8
   const pts = route.waypoints.map((p) => toWorld(p, lineY))
-  const solid = pts.slice(0, route.hereIndex + 1)
-  const dashed = pts.slice(route.hereIndex)
+  // Rooms already walked: a thin, quieter line. The leg still ahead: bold and solid.
+  const walked = pts.slice(0, route.hereIndex + 1)
+  const ahead = pts.slice(route.hereIndex)
   const here = pts[route.hereIndex]
   const dest = pts[pts.length - 1]
   const destTop = up + ROOM_HEIGHT + (blocks[route.dest]?.inner ? 2.5 : 0)
+  const numbered = route.stops.filter((s) => s.n !== undefined && s.index !== route.hereIndex)
 
   return (
     <group>
@@ -325,13 +329,13 @@ function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
       {lit === 1 && blocksOnFloor(2).find((b) => b.stairs) && (
         <Stairs block={blocksOnFloor(2).find((b) => b.stairs)!} lit={false} />
       )}
-      {solid.length > 1 && <Line points={solid} color={C.plaster} lineWidth={3} />}
-      {dashed.length > 1 && (
-        <Line points={dashed} color={C.plaster} lineWidth={3} dashed dashSize={6} gapSize={5} />
+      {walked.length > 1 && (
+        <Line points={walked} color={C.plaster} lineWidth={1.6} transparent opacity={0.55} dashed dashSize={4} gapSize={3} />
       )}
-      {pts.slice(1, -1).map((p, i) => (
-        <mesh key={i} position={p}>
-          <sphereGeometry args={[1.8, 12, 10]} />
+      {ahead.length > 1 && <Line points={ahead} color={C.plaster} lineWidth={3.2} />}
+      {numbered.map((s) => (
+        <mesh key={s.key} position={pts[s.index]}>
+          <sphereGeometry args={[2.4, 14, 12]} />
           <meshBasicMaterial color={C.plaster} />
         </mesh>
       ))}
@@ -341,6 +345,10 @@ function Scene({ route, labels }: { route: WalkRoute; labels: Labels }) {
         anchors={[
           { el: labels.here, point: [here[0], here[1] + 2, here[2]] },
           { el: labels.dest, point: [dest[0], destTop + 1, dest[2]] },
+          ...numbered.map((s, i) => ({
+            el: { current: labels.stops.current?.[i] ?? null },
+            point: [pts[s.index][0], pts[s.index][1] + 1, pts[s.index][2]] as [number, number, number],
+          })),
         ]}
       />
     </group>
@@ -488,6 +496,8 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
   const needle = useRef<HTMLElement>(null)
   const hereLabel = useRef<HTMLDivElement>(null)
   const destLabel = useRef<HTMLDivElement>(null)
+  const stopLabels = useRef<(HTMLDivElement | null)[]>([])
+  const numbered = route.stops.filter((s) => s.n !== undefined && s.index !== route.hereIndex)
 
   useEffect(() => {
     const el = wrap.current
@@ -517,7 +527,7 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
         onCreated={({ gl }) => gl.setClearColor(C.canvas)}
         style={{ touchAction: 'none' }}
       >
-        <Scene route={route} labels={{ here: hereLabel, dest: destLabel }} />
+        <Scene route={route} labels={{ here: hereLabel, dest: destLabel, stops: stopLabels }} />
         <Rig autoRotate={autoRotate} resetSignal={resetSignal} onAzimuth={onAzimuth} />
         <FirstFrame onReady={() => setReady(true)} />
       </Canvas>
@@ -533,6 +543,17 @@ export function RouteMap3D({ route, destinationLabel }: RouteMap3DProps) {
         <div ref={destLabel} className="map-label-anchor">
           <span className="map-label map-label--below">{destinationLabel}</span>
         </div>
+        {numbered.map((s, i) => (
+          <div
+            key={s.key}
+            ref={(el) => {
+              stopLabels.current[i] = el
+            }}
+            className="map-label-anchor"
+          >
+            <span className="map-badge">{s.n}</span>
+          </div>
+        ))}
       </div>
       <span className="mapcard__hint" aria-hidden="true">
         Drag to turn

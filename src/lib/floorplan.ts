@@ -102,6 +102,11 @@ export interface WalkRoute {
   waypoints: [number, number][]
   /** Index of the waypoint where "You are here" sits (end of the solid part). */
   hereIndex: number
+  /**
+   * Rooms the line passes through on this floor, in order: the block, its waypoint index, and
+   * its number in the whole walk (1 = where the walk began). A stairs landing has no number.
+   */
+  stops: { key: string; index: number; n?: number }[]
   lengthMeters: number
   minutes: number
 }
@@ -168,32 +173,36 @@ export function routeFor(path: RoomId[], painting: Pick<Painting, 'galleryKey' |
   const finalLeg = legBetween(floor, prevPoint, destPoint)
   lengthMeters += finalLeg.meters
 
-  // Waypoints on the current floor only.
-  const stops: [number, number][] = []
-  const arrivedByStairs = (fromHall && floor === 2) || (changedFloors && start.floor !== floor)
-  if (fromHall && floor === 1) stops.push(blocks.hall.center)
-  else if (arrivedByStairs) stops.push(stairsPoint(floor))
-  for (const id of walked) {
-    if (id === START_ROOM) continue
+  // Waypoints on the current floor only. The line starts inside the room the walk began in: on
+  // floor 2 that is the Great Hall balcony at the top of the Grand Staircase, so a walk that
+  // began downstairs still visibly starts at the hall rather than in mid-air.
+  const points: { key: string; point: [number, number]; n?: number }[] = []
+  const arrivedByStairs = changedFloors && start.floor !== floor && !fromHall
+  if (fromHall) points.push({ key: floor === 1 ? 'hall' : 'hall2', point: blocks[floor === 1 ? 'hall' : 'hall2'].center, n: 1 })
+  else if (arrivedByStairs) points.push({ key: 'stairs', point: stairsPoint(floor) })
+  walked.forEach((id, i) => {
+    if (id === START_ROOM) return
     const r = rooms[id]
-    if (r.floor !== floor) continue
-    stops.push(blocks[r.planKey].center)
-  }
-  if (!stops.length) stops.push(roomBlock.center)
+    if (r.floor !== floor) return
+    points.push({ key: r.planKey, point: blocks[r.planKey].center, n: i + 1 })
+  })
+  if (!points.length) points.push({ key: roomBlock.key, point: roomBlock.center, n: walked.length })
 
-  const waypoints: [number, number][] = [stops[0]]
-  for (let i = 1; i < stops.length; i++) {
-    const leg = legBetween(floor, stops[i - 1], stops[i])
+  const waypoints: [number, number][] = [points[0].point]
+  const stops: WalkRoute['stops'] = [{ key: points[0].key, index: 0, n: points[0].n }]
+  for (let i = 1; i < points.length; i++) {
+    const leg = legBetween(floor, points[i - 1].point, points[i].point)
     waypoints.push(...leg.points.slice(1))
+    stops.push({ key: points[i].key, index: waypoints.length - 1, n: points[i].n })
   }
   const hereIndex = waypoints.length - 1
-  const ahead = legBetween(floor, stops[stops.length - 1], destPoint)
+  const ahead = legBetween(floor, points[points.length - 1].point, destPoint)
   waypoints.push(...ahead.points.slice(1))
 
   const next = parent && parent.key !== roomBlock.key ? parent.key : null
   const minutes = Math.max(1, Math.round(lengthMeters / 80))
 
-  return { floor, visited, next, dest: destBlock.key, waypoints, hereIndex, lengthMeters, minutes }
+  return { floor, visited, next, dest: destBlock.key, waypoints, hereIndex, stops, lengthMeters, minutes }
 }
 
 export function startBlockKey(floor: 1 | 2): string {

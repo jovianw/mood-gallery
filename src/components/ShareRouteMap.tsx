@@ -77,7 +77,6 @@ export function ShareRouteMap({ route, destinationLabel }: { route: WalkRoute; d
   const dest = blocks[route.dest]
   const stairs = route.visited.map((k) => blocks[k]).find((b) => b?.stairs)
   const routePts = route.waypoints.map((p) => s(p, SLAB))
-  const start = routePts[0]
   const end = routePts[routePts.length - 1]
   const drawDest = dest && !visited.some((b) => b.key === dest.key)
   // Small red block marking the exact gallery, drawn in plan space around the last waypoint.
@@ -120,7 +119,26 @@ export function ShareRouteMap({ route, destinationLabel }: { route: WalkRoute; d
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      <circle cx={start[0]} cy={start[1]} r="4.5" fill="#E4002B" stroke="#FFFFFF" strokeWidth="1.4" />
+      {route.stops
+        .filter((st) => st.n !== undefined && st.key !== route.dest)
+        .map((st) => {
+          const [x, y] = routePts[st.index]
+          return (
+            <g key={st.key} transform={`translate(${x} ${y})`}>
+              <circle r="5.2" fill="#1F1D1B" stroke="#FFFFFF" strokeWidth="1.2" />
+              <text
+                y="2.6"
+                fill="#FFFFFF"
+                fontSize="7"
+                fontWeight="600"
+                fontFamily="Inter, system-ui, sans-serif"
+                textAnchor="middle"
+              >
+                {st.n}
+              </text>
+            </g>
+          )
+        })}
       <g transform={`translate(${end[0]} ${end[1]})`}>
         <path d="M0 0 C-6 -8 -8 -11 -8 -15 A8 8 0 1 1 8 -15 C8 -11 6 -8 0 0Z" fill="#E4002B" stroke="#FFFFFF" strokeWidth="1.2" />
         <circle cx="0" cy="-15" r="2.6" fill="#FFFFFF" />

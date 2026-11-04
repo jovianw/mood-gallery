@@ -60,6 +60,12 @@ export interface Painting {
   mood: MoodVector
   tags: string[]
   why: string
+  /**
+   * Why it carries each tag: for every tag, two (adjective index, rating) pairs from the model's
+   * 1 to 7 ratings that pushed the work furthest toward that pole. Indices refer to the adjective
+   * list in factor-stats.json. Absent for works the rater never saw.
+   */
+  ev?: number[][]
 }
 
 /** 1 = strongly agree ... 7 = strongly disagree, matching the 7-dot scale. */

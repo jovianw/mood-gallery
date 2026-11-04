@@ -45,7 +45,7 @@
     "name": "Mystery",
     "topic": "ancient or everyday",
     "positive": { "word": "Searching", "tail": "drawn to old and sacred things", "lead": "you're drawn to old and sacred things", "valence": 0 },
-    "negative": { "word": "Worldly", "tail": "in the here and now", "lead": "you're in the here and now", "valence": 0 },
+    "negative": { "word": "Everyday", "tail": "in the here and now", "lead": "you're in the here and now", "valence": 0 },
     "neutral": { "word": "Curious", "tail": "curious", "lead": "you're curious" }
   }
 ]
