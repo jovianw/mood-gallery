@@ -359,7 +359,9 @@ export function About() {
             The axes were obtained empirically rather than specified. A vision-language model rated{' '}
             {fs.rated.toLocaleString()} works in the catalog on {fs.adjectives.length} mood adjectives
             from the image, each on an integer scale from 1 to 7, producing a rating matrix{' '}
-            <Eq tex={String.raw`X \in \mathbb{R}^{n \times p}`} />. Columns were standardized and the
+            <Eq tex={String.raw`X \in \mathbb{R}^{n \times p}`} />, with one row per work (
+            <Eq tex={`n = ${fs.rated}`} />) and one column per adjective (<Eq tex={`p = ${fs.adjectives.length}`} />).
+            Columns were standardized and the
             eigenvalues of the resulting correlation matrix <Eq tex="R" /> were compared with the 95th
             percentile of eigenvalues from 200 column-permuted copies of the data (parallel analysis
             [1]). The number of factors retained, <Eq tex="k" />, is the count of eigenvalues exceeding
