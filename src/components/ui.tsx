@@ -120,7 +120,8 @@ export function InfoCard({
   return (
     <section className={`card ${serif ? 'card--serif' : 'card--16'}`}>
       <p className={`t-label t-label--accent ${labelSize === 11 ? 't-label--11' : ''}`}>{eyebrow}</p>
-      <p className="card__text">{children}</p>
+      {/* A div, not a p: card bodies may hold lists, and a list inside a p splits the p. */}
+      <div className="card__text">{children}</div>
     </section>
   )
 }

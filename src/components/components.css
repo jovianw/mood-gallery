@@ -789,8 +789,8 @@
 .about__refs li { margin-bottom: 6px; }
 
 /* "Why these words" on the painting screen */
-.evidence { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.evidence li { display: flex; gap: 8px; align-items: baseline; font-size: 14px; line-height: 1.35; }
-.evidence b { font-weight: 600; flex: none; min-width: 72px; }
+.evidence { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.evidence li { display: flex; gap: 10px; align-items: baseline; font-size: 14px; line-height: 1.45; }
+.evidence b { font-weight: 600; flex: none; min-width: 76px; }
 .evidence span { color: var(--fg-muted); }
-.evidence__more { margin-top: 10px; font-size: 13px; }
+.evidence__more { display: inline-block; margin-top: 10px; font-size: 13px; }
