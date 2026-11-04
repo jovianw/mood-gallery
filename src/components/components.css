@@ -767,3 +767,7 @@
 .about__table th, .about__table td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--stone); }
 .about__table th:not(:first-child), .about__table td:not(:first-child) { text-align: right; }
 .about .t-caption { width: 100%; margin: 0 0 6px; }
+
+.about__abstract { font-size: 14px; line-height: 1.55; margin: 0; width: 100%; padding: 12px 14px; background: #fff; border-radius: 12px; }
+.about__refs { font-size: 12px; line-height: 1.45; padding-left: 20px; margin: 4px 0 0; width: 100%; color: var(--mute-gray); }
+.about__refs li { margin-bottom: 6px; }

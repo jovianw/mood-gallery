@@ -321,158 +321,196 @@ export function About() {
         </Button>
       }
     >
-      <TopAppBar eyebrow="How it works" title="The math of a walk" onLeft={() => nav.back('/')} />
+      <TopAppBar eyebrow="Method" title="A Bayesian adaptive walk" onLeft={() => nav.back('/')} />
       <div className="gap-16" />
-      <p className="t-body t-body--15 t-body--muted">
-        Mood Gallery is a Bayesian adaptive test wearing a museum. This page shows the actual model,
-        with the numbers it is producing {inWalk ? 'for your walk right now' : 'for a sample set of answers'}.
+      <p className="about__abstract">
+        <b>Abstract.</b> We frame the selection of an artwork for a visitor as sequential Bayesian
+        inference over a latent mood vector. Mood axes are not specified a priori but recovered by
+        factor analysis of language-model ratings of the collection on a vocabulary of mood adjectives.
+        Visitor responses on a seven-point scale are treated as noisy observations of single coordinates;
+        a conjugate Gaussian posterior is maintained, and Monte Carlo sampling from it yields the
+        probability that each work is the best match. Rooms are selected by a one-step expected
+        information gain criterion, and the walk terminates when the expected regret of the best
+        available work falls below a threshold. All quantities below are computed from the model as
+        deployed{inWalk ? ', for the walk currently in progress' : ', for a fixed set of sample responses'}.
       </p>
 
-      <h2 className="about__h">1. Your mood is a point in {AXES.length} dimensions</h2>
+      <h2 className="about__h">1. Problem setting</h2>
       <p className="about__p">
-        Every statement measures one axis: {AXES.map((k) => AXIS_LABEL[k].toLowerCase()).join(', ')}. An answer{' '}
-        <Eq tex="a \in \{1,\dots,7\}" /> on the Agree to Disagree scale becomes a reading
+        Let <Eq tex={String.raw`\theta \in \mathbb{R}^{k}`} /> denote a visitor's latent mood, with{' '}
+        <Eq tex={`k = ${AXES.length}`} /> coordinates ({AXES.map((k) => AXIS_LABEL[k].toLowerCase()).join(', ')}).
+        Each statement presented to the visitor is associated with one coordinate <Eq tex="k" /> and a
+        direction <Eq tex="d \in \{-1, +1\}" />. A response <Eq tex="a \in \{1,\dots,7\}" /> on the
+        Agree to Disagree scale is mapped to an observation
       </p>
-      <Eq display tex={String.raw`y = d \cdot \frac{4 - a}{3} \in [-1, 1],`} />
+      <Eq display tex={String.raw`y = d \cdot \frac{4 - a}{3} \in [-1, 1].`} />
       <p className="about__p">
-        where <Eq tex="d = \pm 1" /> says which way the statement points. The hidden quantity is your
-        mood vector <Eq tex={String.raw`\theta \in \mathbb{R}^5`} />, and each reading is a noisy look at
-        one coordinate of it.
+        Each work <Eq tex="i" /> in the collection is represented by a vector{' '}
+        <Eq tex={String.raw`v_i \in [-1,1]^{k}`} /> in the same space (Section 9). The task is to select a
+        work that is close to <Eq tex={String.raw`\theta`} /> while asking as few questions as the required
+        confidence permits.
       </p>
 
       {fs.eigenvalues.length > 0 && (
         <>
-          <h2 className="about__h">1b. The axes were found, not chosen</h2>
+          <h2 className="about__h">2. Axis discovery</h2>
           <p className="about__p">
-            Nobody picked these {fs.k} axes. Claude rated {fs.rated.toLocaleString()} works in the catalog on{' '}
-            {fs.adjectives.length} mood adjectives from their images (1 to 7 each). Standardize that matrix,
-            take the eigenvalues of its correlation matrix, and keep the factors that rise above what shuffled
-            data would produce (parallel analysis, the dashed line). {fs.k} do. A varimax rotation makes each
-            factor load on a small set of adjectives, and the strongest adjectives name the axis.
+            The axes were obtained empirically rather than specified. A vision-language model rated{' '}
+            {fs.rated.toLocaleString()} works in the catalog on {fs.adjectives.length} mood adjectives
+            from the image, each on an integer scale from 1 to 7, producing a rating matrix{' '}
+            <Eq tex={String.raw`X \in \mathbb{R}^{n \times p}`} />. Columns were standardized and the
+            eigenvalues of the resulting correlation matrix <Eq tex="R" /> were compared with the 95th
+            percentile of eigenvalues from 200 column-permuted copies of the data (parallel analysis
+            [1]). The number of factors retained, <Eq tex="k" />, is the count of eigenvalues exceeding
+            this noise line; here <Eq tex={`k = ${fs.k}`} />. Loadings were extracted by principal axes
+            and rotated by the varimax criterion [2] to obtain a simple structure; each axis is named
+            from the adjectives with the largest absolute loadings.
           </p>
           <Scree eig={fs.eigenvalues} noise={fs.noiseLine} />
           <p className="t-caption">
-            Red: eigenvalues of the rating correlation matrix. Dashed: 95th percentile of 200 shuffled copies.
-            The {fs.k} kept factors explain {Math.round(100 * fs.explained.reduce((a, b) => a + b, 0))}% of the variance.
+            Figure 1. Scree plot. Solid: eigenvalues of <Eq tex="R" />. Dashed: parallel-analysis noise
+            line. The {fs.k} retained factors account for{' '}
+            {Math.round(100 * fs.explained.reduce((a, b) => a + b, 0))}% of total variance.
           </p>
           <Loadings adjectives={fs.adjectives} loadings={fs.loadings} names={AXES.map((k) => AXIS_LABEL[k])} />
           <p className="t-caption">
-            Loading of each adjective on each axis (red positive, blue negative). Works that were not rated
-            ({fs.fallbackScored}) get scores from a ridge regression on their CLIP embedding, R² per axis{' '}
-            {fs.clipRegressionR2.map((r) => r.toFixed(2)).join(', ')}.
+            Figure 2. Rotated loading matrix <Eq tex={String.raw`\Lambda \in \mathbb{R}^{p \times k}`} />,
+            adjectives grouped by dominant factor (red positive, blue negative). Works without a rating
+            ({fs.fallbackScored}) receive scores from a ridge regression on their image embedding;
+            out-of-sample <Eq tex="R^2" /> per axis {fs.clipRegressionR2.map((r) => r.toFixed(2)).join(', ')}.
           </p>
         </>
       )}
 
-      <h2 className="about__h">2. Answers update a posterior, not an average</h2>
+      <h2 className="about__h">3. Observation model and posterior</h2>
       <p className="about__p">
-        Each axis starts with a wide prior and every answer narrows it. With a Gaussian prior and
-        Gaussian noise the update is exact:
+        Coordinates are modelled independently with a Gaussian prior and Gaussian observation noise,
       </p>
       <Eq
         display
-        tex={String.raw`\theta_k \sim \mathcal{N}(0,\sigma_0^2),\qquad y \mid \theta_k \sim \mathcal{N}(\theta_k,\sigma^2)`}
+        tex={String.raw`\theta_k \sim \mathcal{N}(0,\sigma_0^2),\qquad y \mid \theta_k \sim \mathcal{N}(\theta_k,\sigma^2),`}
       />
+      <p className="about__p">
+        so that the posterior after each observation remains Gaussian and is obtained in closed form by
+        precision addition:
+      </p>
       <Eq
         display
         tex={String.raw`\frac{1}{\sigma_{k}'^{2}} = \frac{1}{\sigma_k^{2}} + \frac{1}{\sigma^{2}},\qquad
-        \mu_k' = \sigma_k'^{2}\left(\frac{\mu_k}{\sigma_k^{2}} + \frac{y}{\sigma^{2}}\right)`}
+        \mu_k' = \sigma_k'^{2}\left(\frac{\mu_k}{\sigma_k^{2}} + \frac{y}{\sigma^{2}}\right).`}
       />
       <p className="about__p">
-        Here <Eq tex={String.raw`\sigma_0^2 = ${PRIOR_VAR}`} /> and <Eq tex={String.raw`\sigma^2 = ${NOISE_VAR.toFixed(3)}`} />{' '}
-        (about one scale step of noise). The dashed curve is the prior; the red curve is the posterior{' '}
-        {inWalk ? 'after your answers so far' : 'after three sample answers in the Great Hall'}.
+        We set <Eq tex={String.raw`\sigma_0^2 = ${PRIOR_VAR}`} /> and{' '}
+        <Eq tex={String.raw`\sigma^2 = ${NOISE_VAR.toFixed(3)}`} />, the latter corresponding to a
+        standard deviation of approximately one scale step. Figure 3 shows the prior (dashed) and the
+        current posterior (solid) for each coordinate{inWalk ? '' : ', given three sample responses in the Great Hall'}.
       </p>
       <Gauss p={post} prior={prior} />
+      <p className="t-caption">Figure 3. Marginal prior and posterior densities per axis, with posterior mean, standard deviation and observation count.</p>
 
-      <h2 className="about__h">3. Which painting? Sample, do not guess</h2>
+      <h2 className="about__h">4. Matching under uncertainty</h2>
       <p className="about__p">
-        Every work has its own five-dimensional vector <Eq tex="v_i" />. For a given mood the match
-        score is the cosine
+        The affinity between a mood and a work is the cosine similarity
       </p>
       <Eq display tex={String.raw`s_i(\theta) = \frac{\theta \cdot v_i}{\lVert\theta\rVert\,\lVert v_i\rVert}.`} />
       <p className="about__p">
-        Because <Eq tex={String.raw`\theta`} /> is uncertain, so is the winner. We draw{' '}
-        <Eq tex="M = 256" /> samples from the posterior and count how often each work comes first:
+        Because <Eq tex={String.raw`\theta`} /> is uncertain, the identity of the best work is a random
+        variable. Its distribution is estimated by Monte Carlo with <Eq tex="M = 256" /> posterior
+        samples <Eq tex={String.raw`\theta^{(m)}`} />:
       </p>
       <Eq
         display
-        tex={String.raw`P(i\text{ is the match}) \approx \frac{1}{M}\sum_{m=1}^{M} \mathbf{1}\!\left[i = \arg\max_j s_j(\theta^{(m)})\right].`}
+        tex={String.raw`\hat P(i^\star = i) = \frac{1}{M}\sum_{m=1}^{M} \mathbf{1}\!\left[i = \arg\max_j s_j(\theta^{(m)})\right].`}
       />
-      <Bars rows={top} label="Probability that each work is as good as the best match" />
-      <p className="t-caption">Top six of {liveCands.length} works still in play: the probability each is within {NEAR_EPS} of the best (section 4), not its score.</p>
+      <p className="about__p">
+        With a collection of this size many works are nearly equivalent, so we also estimate the
+        probability that a work is within <Eq tex={String.raw`\varepsilon = ${NEAR_EPS}`} /> of the best
+        in a given sample, <Eq tex={String.raw`\hat P\big(s_i \ge s_{\max} - \varepsilon\big)`} />,
+        which is the quantity plotted in Figure 4.
+      </p>
+      <Bars rows={top} label="Probability that each work is within epsilon of the best match" />
+      <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable.</p>
 
-      <h2 className="about__h">4. When the walk stops</h2>
+      <h2 className="about__h">5. Stopping rule</h2>
       <p className="about__p">
-        With a thousand works, many sit within a hair of each other and the single best is never
-        certain. So the walk asks a kinder question: is a work <em>as good as</em> the best? A work
-        counts as near-best in a sample when its score is within <Eq tex={String.raw`\varepsilon = ${NEAR_EPS}`} /> of
-        the top score. The quantity that decides the walk is the <em>expected regret</em> of the
-        work it would pick in this room, averaged over the same samples:
+        Let <Eq tex={String.raw`R_i = \mathbb{E}_{\theta}\big[\, s_{\max}(\theta) - s_i(\theta) \,\big]`} /> denote
+        the expected regret of selecting work <Eq tex="i" />, estimated over the same posterior
+        samples. The walk terminates in the current room when
       </p>
       <Eq
         display
-        tex={String.raw`R_i = \mathbb{E}_{\theta}\big[\, s_{\max}(\theta) - s_i(\theta) \,\big],\qquad
-        \text{stop when } \text{rooms} \ge ${MIN_ROOMS} \text{ and } \min_{i \in \text{room}} R_i \le ${REGRET_OK}.`}
+        tex={String.raw`|\text{rooms visited}| \ge ${MIN_ROOMS} \quad\text{and}\quad \min_{i \in \text{room}} R_i \le \delta,\qquad \delta = ${REGRET_OK},`}
       />
       <p className="about__p">
-        Regret is also what the simulation in section 7 measures, so the rule and the yardstick are
-        the same thing. <Eq tex="P(\text{room})" />, the chance this room holds a near-best work, is
-        shown alongside as the plainer number.
-      </p>
-      <p className="about__p">
+        and otherwise proceeds to door selection (Section 6). Expected regret is used in preference to a
+        threshold on <Eq tex={String.raw`\hat P(i^\star = i)`} /> because the latter is sensitive to the
+        number of near-duplicate works, whereas regret is not; it is also the quantity measured in the
+        evaluation of Section 8, so the decision rule and the evaluation metric coincide. The threshold{' '}
+        <Eq tex={String.raw`\delta`} /> was selected by simulation.
         {inWalk && walk.doorId
-          ? `Right now: expected regret ${walk.assessment.regret.toFixed(3)}, P(this room) = ${Math.round(100 * walk.assessment.pRoom)}%, the pick is as good as the best with ${Math.round(100 * walk.assessment.pPaint)}% probability.`
-          : 'The thresholds were chosen by simulation (section 7) so a typical walk takes four to five rooms and a clear mood can end in three.'}
+          ? ` Current state: minimum expected regret ${walk.assessment.regret.toFixed(3)}; probability that this room contains a near-best work ${Math.round(100 * walk.assessment.pRoom)}%; near-best probability of the selected work ${Math.round(100 * walk.assessment.pPaint)}%.`
+          : ''}
       </p>
 
-      <h2 className="about__h">5. Which door? Expected information gain</h2>
+      <h2 className="about__h">6. Door selection by expected information gain</h2>
       <p className="about__p">
-        A door is worth opening if the match is probably behind it, or if the questions in that room
-        would tell us the most. Let <Eq tex="H" /> be the entropy of the best-match distribution. For
-        each candidate room we imagine a plausible you answering its three statements, update the
-        posterior, and measure how much sharper the picture gets:
+        Let <Eq tex="H[\cdot]" /> denote Shannon entropy and <Eq tex="P(r)" /> the posterior probability
+        that the best work hangs in room <Eq tex="r" />. For each unvisited room we estimate the
+        expected reduction in entropy of the best-work distribution that would follow from answering
+        that room's statements, by sampling a hypothetical visitor from the posterior, generating
+        responses under the observation model, and recomputing the posterior [3]:
       </p>
       <Eq
         display
-        tex={String.raw`\mathrm{EIG}(r) = H\big[P(i)\big] - \mathbb{E}_{y_r}\Big[H\big[P(i \mid y_r)\big]\Big],\qquad
-        \text{score}(r) = P(r) + ${EIG_WEIGHT}\,\mathrm{EIG}(r).`}
+        tex={String.raw`\mathrm{EIG}(r) = H\big[\hat P(i^\star)\big] - \mathbb{E}_{y_r}\Big[H\big[\hat P(i^\star \mid y_r)\big]\Big],\qquad
+        \text{score}(r) = P(r) + \lambda\,\mathrm{EIG}(r),\quad \lambda = ${EIG_WEIGHT}.`}
       />
+      <p className="about__p">
+        Rooms are offered in descending order of score; the first is marked as recommended. The outer
+        expectation uses 24 hypothetical visitors and the inner entropy 64 samples each, over a candidate
+        set restricted to works with non-zero posterior mass plus the 200 nearest to the posterior mean.
+      </p>
       <Bars
         rows={doors.slice(0, 5).map((d) => ({ name: rooms[d.room as keyof typeof rooms].name, value: d.pRoom, second: d.eig / 2 }))}
-        label="Door values: probability the match is in the room (red) and information gain (blue)"
+        label="Door values: probability the match is in the room and expected information gain"
       />
-      <p className="t-caption">Red: probability the match is in that room. Blue: expected information gain in nats, halved to fit.</p>
+      <p className="t-caption">Figure 5. Candidate rooms. Red: <Eq tex="P(r)" />. Blue: <Eq tex={String.raw`\mathrm{EIG}(r)`} /> in nats, scaled by one half.</p>
 
-      <h2 className="about__h">6. Seeing something new, as a constraint</h2>
+      <h2 className="about__h">7. Diversity across visits</h2>
       <p className="about__p">
-        Inside the final room the pick is a penalized argmax over the posterior mean: the best match,
-        minus a push on works this visitor was given recently.
+        Within the terminal room the selected work maximizes similarity to the posterior mean{' '}
+        <Eq tex={String.raw`\mu`} /> subject to a penalty on works shown to the same visitor recently,
       </p>
       <Eq
         display
-        tex={String.raw`i^\star = \arg\max_i \Big[s_i(\mu) - ${RECENT_PENALTY}\,e^{-\Delta t_i / ${RECENT_HALF_LIFE_DAYS}}\Big]`}
+        tex={String.raw`i^\star = \arg\max_i \Big[s_i(\mu) - \beta\,e^{-\Delta t_i / \tau}\Big],\qquad \beta = ${RECENT_PENALTY},\ \tau = ${RECENT_HALF_LIFE_DAYS}\text{ days},`}
       />
       <p className="about__p">
-        <Eq tex="\Delta t_i" /> is days since work <Eq tex="i" /> was last shown. A clear winner still
-        wins; when the top few are close you see a different one tomorrow.
+        where <Eq tex="\Delta t_i" /> is the elapsed time since work <Eq tex="i" /> was last selected
+        for this visitor. The penalty is small relative to typical similarity gaps, so a clearly superior
+        work is retained while near-ties rotate.
       </p>
 
-      <h2 className="about__h">7. Does it work? Simulated visitors</h2>
+      <h2 className="about__h">8. Evaluation</h2>
       {hasSim ? (
         <>
           <p className="about__p">
-            {stats.walks.toLocaleString()} synthetic visitors walked the museum twice: once with the
-            Bayesian policy above and once with a plain rule-of-thumb policy (visit until every axis has
-            been asked about and the top two works are far apart). Visitors are not a uniform cloud:{' '}
-            {stats.visitors.personas} personas with correlated axes, {stats.visitors.noise}, and they
-            take the recommended door {Math.round(100 * stats.visitors.follow)}% of the time.
+            In the absence of visitor data the policy was evaluated against synthetic visitors. Each
+            visitor's true mood <Eq tex={String.raw`\theta`} /> was drawn around one of{' '}
+            {stats.visitors.personas} persona centres taken from mutually distant works in the
+            collection, with isotropic spread. Response noise: {stats.visitors.noise}. Visitors take
+            the recommended door with probability {stats.visitors.follow}. Each of{' '}
+            {stats.walks.toLocaleString()} visitors walked under two policies: the Bayesian policy
+            above and a heuristic baseline (continue until every axis has been observed and the two
+            highest-scoring works in the current room are separated by a fixed margin). Outcome measures
+            are rooms visited, the proportion of walks ending at a work within <Eq tex={String.raw`\varepsilon`} />{' '}
+            of the visitor's true optimum, and realized regret.
           </p>
           <table className="about__table">
             <thead>
               <tr>
                 <th></th>
-                <th>Rule of thumb</th>
+                <th>Heuristic</th>
                 <th>Bayesian</th>
               </tr>
             </thead>
@@ -483,62 +521,82 @@ export function About() {
                 <td>{stats.bayes.mean.toFixed(2)}</td>
               </tr>
               <tr>
-                <td>Found the true best work</td>
+                <td>Near-best terminal work</td>
                 <td>{Math.round(100 * stats.heuristic.hit)}%</td>
                 <td>{Math.round(100 * stats.bayes.hit)}%</td>
               </tr>
               <tr>
-                <td>Regret (cosine lost)</td>
+                <td>Realized regret (cosine)</td>
                 <td>{stats.heuristic.regret.toFixed(3)}</td>
                 <td>{stats.bayes.regret.toFixed(3)}</td>
               </tr>
             </tbody>
           </table>
+          <p className="t-caption">Table 1. Policy comparison over {stats.walks.toLocaleString()} simulated visitors.</p>
           <Histogram a={stats.heuristic.hist as Record<string, number>} b={stats.bayes.hist as Record<string, number>} />
-          <p className="t-caption">Rooms per walk, grey rule of thumb, red Bayesian. Regret is the similarity the visitor gave up versus the single best work for their true mood.</p>
+          <p className="t-caption">Figure 6. Distribution of walk length in rooms. Grey: heuristic. Red: Bayesian.</p>
+          <p className="about__p">
+            Realized regret exceeds the stopping threshold <Eq tex={String.raw`\delta`} /> by a wide
+            margin, indicating that the observation model is optimistic about response noise for this
+            visitor population. The simulated population is a model of visitors, not a sample of them;
+            calibration against recorded walks remains future work.
+          </p>
         </>
       ) : (
-        <p className="about__p">Simulation numbers appear once scripts/simulate.mts has been run.</p>
+        <p className="about__p">Simulation results are populated by scripts/simulate.mts.</p>
       )}
 
-      <h2 className="about__h">8. Where the painting vectors come from</h2>
+      <h2 className="about__h">9. Data</h2>
       <p className="about__p">
-        Every one of the {es.appPaintings.toLocaleString()} works in the app has a vector <Eq tex="v_i" /> in
-        the {AXES.length} discovered axes: its regression factor scores from section 1b, standardized per axis
+        The collection comprises {es.appPaintings.toLocaleString()} works on view at The Metropolitan
+        Museum of Art, drawn from the Open Access collection API. Each work's vector is its regression
+        factor score from Section 2, standardized per axis by the catalog median and the 90th percentile
+        of absolute deviation,
       </p>
       <Eq
         display
-        tex={String.raw`v_{ik} = \mathrm{clip}\!\left(\frac{s_{ik} - \mathrm{med}_k}{q_{90,k}},\,-1,\,1\right),\qquad s_i = z_i\, R^{-1} \Lambda`}
+        tex={String.raw`s_i = z_i\, R^{-1} \Lambda,\qquad v_{ik} = \mathrm{clip}\!\left(\frac{s_{ik} - \mathrm{med}_k}{q_{90,k}},\,-1,\,1\right),`}
       />
       <p className="about__p">
-        where <Eq tex="z_i" /> is the work's standardized row of adjective ratings, <Eq tex="R" /> the adjective
-        correlation matrix and <Eq tex={String.raw`\Lambda`} /> the rotated loadings. {CURATED_COUNT} works also carry
-        a hand-written sentence about why they fit; their vectors are rated like everything else. A
-        vision-language model{es.model ? ` (${es.model})` : ''} still embeds every image: the embedding
-        predicts the factor scores well enough (section 1b) to place any future work the rater has not seen, and
-        it draws the map below.
+        where <Eq tex="z_i" /> is the standardized row of adjective ratings. {CURATED_COUNT} works additionally
+        carry an editorial sentence; their vectors are obtained identically. Image embeddings from a
+        contrastive vision-language model{es.model ? ` (${es.model})` : ''} [4] serve two purposes: a
+        ridge-regression fallback for works the rater has not scored, and the two-dimensional projection
+        in Figure 7.
       </p>
       <Scatter points={es.scatter} />
       {es.scatter.length > 0 && (
         <p className="t-caption">
-          Every work in the app, projected onto the first two principal components of CLIP space ({Math.round(100 * (es.pcaExplained[0] + es.pcaExplained[1]))}% of
-          variance). Blue sits on floor 2, grey on floor 1.
+          Figure 7. Works projected onto the first two principal components of the image-embedding space
+          ({Math.round(100 * (es.pcaExplained[0] + es.pcaExplained[1]))}% of variance). Blue: second floor. Grey: first floor.
         </p>
       )}
       <Heatmap m={es.axisCorrelation} />
-      {es.axisCorrelation.length > 0 && <p className="t-caption">Correlation between the axis scores across the catalog (after rotation the factors are nearly orthogonal on the rated works; CLIP-scored works add a little).</p>}
+      {es.axisCorrelation.length > 0 && <p className="t-caption">Figure 8. Pearson correlation between axis scores across the collection. The rotated factors are orthogonal on the rated set by construction; residual correlation arises from standardization and clipping.</p>}
 
-      <h2 className="about__h">9. Routes follow the galleries</h2>
+      <h2 className="about__h">10. Routing</h2>
       <p className="about__p">
-        The floor plan is rasterized into {CELL} m cells (floor 1: {g1.walkable.toLocaleString()} walkable of{' '}
-        {g1.cells.toLocaleString()}; floor 2: {g2.walkable.toLocaleString()} of {g2.cells.toLocaleString()}). A route is A* on that grid with the octile
-        heuristic, then string-pulled so it only bends at walls:
+        The traced floor plan is rasterized into {CELL} m cells (floor 1: {g1.walkable.toLocaleString()} walkable of{' '}
+        {g1.cells.toLocaleString()}; floor 2: {g2.walkable.toLocaleString()} of {g2.cells.toLocaleString()}). Routes between
+        rooms are shortest paths on the 8-connected grid computed by A* [5] with the octile heuristic
       </p>
-      <Eq display tex={String.raw`h(n) = \max(|\Delta x|, |\Delta y|) + (\sqrt{2} - 1)\min(|\Delta x|, |\Delta y|)`} />
+      <Eq display tex={String.raw`h(n) = \max(|\Delta x|, |\Delta y|) + (\sqrt{2} - 1)\min(|\Delta x|, |\Delta y|),`} />
+      <p className="about__p">
+        followed by line-of-sight simplification. Walk duration is total path length at 80 m per minute
+        plus a fixed allowance per change of floor.
+      </p>
       <RouteFigure />
-      <p className="t-caption">Great Hall to The American Wing on floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m. Minutes on the map are the whole walk at 80 m per minute, plus a staircase per floor change.</p>
+      <p className="t-caption">Figure 9. Great Hall to The American Wing, floor 1, {legBetween(1, blocks.hall.center, blocks.amer1.center).meters.toFixed(0)} m.</p>
 
-      <div className="gap-16" />
+      <h2 className="about__h">References</h2>
+      <ol className="about__refs">
+        <li>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <i>Psychometrika</i>, 30(2), 179–185.</li>
+        <li>Kaiser, H. F. (1958). The varimax criterion for analytic rotation in factor analysis. <i>Psychometrika</i>, 23(3), 187–200.</li>
+        <li>Lindley, D. V. (1956). On a measure of the information provided by an experiment. <i>Annals of Mathematical Statistics</i>, 27(4), 986–1005.</li>
+        <li>Radford, A. et al. (2021). Learning transferable visual models from natural language supervision. <i>ICML</i>.</li>
+        <li>Hart, P. E., Nilsson, N. J. and Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. <i>IEEE Transactions on Systems Science and Cybernetics</i>, 4(2), 100–107.</li>
+      </ol>
+
     </Screen>
   )
 }
