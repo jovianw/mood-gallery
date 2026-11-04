@@ -6,7 +6,7 @@ import { rooms, START_ROOM } from '../data/rooms'
 import embeddingStats from '../data/embedding-stats.json'
 import factorStats from '../data/factor-stats.json'
 import stats from '../data/stats.json'
-import type { RoomId } from '../data/types'
+import type { Answer, RoomId } from '../data/types'
 import {
   belief,
   doorValues,
@@ -259,7 +259,10 @@ function Loadings({ adjectives, loadings, names }: { adjectives: string[]; loadi
 
 /* ---------- The page ---------- */
 
-const DEMO_ANSWERS = { 'gh-1': 2, 'gh-2': 2, 'gh-3': 6 } as const
+/** A full Great Hall of illustrative answers, so the figures show a posterior with some shape outside a walk. */
+const DEMO_ANSWERS: Record<string, Answer> = Object.fromEntries(
+  rooms[START_ROOM].statements.map((s, i) => [s.id, ([2, 6, 2, 5, 3, 6, 2, 3, 5, 2, 6, 3] as Answer[])[i % 12]]),
+)
 
 export function About() {
   const nav = useNav()
@@ -432,7 +435,7 @@ export function About() {
         which is the quantity plotted in Figure 4.
       </p>
       <Bars rows={top} label="Probability that each work is within epsilon of the best match" />
-      <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable.</p>
+      <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable. The events are not exclusive: several works can lie within <Eq tex={String.raw`arepsilon`} /> of the best in the same sample, so the bars need not sum to one.</p>
 
       <h2 className="about__h">5. Stopping rule</h2>
       <p className="about__p">
