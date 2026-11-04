@@ -90,11 +90,12 @@ export function Entrance() {
       </div>
       <div className="gap-20" />
       <p className="t-caption" style={{ textAlign: 'center' }}>
-        An unofficial project, not affiliated with The Met.{' '}
-        <Link to="/privacy" className="t-link t-link--muted" onClick={() => nav.markForward()}>
-          Privacy and terms
-        </Link>
+        An unofficial project, not affiliated with The Met.
       </p>
+      <div className="gap-6" />
+      <Link to="/privacy" className="t-link t-link--muted" style={{ alignSelf: 'center' }} onClick={() => nav.markForward()}>
+        Privacy and terms
+      </Link>
       {sheetOpen && <MuseumSheet onClose={() => setSheetOpen(false)} />}
       {roomSheetOpen && (
         <StartRoomSheet

@@ -738,17 +738,6 @@ export function About() {
         <Link to="/privacy" onClick={() => nav.markForward()}>privacy notice</Link> states this in full.
       </p>
 
-      <h3 className="about__h3">11.10 Evaluation</h3>
-      <p className="about__p">
-        No behavioural instrumentation exists, by design, so there is no A/B testing; the simulation of Section 8
-        stands in for traffic when constants are tuned. The heuristic review above is the discount method it is
-        meant to be, and it does not replace observation. A usability study of this interface would seat eight
-        to twelve visitors with a think-aloud protocol, measure rooms per walk, time per room and whether the
-        visitor could say why the painting was chosen, and compare satisfaction with the painting against the
-        expected regret the model reported at the stop. That comparison, between the model's confidence and
-        the visitor's, is the evaluation the method most needs and has not yet had.
-      </p>
-
       <h2 className="about__h">References</h2>
       <ol className="about__refs">
         <li>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <i>Psychometrika</i>, 30(2), 179–185.</li>
