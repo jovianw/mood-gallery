@@ -774,6 +774,8 @@
   margin: 28px 0 8px;
   width: 100%;
 }
+.about__state { font-size: 13px; line-height: 1.45; margin: 0 0 8px; width: 100%; padding: 8px 12px; border-left: 3px solid var(--accent); background: #fff; border-radius: 0 8px 8px 0; color: var(--fg-muted); }
+.about__state b { color: var(--fg); font-weight: 600; }
 .about__p { font-size: 15px; line-height: 1.5; margin: 0 0 10px; width: 100%; }
 .eq { width: 100%; overflow-x: auto; padding: 6px 0 10px; font-size: 14px; }
 .eq .katex-display { margin: 0.4em 0; }

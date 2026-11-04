@@ -278,6 +278,18 @@ export function About() {
     const ids = new Set<string>(liveRooms.map((r) => r.id))
     return CANDIDATES.filter((c) => ids.has(c.room))
   }, [liveRooms])
+  const answered = Object.keys(walk.answers).length
+  const stateNote = inWalk ? (
+    <p className="about__state" role="note">
+      <b>Live.</b> This figure follows your walk in progress: {answered} answers across {walk.path.length}{' '}
+      {walk.path.length === 1 ? 'room' : 'rooms'}, {liveCands.length.toLocaleString()} candidate works still reachable.
+    </p>
+  ) : (
+    <p className="about__state" role="note">
+      <b>Illustrative.</b> No walk is in progress, so this figure uses a fixed set of twelve sample responses in
+      the Great Hall. Start a walk and return here to see your own posterior.
+    </p>
+  )
   const b = useMemo(() => belief(post, liveCands, 256, 3), [post, liveCands])
   const top = useMemo(
     () =>
@@ -409,8 +421,9 @@ export function About() {
         We set <Eq tex={String.raw`\sigma_0^2 = ${PRIOR_VAR}`} /> and{' '}
         <Eq tex={String.raw`\sigma^2 = ${NOISE_VAR.toFixed(3)}`} />, the latter corresponding to a
         standard deviation of approximately one scale step. Figure 3 shows the prior (dashed) and the
-        current posterior (solid) for each coordinate{inWalk ? '' : ', given three sample responses in the Great Hall'}.
+        current posterior (solid) for each coordinate.
       </p>
+      {stateNote}
       <Gauss p={post} prior={prior} />
       <p className="t-caption">Figure 3. Marginal prior and posterior densities per axis, with posterior mean, standard deviation and observation count.</p>
 
@@ -434,6 +447,7 @@ export function About() {
         in a given sample, <Eq tex={String.raw`\hat P\big(s_i \ge s_{\max} - \varepsilon\big)`} />,
         which is the quantity plotted in Figure 4.
       </p>
+      {stateNote}
       <Bars rows={top} label="Probability that each work is within epsilon of the best match" />
       <p className="t-caption">Figure 4. The six works with the highest near-best probability among {liveCands.length} candidates currently reachable. The events are not exclusive: several works can lie within <Eq tex={String.raw`arepsilon`} /> of the best in the same sample, so the bars need not sum to one.</p>
 
@@ -481,6 +495,7 @@ export function About() {
         expectation uses 24 hypothetical visitors and the inner entropy 64 samples each, over a candidate
         set restricted to works with non-zero posterior mass plus the 200 nearest to the posterior mean.
       </p>
+      {stateNote}
       <Bars
         rows={doors.slice(0, 5).map((d) => ({ name: rooms[d.room as keyof typeof rooms].name, value: d.pRoom, second: d.eig / 2 }))}
         label="Door values: probability the match is in the room and expected information gain"
