@@ -3,7 +3,7 @@ import { CheckCircle, Pin, PinSolid } from './Icons'
 import { MUSEUM } from '../data/rooms'
 
 const REQUEST_MAILTO =
-  'mailto:wg.jovian@gmail.com?subject=' +
+  'mailto:jlw457@cornell.edu?subject=' +
   encodeURIComponent('Mood Gallery: please add a museum') +
   '&body=' +
   encodeURIComponent('Hi Jovian,\n\nI would love to take a Mood Walk at:\n\n')
