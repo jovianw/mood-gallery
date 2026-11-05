@@ -39,7 +39,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
         </h1>
         <div className="gap-10" />
         <p className="t-small">
-          The page hit an error it could not recover from. Your saved paintings are safe. Reload,
+          The page hit an error it could not recover from. Your saved pieces are safe. Reload,
           or head back to the entrance and start again.
         </p>
         <div className="gap-16" />

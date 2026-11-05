@@ -57,7 +57,7 @@ function titleFor(pathname: string): string {
     '/privacy': 'Privacy and terms · Mood Gallery',
   }
   if (names[pathname]) return names[pathname]
-  if (pathname.startsWith('/gallery/')) return pathname.endsWith('/share') ? 'Share your path · Mood Gallery' : 'Saved painting · Mood Gallery'
+  if (pathname.startsWith('/gallery/')) return pathname.endsWith('/share') ? 'Share your path · Mood Gallery' : 'Saved piece · Mood Gallery'
   if (pathname.startsWith('/w/')) return 'A shared walk · Mood Gallery'
   return 'Mood Gallery'
 }

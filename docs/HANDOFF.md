@@ -63,7 +63,7 @@ Node ids refer to the Figma file. Each screen has a screenshot in `docs/figma/`.
 ### 1 Entrance (14:9) `docs/figma/01-entrance.png`
 - Top bar: red arch logo (left), "Mood Gallery" in Playfair (center), user icon (right) -> `/gallery` (if signed out, the gallery still opens and shows guest saves; the header reads "GUEST" instead of "SIGNED IN AS JOVIAN").
 - Hero: big red semicircle with a dark arch and a small gold painting inside. Build it in CSS/SVG, no raster.
-- Headline "Find the painting that feels like you today." + body copy exactly as in the screenshot.
+- Headline "Find the piece that feels like you today." + body copy exactly as in the screenshot.
 - "YOUR MUSEUM" card: pin icon, "The Met Fifth Avenue", "Change" with chevron -> opens the Choose museum sheet.
 - "Nearby, coming soon:" + three Stone chips (MoMA, Guggenheim, Brooklyn Museum). Chips are not tappable.
 - Primary button "Enter The Met ->" -> `/room/<starting room>`. Starting a walk resets any previous answers. Below the museum selector sits a second selector, "Start in", with a Change button that opens a sheet listing the eight rooms (added 2026-11-03, not in the Figma). It defaults to the Great Hall, or to the room the last finished walk ended in, in which case the label reads "Start where you left off".

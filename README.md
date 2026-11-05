@@ -1,6 +1,6 @@
 # Mood Gallery
 
-Answer a few questions, walk through a couple of rooms, and find the painting at The Met that
+Answer a few questions, walk through a couple of rooms, and find the piece at The Met that
 feels like you today. A web build of the "Mood Walk" prototype designed for Cornell CS 5682
 (HCI and Design, HW3) by Jovian Wang and Alexa Yang.
 
@@ -17,9 +17,9 @@ program via the public [Collection API](https://metmuseum.github.io/).
 3. A room (3 more statements), then back to the doors until the walk is sure: at least two rooms
    after the starting room, usually three or four, sometimes every room in the building.
 4. The Final Stretch: a 3D map of your route through the real Met floor plan
-5. Finding your painting: a live check with the Met API, then Your Painting
+5. Finding your piece: a live check with the Met API, then Your Piece
 6. Share my path: a 9:16 story card, PNG export and share links
-7. My Gallery: saved paintings, as a guest or signed in
+7. My Gallery: saved pieces, as a guest or signed in
 
 ## How matching works
 

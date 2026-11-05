@@ -7,7 +7,7 @@ import { Google, Mail } from './Icons'
 type Step = 'choose' | 'email' | 'sent'
 
 /**
- * Sign-in sheet shown over Your Painting when a guest taps Save (and from the gallery menu).
+ * Sign-in sheet shown over Your Piece when a guest taps Save (and from the gallery menu).
  * `onSignedIn` fires after a successful Google sign-in; `onNotNow` keeps the save on this device.
  */
 export function SignInSheet({
@@ -15,7 +15,7 @@ export function SignInSheet({
   onSignedIn,
   onNotNow,
   title = 'Keep this one',
-  copy = 'Sign in to save paintings to your gallery and see them from any device. Free, and we never post anything for you.',
+  copy = 'Sign in to save pieces to your gallery and see them from any device. Free, and we never post anything for you.',
   notNowLabel = 'Not now, keep it on this device only',
 }: {
   onClose: () => void

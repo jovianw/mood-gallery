@@ -19,7 +19,7 @@ export function Privacy() {
 
       <h2 className="about__h">As a guest</h2>
       <p className="about__p">
-        Nothing you answer leaves your device. Your walk, your answers and any paintings you save are kept in
+        Nothing you answer leaves your device. Your walk, your answers and any pieces you save are kept in
         this browser's local storage so they survive a reload. Clearing the browser's site data removes them.
         We do not run analytics, advertising or tracking of any kind, and the site sets no cookies.
       </p>
@@ -37,13 +37,13 @@ export function Privacy() {
         user id; with an email link we receive your email address. We store, under your user id:
       </p>
       <ul className="about__list">
-        <li>the paintings you save, with their public catalog details and the three mood words;</li>
-        <li>one record per finished walk: the rooms visited, the mood vector, the painting's id and the time;</li>
+        <li>the pieces you save, with their public catalog details and the three mood words;</li>
+        <li>one record per finished walk: the rooms visited, the mood vector, the piece's id and the time;</li>
         <li>share cards you create, which anyone with the link can view.</li>
       </ul>
       <p className="about__p">
         That is the whole list. We never see your password; Google handles the sign-in itself. Firebase keeps
-        your session in this browser's local storage, not in a cookie. You can remove any saved painting from
+        your session in this browser's local storage, not in a cookie. You can remove any saved piece from
         My Gallery at any time, and signing out ends the session on this device.
       </p>
       <p className="about__p">
@@ -63,7 +63,7 @@ export function Privacy() {
         govern their use.
       </p>
       <p className="about__p">
-        The walk is a way of choosing a painting, not an assessment of you. The mood words and the match come
+        The walk is a way of choosing a piece, not an assessment of you. The mood words and the match come
         from a statistical model described on the{' '}
         <Link to="/about" onClick={() => nav.markForward()}>method page</Link>; they are not psychological,
         medical or diagnostic advice, and should not be read as such.

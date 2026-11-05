@@ -133,7 +133,7 @@ export function Gallery() {
           </h2>
           <div className="gap-8" />
           <p className="t-small">
-            Take a walk and save the painting you get. Your gallery keeps every one, with the mood
+            Take a walk and save the piece you get. Your gallery keeps every one, with the mood
             you had that day.
           </p>
           {guestCard && (
@@ -159,7 +159,7 @@ export function Gallery() {
             </div>
             <div className="stat">
               <span className="stat__n">{saves.saves.length}</span>
-              <span className="stat__l">{saves.saves.length === 1 ? 'painting saved' : 'paintings saved'}</span>
+              <span className="stat__l">{saves.saves.length === 1 ? 'piece saved' : 'pieces saved'}</span>
             </div>
             <div className="stat">
               <span className="stat__n">1</span>
@@ -167,7 +167,7 @@ export function Gallery() {
             </div>
           </div>
           <div className="gap-18" />
-          <p className="t-label t-label--11 t-label--accent">Saved paintings</p>
+          <p className="t-label t-label--11 t-label--accent">Saved pieces</p>
           <div className="gap-10" />
           {saves.saves.map((s, i) => (
             <div key={s.objectID} style={{ width: '100%' }}>
