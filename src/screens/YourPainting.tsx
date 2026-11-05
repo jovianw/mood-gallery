@@ -207,9 +207,13 @@ function PaintingView(v: ViewProps) {
       <Item i={1}>
         <p className="row" style={{ gap: 6, fontSize: 13, fontWeight: 500, margin: 0 }}>
           <PinSolid width={16} height={16} style={{ color: 'var(--accent)' }} aria-hidden="true" />
-          {painting.gallery
-            ? `On view in Gallery ${painting.gallery}, ${MUSEUM.name}`
-            : `Not currently on view, ${MUSEUM.name}`}
+          {painting.live === false
+            ? painting.gallery
+              ? `Last listed in Gallery ${painting.gallery}, ${MUSEUM.name}`
+              : `Not on view at last check, ${MUSEUM.name}`
+            : painting.gallery
+              ? `On view in Gallery ${painting.gallery}, ${MUSEUM.name}`
+              : `Not currently on view, ${MUSEUM.name}`}
         </p>
       </Item>
       <div className="gap-12" />

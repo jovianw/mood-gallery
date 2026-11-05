@@ -54,6 +54,12 @@ export interface Painting {
   image: string
   imageLarge: string
   objectURL: string
+  /**
+   * Whether the record was refreshed from the Met API during this walk. False when the check was
+   * skipped (offline, API down or slow) and the bundled record is shown as is; undefined for
+   * saved works and demo walks.
+   */
+  live?: boolean
   room: RoomId
   /** Floor plan block the painting hangs in (e.g. "g822" or "eurp"). */
   galleryKey: string

@@ -51,7 +51,9 @@ numbers; the short version:
   (`scripts/embed.py` still produces the embeddings and the About page scatter).
 - Routes are A* on a 2 m walkable grid of the traced floor plan (`src/lib/routing.ts`).
 - The Finding screen refreshes the chosen object from the Met API (cached 7 days) and falls back
-  to the next candidate if it is no longer on view. Offline, the bundled data is used as is.
+  to the next candidate if it is no longer on view. The check is capped at a few seconds; offline,
+  or if the API is down or slow, the bundled data is used as is and the piece screen says the
+  location is from the last check.
 
 ## Develop
 
