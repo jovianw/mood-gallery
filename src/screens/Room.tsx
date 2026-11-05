@@ -9,11 +9,11 @@ import { useWalk } from '../state/WalkContext'
 /** One line under the button that says why the walk is or is not ready to end here. */
 function statusLine(walk: ReturnType<typeof useWalk>, isStart: boolean): string | null {
   if (isStart) return null
-  if (walk.mustFinish) return 'You have seen every room. Your painting is in this one.'
+  if (walk.mustFinish) return 'You have seen every room. Your piece is in this one.'
   if (walk.canFinish) {
     return walk.assessment.because === 'gain'
-      ? 'Another room would not change the answer. Your painting is in this one.'
-      : 'The answer is clear now. Your painting is close.'
+      ? 'Another room would not change the answer. Your piece is in this one.'
+      : 'The answer is clear now. Your piece is close.'
   }
   const a = walk.assessment
   const left = Math.max(0, MIN_ROOMS - walk.path.length)

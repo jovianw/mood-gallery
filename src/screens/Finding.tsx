@@ -8,6 +8,7 @@ import { fetchObject, refreshPainting } from '../lib/met'
 import { useNav } from '../lib/nav'
 import { useSaves } from '../state/SavesContext'
 import { useWalk } from '../state/WalkContext'
+import { REVEAL_KEY } from './YourPainting'
 
 const MIN_MS = 600
 const STEPS = ['Reading your answers', `Searching ${MUSEUM.works}`, 'Picking the one for today']
@@ -16,7 +17,8 @@ type Phase = 'loading' | 'error'
 
 /**
  * Resolves the painting: refreshes the top candidate from the live Met API (cached 7 days),
- * falls back to the next candidate if it is no longer on view, then hands off to /painting.
+ * falls back to the next candidate if it is no longer on view, then hands off to /painting
+ * with the reveal flag set so that screen plays its arrival.
  * Offline, the bundled record is used as is.
  */
 export function Finding() {
@@ -40,6 +42,7 @@ export function Finding() {
       paintingId: p.objectID,
       finishedAt: new Date().toISOString(),
     })
+    sessionStorage.setItem(REVEAL_KEY, '1')
     nav.forward('/painting', true)
   })
   useEffect(() => {
@@ -51,7 +54,8 @@ export function Finding() {
         paintingId: p.objectID,
         finishedAt: new Date().toISOString(),
       })
-      nav.forward('/painting', true)
+      sessionStorage.setItem(REVEAL_KEY, '1')
+    nav.forward('/painting', true)
     }
   })
 
@@ -115,7 +119,7 @@ export function Finding() {
         </h1>
         <div className="gap-10" />
         <p className="t-small" style={{ color: 'var(--stone)' }}>
-          We could not reach the collection to check where your painting is hanging today.
+          We could not reach the collection to check where your piece is today.
         </p>
         <div className="gap-24" />
         <Button
@@ -140,10 +144,10 @@ export function Finding() {
   return (
     <Screen dark center>
       <div className="spacer" />
-      <div className="spinner" role="progressbar" aria-label="Finding your painting" />
+      <div className="spinner" role="progressbar" aria-label="Finding your piece" />
       <div className="gap-28" />
       <h1 className="t-headline t-headline--italic" style={{ fontSize: 28, lineHeight: 1.2 }}>
-        Finding your painting…
+        Finding your piece…
       </h1>
       <div className="gap-10" />
       <p className="t-small" style={{ color: 'var(--stone)' }}>

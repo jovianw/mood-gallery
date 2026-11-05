@@ -35,9 +35,9 @@ Type: display 38, headline 30, title 26, room 20, statement 17, body 16, small 1
 2. The starting room (`/room/:roomId`, normally `/room/great-hall`): 3 statements -> "Find my door"
 3. Choose a Door (`/doors`): up to 3 door cards, the recommended one marked "YOUR DOOR"
 4. A room (`/room/:roomId`): about card + 3 statements -> "Find my next door", or "Show my final stretch" once the walk is sure. Steps 3 and 4 repeat: at least two rooms after the starting room, and as many as it takes (see "Walk length" below).
-5. The Final Stretch (`/final`): 3D route map + route recap -> "Reveal my painting"
-6. Finding your painting (`/finding`): dark loading screen, advances when the painting is ready
-7. Your Painting (`/painting`): image, metadata, chips, "Why this one", Save, Share, Start a new walk
+5. The Final Stretch (`/final`): 3D route map + route recap -> "Reveal my piece"
+6. Finding your piece (`/finding`): dark loading screen, advances when the work is ready
+7. Your Piece (`/painting`): arrival reveal, full image, metadata, chips, "Why this one", Save, Share, Start a new walk
 8. Share my path (`/share`): story card + share actions
 9. My Gallery (`/gallery`): saved paintings, reachable from the user icon on the Entrance
 10. Sign-in sheet: appears over Your Painting when a guest taps Save
@@ -87,19 +87,20 @@ Same component, `RoomScreen`, fed by a room definition.
 - Tapping a card -> `/room/:roomId`.
 
 ### 5 The Final Stretch (14:212) `docs/figma/05-final-stretch.png`
-Dark screen (Ink). "THE FINAL STRETCH" label, headline "Your painting is just ahead." in Playfair italic, copy "Here's the rest of your route, and a look back at the path that got you here."
+Dark screen (Ink). "THE FINAL STRETCH" label, headline "Your piece is just ahead." in Playfair italic, copy "Here's the rest of your route, and a look back at the path that got you here."
 - Map card (component 20:300, see `docs/figma/component-gallery-map-4-angles.png` and `docs/map-reference/final-stretch-map-angle-*.png`): a rounded dark card (#2A2725) 342x200 with "Drag to turn" hint top left and a "Rotate" pill top right, a small compass bottom right. Inside, the 3D map. See "The 3D map" below.
 - Legend line: "● You are here   📍 Gallery 822  · about a 4 min walk". Walk minutes = route length in meters / 80, rounded, min 1.
-- Route recap list: one row per room in the walk plus the destination. Visited rooms: red circle with white check, name, then a muted line "Where you started · Restless energy" (the first row) or the room's mood phrase. The next room (walk straight through): hollow white circle, dotted connector. Destination: red glowing dot, name in Playfair 20, red line "Your painting is waiting here". Connectors between rows: solid red for visited, dotted for ahead.
-- Primary button "Reveal my painting" -> `/finding`.
+- Route recap list: one row per room in the walk plus the destination. Visited rooms: red circle with white check, name, then a muted line "Where you started · Restless energy" (the first row) or the room's mood phrase. The next room (walk straight through): hollow white circle, dotted connector. Destination: red glowing dot, name in Playfair 20, red line "Your piece is waiting here". Connectors between rows: solid red for visited, dotted for ahead.
+- Primary button "Reveal my piece" -> `/finding`.
 
-### 9 Finding your painting (35:237) `docs/figma/09-loading.png`
-Dark. Spinner (Mute Gray ring with a red arc), "Finding your painting..." Playfair italic, "Searching The Met's open collection for restless, warm, hopeful." (the three mood words), a 3-step checklist (red dots turn on as steps complete: Reading your answers, Searching 490,000 works, Picking the one for today), footer "Usually takes a second or two".
+### 9 Finding your piece (35:237) `docs/figma/09-loading.png`
+Dark. Spinner (Mute Gray ring with a red arc), "Finding your piece..." Playfair italic, "Searching The Met's open collection for restless, warm, hopeful." (the three mood words), a 3-step checklist (red dots turn on as steps complete: Reading your answers, Searching 490,000 works, Picking the one for today), footer "Usually takes a second or two".
 - Not a timer. It shows while the painting is being resolved (fetch the live `/objects/{id}` record for the chosen painting to refresh gallery number and image, with a 600ms minimum so it does not flash). On success -> `/painting`. On failure: same dark screen, headline "The Met is not answering right now", a Retry button and a "Try a different door" link.
 
-### 6 Your Painting (14:265) `docs/figma/06-your-painting.png`
-- Top bar: X (-> Entrance, after confirming nothing; the walk is kept in memory until a new walk starts), "YOUR PAINTING" label, share icon (-> `/share`).
-- The painting in a Met Red frame (6px). Use `primaryImageSmall`; swap in `primaryImage` once loaded.
+### 6 Your Piece (14:265) `docs/figma/06-your-painting.png`
+- Top bar: X (-> Entrance, after confirming nothing; the walk is kept in memory until a new walk starts), "YOUR PIECE" label, share icon (-> `/share`).
+- The work in a Met Red frame (8px), whole and at its own proportions (updated 2026-11-04: the old 230px crop cut most works). Width is the column; height follows, capped at 62dvh so very tall works are matted on the sides, never cropped. Use `primaryImageSmall`; swap in `primaryImage` once loaded.
+- Arrival reveal (added 2026-11-04), only when the screen is reached from Finding (Finding sets `sessionStorage.mg.reveal`, the screen clears it on mount; a reload, back navigation or a saved work never replays it, and reduced motion skips it). Phases in `useReveal` (`src/screens/YourPainting.tsx`): **hold**, the screen is Ink, everything but the framed work, title and artist line is invisible, and that group fades in centered in the viewport once the image has painted (2.5 s timeout if it never does), for 1.3 s; **settle**, the background and text colors cross to Plaster and Ink over 700 ms while the group slides up to its normal place (650 ms) and the remaining blocks fade in top to bottom, each a `.reveal__item` with a 55 ms stagger; **done** 1.1 s later, when every reveal class is removed. The centering is a measured translateY (`--reveal-shift`), so the final layout is the ordinary one and nothing is laid out twice.
 - Title in Playfair 30, "Artist · Date · Medium" muted, pin icon + "On view in Gallery 822, The Met Fifth Avenue" (use GalleryNumber; if empty, "Not currently on view").
 - Three mood chips (Stone background, Ink text).
 - "WHY THIS ONE" white card: 2 to 3 sentences built from a template using the two strongest axes plus the painting's curated `why` sentence.

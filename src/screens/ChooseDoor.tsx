@@ -71,7 +71,7 @@ export function ChooseDoor() {
       {!first && (
         <>
           <div className="gap-12" />
-          <div className="warmth" role="img" aria-label={`${warmth} percent of the way to your painting`}>
+          <div className="warmth" role="img" aria-label={`${warmth} percent of the way to your piece`}>
             <span className="warmth__bar">
               <span className="warmth__fill" style={{ width: `${warmth}%` }} />
             </span>

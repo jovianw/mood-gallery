@@ -30,12 +30,12 @@ export function FinalStretch() {
     <Screen
       dark
       footer={
-        <Button onClick={() => nav.forward('/finding')}>Reveal my painting</Button>
+        <Button onClick={() => nav.forward('/finding')}>Reveal my piece</Button>
       }
     >
       <TopAppBar eyebrow="The final stretch" onLeft={() => nav.back(`/room/${walk.doorId}`)} />
       <div className="gap-20" />
-      <h1 className="t-headline t-headline--italic">Your painting is just ahead.</h1>
+      <h1 className="t-headline t-headline--italic">Your piece is just ahead.</h1>
       <div className="gap-8" />
       <p className="t-body t-body--15 t-body--muted">
         {roomsWalked} rooms in, the answer is clear. Here&rsquo;s the rest of your route, and a look back at
@@ -105,7 +105,7 @@ export function FinalStretch() {
           </span>
           <span>
             <span className="stop__name stop__name--end">{destination}</span>
-            <p className="stop__sub stop__sub--accent">Your painting is waiting here</p>
+            <p className="stop__sub stop__sub--accent">Your piece is waiting here</p>
           </span>
         </li>
       </ol>
