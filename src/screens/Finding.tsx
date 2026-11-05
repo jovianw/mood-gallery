@@ -12,18 +12,17 @@ import { REVEAL_KEY } from './YourPainting'
 
 const MIN_MS = 600
 /** The whole live check, across up to three candidates, gets this long before the bundled record wins. */
-const CHECK_BUDGET_MS = 6000
+const CHECK_BUDGET_MS = 15000
 const STEPS = ['Reading your answers', `Searching ${MUSEUM.works}`, 'Picking the one for today']
 
 /**
  * Picks the painting: refreshes the top candidate from the live Met API (cached 7 days) and falls
  * back to the next candidate if it is no longer on view. The live check is best effort: offline,
- * or if the API fails or runs past CHECK_BUDGET_MS, the bundled record is used as is with
- * `live: false`, so the piece screen can say the location was not checked today. The screen never
- * blocks on the API; the only way the finale does not happen is the user leaving.
+ * or if the API fails or runs past CHECK_BUDGET_MS, the bundled record is used as is. The screen
+ * never blocks on the API; the only way the finale does not happen is the user leaving.
  */
 async function pickPainting(candidates: Painting[], signal: AbortSignal): Promise<Painting> {
-  const bundled = { ...candidates[0], live: false }
+  const bundled = candidates[0]
   if (!navigator.onLine) return bundled
   const budget = deadline(CHECK_BUDGET_MS, signal)
   let offView: Painting | undefined
@@ -106,7 +105,7 @@ export function Finding() {
       if (controller.signal.aborted) return
       // Not a Met failure (those are handled above): something unexpected. Still show the piece.
       console.error('Finding failed', err)
-      finishRef.current({ ...candidates[0], live: false })
+      finishRef.current(candidates[0])
     })
 
     return () => {

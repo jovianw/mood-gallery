@@ -4,7 +4,7 @@ import { KEYS, readJson, writeJson } from './storage'
 export const MET_API = 'https://collectionapi.metmuseum.org/public/collection/v1'
 const CACHE_MS = 7 * 24 * 60 * 60 * 1000
 /** One object request may not take longer than this; the bundled record is good enough after that. */
-export const REQUEST_MS = 4000
+export const REQUEST_MS = 10000
 
 export interface MetObject {
   objectID: number
@@ -79,6 +79,5 @@ export function refreshPainting(p: Painting, o: MetObject): Painting {
     image: o.primaryImageSmall || p.image,
     imageLarge: o.primaryImage || p.imageLarge,
     objectURL: o.objectURL || p.objectURL,
-    live: true,
   }
 }

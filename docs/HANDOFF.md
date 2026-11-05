@@ -177,7 +177,7 @@ Unchanged idea, better pool:
 - Door recommendation = cosine similarity against each room's affinity; show the top 3 as doors.
 - Painting = cosine similarity against the curated paintings of the chosen room. Take the top 3 and pick one by a daily seed (hash of date + uid/guest id) so the same mood on a different day gives a different painting.
 - Pool: expand `scripts/curated.json` to at least 10 public domain, on view, has-image paintings per room (80+ total). Use the Met search API to find candidates (`/search?q=...&hasImages=true&isOnView=true&departmentId=...`), then hand-write `mood`, `tags`, `why`, `galleryKey` for each. `npm run fetch:met` keeps pulling the live metadata. Commit the resulting `paintings.json`.
-- Live refresh: on the Finding screen, fetch `/objects/{id}` once (cache in localStorage, key `mg.obj.<id>`, 7 days) to update GalleryNumber and image URLs. If the object is no longer on view, fall back to the next candidate. The check is best effort (updated 2026-11-05): each request is capped at 4 s and the whole check at 6 s; on any failure an expired cache entry is used if there is one, otherwise the bundled record as is, marked `live: false`. The Finding screen never shows an error for the Met API.
+- Live refresh: on the Finding screen, fetch `/objects/{id}` once (cache in localStorage, key `mg.obj.<id>`, 7 days) to update GalleryNumber and image URLs. If the object is no longer on view, fall back to the next candidate. The check is best effort (updated 2026-11-05): each request is capped at 10 s and the whole check at 15 s; on any failure an expired cache entry is used if there is one, otherwise the bundled record as is. The Finding screen never shows an error for the Met API.
 
 ## The 3D map (Final Stretch)
 
@@ -204,9 +204,9 @@ This is the one piece the Figma can only hint at. Read `docs/map-reference/` and
 ## States not drawn (build them anyway)
 
 - Disabled primary buttons on room screens until all 3 statements are answered.
-- Met API down or slow on the Finding screen: no error state. The bundled record is used and the pin line on Your Piece says "Last listed in Gallery N" (or "Not on view at last check") instead of "On view in Gallery N".
+- Met API down or slow on the Finding screen: no error state. The bundled record is used as is.
 - Image load failure on Your Painting: show a Stone placeholder with the title.
-- Offline: the walk still works from the bundled `paintings.json`; only the live refresh is skipped (same wording as above).
+- Offline: the walk still works from the bundled `paintings.json`; only the live refresh is skipped.
 - Share when the Web Share API is missing (desktop Chrome/Firefox): Story and Messages fall back to downloading the PNG and copying the link, with a 2s toast "Saved image, link copied".
 - Gallery when Firebase is not configured: works as guest.
 - Any route hit directly (e.g. `/painting` with no walk in memory) redirects to `/`.
